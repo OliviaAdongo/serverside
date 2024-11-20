@@ -1,0 +1,53 @@
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://adongoolivia0698:9Z80iAGZAiWp9DJl@backenddb.8dt1p.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+
+later 2.2.12  version
+
+var MongoClient = require('mongodb').MongoClient;
+
+var uri = "mongodb://adongoolivia0698:9Z80iAGZAiWp9DJl@backenddb-shard-00-00.8dt1p.mongodb.net:27017,backenddb-shard-00-01.8dt1p.mongodb.net:27017,backenddb-shard-00-02.8dt1p.mongodb.net:27017/?ssl=true&replicaSet=atlas-vmij0a-shard-0&authSource=admin&retryWrites=true&w=majority&appName=BackendDB";
+MongoClient.connect(uri, function(err, client) {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+This one is for shel
+mongosh "mongodb+srv://backenddb.8dt1p.mongodb.net/" --apiVersion 1 --username adongoolivia0698 --password 9Z80iAGZAiWp9DJl
+
+
+
+Connection string for drivers
+mongodb+srv://adongoolivia0698:9Z80iAGZAiWp9DJl@backenddb.8dt1p.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB
+
+
+
+
+
+HERE IS THE SECOND ATTEMPT
+zrkNQIFCJXZwRDpe
