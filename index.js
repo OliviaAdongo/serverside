@@ -3,11 +3,27 @@ const mongoose = require("mongoose");
 const Product = require("./models/product.model.js");
 const app = express();
 
+// middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// routes
+app.use('/api/products', productRoute);
+
+
+
+
+
+
+
+
 
 app.get("/", (req, res) => {
   res.send("Hello from SolidRoots NodeAPI server updated");
 });
+
+
+
 // POST
 app.post("/api/products", async (req, res) => {
   try {
@@ -28,7 +44,7 @@ app.get("/api/products", async (req, res) => {
   }
 });
 // by id
-app.get("/api/product/:id", async (req, res) => {
+app.get("/api/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findById(id);
@@ -39,7 +55,7 @@ app.get("/api/product/:id", async (req, res) => {
 });
 
 // UPDATE
-app.put("/api/product/:id", async (req, res) => {
+app.put("/api/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -56,7 +72,7 @@ app.put("/api/product/:id", async (req, res) => {
 });
 // DELETE  PRODUCT
 
-app.delete("/api/product/:id", async (req, res) => {
+app.delete("/api/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findByIdAndDelete(id);
