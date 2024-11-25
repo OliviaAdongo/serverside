@@ -1,27 +1,28 @@
 const mongoose = require("mongoose");
 
-const ProductSchema = mongoose.Schema(
+const landSchema = new mongoose.Schema(
   {
-    name: {
+    location: { type: String, required: true },
+    price: { type: Number, required: true },
+    availability: {
       type: String,
-      required: [true, "Please enter product name"],
+      enum: ["available", "not available"],
+      default: "available",
     },
-    quantity: {
-      type: Number,
+    category: {
+      type: String,
+      enum: ["agricultural", "commercial", "residential"],
       required: true,
-      default: 0,
     },
-    price: {
-      type: Number,
-      required: false,
+    status: {
+      type: String,
+      enum: ["for sale", "not for sale"],
+      required: true,
     },
   },
-
-  { 
-    timestamps: true 
-}
+  { timestamps: true }
 );
 
-const Product = mongoose.model("Product", ProductSchema);
+const Land = mongoose.model("Land", landSchema);
 
-module.exports = Product;
+module.exports = Land;

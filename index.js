@@ -11,13 +11,6 @@ app.use(express.urlencoded({ extended: false }));
 // app.use('/api/products', productRoute);
 
 
-
-
-
-
-
-
-
 app.get("/", (req, res) => {
   res.send("Hello from SolidRoots NodeAPI server updated");
 });
@@ -85,6 +78,9 @@ app.delete("/api/products/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+// ---------------------------------------- Trial CRUD end ----------------------------------------------------
+
+
 
 // MONGOSE DB CONNECTION
 mongoose

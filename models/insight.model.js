@@ -1,20 +1,16 @@
 const mongoose = require("mongoose");
 
-const ProductSchema = mongoose.Schema(
+const InsightSchema = mongoose.Schema(
   {
-    name: {
+    image: {
       type: String,
-      required: [true, "Please enter product name"],
+      required: [true, "Please enter image name"],
     },
-    quantity: {
-      type: Number,
+    content: {
+      type: String,
       required: true,
       default: 0,
-    },
-    price: {
-      type: Number,
-      required: false,
-    },
+    }
   },
 
   { 
@@ -22,6 +18,6 @@ const ProductSchema = mongoose.Schema(
 }
 );
 
-const Product = mongoose.model("Product", ProductSchema);
+const Insight = mongoose.model("Product", InsightSchema);
 
-module.exports = Product;
+module.exports = Insight;
