@@ -1,75 +1,75 @@
-const Product = require('../models/product.model.js');
+const Land = require('../models/land.model.js');
 
 
 
-const getProducts =  async (req, res) =>{
+const getLands =  async (req, res) =>{
 
 
     try {
-        const products = await Product.find({});
-        res.status(200).json(products);
+        const lands = await Land.find({});
+        res.status(200).json(lands);
       } catch (error) {
         res.status(500).json({ message: error.message });
       }
 }
 
 
-const getProduct = async (req, res) => {
+const getLand = async (req, res) => {
     try {
       const { id } = req.params;
-      const product = await Product.findById(id);
-      res.status(200).json(product);
+      const land = await Land.findById(id);
+      res.status(200).json(land);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
   
-  const createProduct = async (req, res) => {
+  const createLand = async (req, res) => {
     try {
-      const product = await Product.create(req.body);
-      res.status(200).json(product);
+      const land = await Land.create(req.body);
+      res.status(200).json(land);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
 
-  const updateProduct = async (req, res) => {
+  const updateLand = async (req, res) => {
     try {
       const { id } = req.params;
   
-      const product = await Product.findByIdAndUpdate(id, req.body);
+      const land = await Land.findByIdAndUpdate(id, req.body);
   
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
+      if (!land) {
+        return res.status(404).json({ message: "Land not found" });
       }
   
-      const updatedProduct = await Product.findById(id);
-      res.status(200).json(updatedProduct);
+      const updatedLand = await Land.findById(id);
+      res.status(200).json(updatedLand);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
   
-  const deleteProduct = async (req, res) => {
+  const deleteLand = async (req, res) => {
     try {
       const { id } = req.params;
   
-      const product = await Product.findByIdAndDelete(id);
+      const land = await Land.findByIdAndDelete(id);
   
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
+      if (!land) {
+        return res.status(404).json({ message: "Land not found" });
       }
   
-      res.status(200).json({ message: "Product deleted successfully" });
+      res.status(200).json({ message: "Land deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
 
 module.exports ={
-    getProducts,
-    getProduct,
-    createProduct,
-    updateProduct,
-    deleteProduct
+    getLands,
+    getLand,
+    createLand,
+    updateLand,
+    deleteLand
 }

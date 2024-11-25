@@ -1,75 +1,75 @@
-const Product = require('../models/product.model.js');
+const Residential = require('../models/residential.model.js');
 
 
 
-const getProducts =  async (req, res) =>{
+const getResidentials =  async (req, res) =>{
 
 
     try {
-        const products = await Product.find({});
-        res.status(200).json(products);
+        const residentials = await Residential.find({});
+        res.status(200).json(residentials);
       } catch (error) {
         res.status(500).json({ message: error.message });
       }
 }
 
 
-const getProduct = async (req, res) => {
+const getResidential = async (req, res) => {
     try {
       const { id } = req.params;
-      const product = await Product.findById(id);
-      res.status(200).json(product);
+      const residential = await Residential.findById(id);
+      res.status(200).json(residential);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
   
-  const createProduct = async (req, res) => {
+  const createResidential = async (req, res) => {
     try {
-      const product = await Product.create(req.body);
-      res.status(200).json(product);
+      const residential = await Residential.create(req.body);
+      res.status(200).json(residential);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
 
-  const updateProduct = async (req, res) => {
+  const updateResidential = async (req, res) => {
     try {
       const { id } = req.params;
   
-      const product = await Product.findByIdAndUpdate(id, req.body);
+      const residential = await Residential.findByIdAndUpdate(id, req.body);
   
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
+      if (!residential) {
+        return res.status(404).json({ message: "Residential not found" });
       }
   
-      const updatedProduct = await Product.findById(id);
-      res.status(200).json(updatedProduct);
+      const updatedResidential = await Residential.findById(id);
+      res.status(200).json(updatedResidential);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
   
-  const deleteProduct = async (req, res) => {
+  const deleteResidential = async (req, res) => {
     try {
       const { id } = req.params;
   
-      const product = await Product.findByIdAndDelete(id);
+      const residential = await Residential.findByIdAndDelete(id);
   
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
+      if (!residential) {
+        return res.status(404).json({ message: "Residential not found" });
       }
   
-      res.status(200).json({ message: "Product deleted successfully" });
+      res.status(200).json({ message: "Residential deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
 
 module.exports ={
-    getProducts,
-    getProduct,
-    createProduct,
-    updateProduct,
-    deleteProduct
+    getResidentials,
+    getResidential,
+    createResidential,
+    updateResidential,
+    deleteResidential
 }
