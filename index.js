@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Product = require("./models/product.model.js");
 const Land = require("./models/land.model.js");
 const CommercialProperties = require("./models/commercial.model.js");
+const ResidentialProperties = require("./models/residential.model.js");
 const app = express();
 
 // middleware
@@ -161,7 +162,7 @@ app.post("/api/commercialproperties", async (req, res) => {
 // READ
 app.get("/api/commercialproperties", async (req, res) => {
   try {
-    const commercialproperties = await Land.find({});
+    const commercialproperties = await CommercialProperties.find({});
     res.status(200).json(commercialproperties);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -215,6 +216,67 @@ app.delete("/api/commercialproperties/:id", async (req, res) => {
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // -------------------------------------------------------Residential Properties CRUD beginning -------------------------------------------------
+// POST
+app.post("/api/residentialproperties", async (req, res) => {
+  try {
+    const residentialproperty = await ResidentialProperties.create(req.body);
+    res.status(200).json(residentialproperty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// READ
+app.get("/api/residentialproperties", async (req, res) => {
+  try {
+    const residentialproperties = await ResidentialProperties.find({});
+    res.status(200).json(residentialproperties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// by id
+app.get("/api/residentialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const residentialproperty = await Land.findById(id);
+    res.status(200).json(residentialproperty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// UPDATE
+app.put("/api/residentialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const residentialproperty = await ResidentialProperties.findByIdAndUpdate(id, req.body);
+
+    if (!residentialproperty) {
+      return res.status(404).json({ message: "ResidentialProperties not found" });
+    }
+    const updatedLand = await ResidentialProperties.findById(id);
+    res.status(200).json(updatedResidentialProperties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// DELETE 
+
+app.delete("/api/residentialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const residentialproperty = await ResidentialProperties.findByIdAndDelete(id);
+
+    if (!residentialproperty) {
+      return res.status(404).json({ message: "ResidentialProperties not found" });
+    }
+    res.status(200).json({ message: "ResidentialProperties deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 // -------------------------------------------------------Residential Properties  CRUD end -------------------------------------------------
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

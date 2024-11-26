@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const residentialSchema = new mongoose.Schema(
   {
     location: { type: String, required: true },
-    price: { type: Number, required: true },
+    price: { type: String, required: true },
     availability: {
       type: String,
       enum: ["available", "not available"],
@@ -19,6 +19,10 @@ const residentialSchema = new mongoose.Schema(
       enum: ["for sale", "not for sale"],
       required: true,
     },
+    description: {
+      type: String,
+      required: true,
+    }
   },
   { timestamps: true }
 );

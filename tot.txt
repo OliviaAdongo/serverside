@@ -1,53 +1,63 @@
+MongoDB Password :zrkNQIFCJXZwRDpe
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://adongoolivia0698:9Z80iAGZAiWp9DJl@backenddb.8dt1p.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB";
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-
-async function run() {
+// POST
+app.post("/api/residentialproperties", async (req, res) => {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    const residentialproperty = await ResidentialProperties.create(req.body);
+    res.status(200).json(residentialproperty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-}
-run().catch(console.dir);
-
-
-later 2.2.12  version
-
-var MongoClient = require('mongodb').MongoClient;
-
-var uri = "mongodb://adongoolivia0698:9Z80iAGZAiWp9DJl@backenddb-shard-00-00.8dt1p.mongodb.net:27017,backenddb-shard-00-01.8dt1p.mongodb.net:27017,backenddb-shard-00-02.8dt1p.mongodb.net:27017/?ssl=true&replicaSet=atlas-vmij0a-shard-0&authSource=admin&retryWrites=true&w=majority&appName=BackendDB";
-MongoClient.connect(uri, function(err, client) {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
 });
 
-This one is for shel
-mongosh "mongodb+srv://backenddb.8dt1p.mongodb.net/" --apiVersion 1 --username adongoolivia0698 --password 9Z80iAGZAiWp9DJl
+// READ
+app.get("/api/residentialproperties", async (req, res) => {
+  try {
+    const residentialproperties = await ResidentialProperties.find({});
+    res.status(200).json(residentialproperties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// by id
+app.get("/api/residentialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const residentialproperty = await Land.findById(id);
+    res.status(200).json(residentialproperty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
+// UPDATE
+app.put("/api/residentialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
 
+    const residentialproperty = await ResidentialProperties.findByIdAndUpdate(id, req.body);
 
-Connection string for drivers
-mongodb+srv://adongoolivia0698:9Z80iAGZAiWp9DJl@backenddb.8dt1p.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB
+    if (!residentialproperty) {
+      return res.status(404).json({ message: "ResidentialProperties not found" });
+    }
+    const updatedLand = await ResidentialProperties.findById(id);
+    res.status(200).json(updatedResidentialProperties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// DELETE  LAND
 
+app.delete("/api/residentialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const residentialproperty = await ResidentialProperties.findByIdAndDelete(id);
 
-
-
-
-HERE IS THE SECOND ATTEMPT
-zrkNQIFCJXZwRDpe
+    if (!residentialproperty) {
+      return res.status(404).json({ message: "ResidentialProperties not found" });
+    }
+    res.status(200).json({ message: "ResidentialProperties deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
