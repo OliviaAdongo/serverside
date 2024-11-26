@@ -174,7 +174,7 @@ app.get("/api/commercialproperties", async (req, res) => {
 app.get("/api/commercialproperties/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const commercialproperty = await Land.findById(id);
+    const commercialproperty = await Commercial.findById(id);
     res.status(200).json(commercialproperty);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -191,7 +191,7 @@ app.put("/api/commercialproperties/:id", async (req, res) => {
     if (!commercialproperty) {
       return res.status(404).json({ message: "Commercial not found" });
     }
-    const updatedLand = await Commercial.findById(id);
+    const updatedCommercial = await Commercial.findById(id);
     res.status(200).json(updatedCommercial);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -241,7 +241,7 @@ app.get("/api/residentialproperties", async (req, res) => {
 app.get("/api/residentialproperties/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const residentialproperty = await Land.findById(id);
+    const residentialproperty = await Residential.findById(id);
     res.status(200).json(residentialproperty);
   } catch (error) {
     res.status(500).json({ message: error.message });
