@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Product = require("./models/product.model.js");
 const Land = require("./models/land.model.js");
+const CommercialProperties = require("./models/commercial.model.js");
 const app = express();
 
 // middleware
@@ -11,12 +12,9 @@ app.use(express.urlencoded({ extended: false }));
 // routes
 // app.use('/api/products', productRoute);
 
-
 app.get("/", (req, res) => {
   res.send("Hello from SolidRoots NodeAPI server updated");
 });
-
-
 
 // POST
 app.post("/api/products", async (req, res) => {
@@ -112,9 +110,118 @@ app.get("/api/lands/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// UPDATE
+app.put("/api/lands/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const land = await Land.findByIdAndUpdate(id, req.body);
+
+    if (!land) {
+      return res.status(404).json({ message: "Land not found" });
+    }
+    const updatedLand = await Land.findById(id);
+    res.status(200).json(updatedLand);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// DELETE  LAND
+
+app.delete("/api/lands/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const land = await Land.findByIdAndDelete(id);
+
+    if (!land) {
+      return res.status(404).json({ message: "Land not found" });
+    }
+    res.status(200).json({ message: "Land deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 // -------------------------------------------------------Land CRUD end -------------------------------------------------
 
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+// -------------------------------------------------------Commercial Properties CRUD beginning -------------------------------------------------
+// POST
+app.post("/api/commercialproperties", async (req, res) => {
+  try {
+    const commercialproperty = await CommercialProperties.create(req.body);
+    res.status(200).json(commercialproperty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// READ
+app.get("/api/commercialproperties", async (req, res) => {
+  try {
+    const commercialproperties = await Land.find({});
+    res.status(200).json(commercialproperties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// by id
+app.get("/api/commercialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const commercialproperty = await Land.findById(id);
+    res.status(200).json(commercialproperty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// UPDATE
+app.put("/api/commercialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const commercialproperty = await CommercialProperties.findByIdAndUpdate(id, req.body);
+
+    if (!commercialproperty) {
+      return res.status(404).json({ message: "CommercialProperties not found" });
+    }
+    const updatedLand = await CommercialProperties.findById(id);
+    res.status(200).json(updatedCommercialProperties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// DELETE  LAND
+
+app.delete("/api/commercialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const commercialproperty = await CommercialProperties.findByIdAndDelete(id);
+
+    if (!commercialproperty) {
+      return res.status(404).json({ message: "CommercialProperties not found" });
+    }
+    res.status(200).json({ message: "CommercialProperties deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// -------------------------------------------------------Commercial Properties  CRUD end -------------------------------------------------
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// -------------------------------------------------------Residential Properties CRUD beginning -------------------------------------------------
+// -------------------------------------------------------Residential Properties  CRUD end -------------------------------------------------
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// -------------------------------------------------------  Insights CRUD beginning -------------------------------------------------
+// ------------------------------------------------------- Insights   CRUD end -------------------------------------------------
 
 // MONGOSE DB CONNECTION
 mongoose
