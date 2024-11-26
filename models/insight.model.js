@@ -18,6 +18,6 @@ const InsightSchema = mongoose.Schema(
 }
 );
 
-const Insight = mongoose.model("Product", InsightSchema);
+const Insight = mongoose.model("Insight", InsightSchema);
 
 module.exports = Insight;

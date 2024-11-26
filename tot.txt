@@ -1,62 +1,62 @@
 MongoDB Password :zrkNQIFCJXZwRDpe
 
 // POST
-app.post("/api/residentialproperties", async (req, res) => {
+app.post("/api/insights", async (req, res) => {
   try {
-    const residentialproperty = await ResidentialProperties.create(req.body);
-    res.status(200).json(residentialproperty);
+    const insight = await Insights.create(req.body);
+    res.status(200).json(insight);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
 // READ
-app.get("/api/residentialproperties", async (req, res) => {
+app.get("/api/insights", async (req, res) => {
   try {
-    const residentialproperties = await ResidentialProperties.find({});
-    res.status(200).json(residentialproperties);
+    const insights = await Insights.find({});
+    res.status(200).json(insights);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 // by id
-app.get("/api/residentialproperties/:id", async (req, res) => {
+app.get("/api/insights/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const residentialproperty = await Land.findById(id);
-    res.status(200).json(residentialproperty);
+    const insight = await Insights.findById(id);
+    res.status(200).json(insight);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
 // UPDATE
-app.put("/api/residentialproperties/:id", async (req, res) => {
+app.put("/api/insights/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const residentialproperty = await ResidentialProperties.findByIdAndUpdate(id, req.body);
+    const insight = await Insights.findByIdAndUpdate(id, req.body);
 
-    if (!residentialproperty) {
-      return res.status(404).json({ message: "ResidentialProperties not found" });
+    if (!insight) {
+      return res.status(404).json({ message: "Insights not found" });
     }
-    const updatedLand = await ResidentialProperties.findById(id);
-    res.status(200).json(updatedResidentialProperties);
+    const updatedInsights = await Insights.findById(id);
+    res.status(200).json(updatedInsights);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 // DELETE  LAND
 
-app.delete("/api/residentialproperties/:id", async (req, res) => {
+app.delete("/api/insights/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const residentialproperty = await ResidentialProperties.findByIdAndDelete(id);
+    const insight = await Insights.findByIdAndDelete(id);
 
-    if (!residentialproperty) {
-      return res.status(404).json({ message: "ResidentialProperties not found" });
+    if (!insight) {
+      return res.status(404).json({ message: "Insights not found" });
     }
-    res.status(200).json({ message: "ResidentialProperties deleted successfully" });
+    res.status(200).json({ message: "Insights deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
