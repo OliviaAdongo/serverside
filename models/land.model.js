@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const landSchema = new mongoose.Schema(
   {
     location: { type: String, required: true },
-    price: { type: Number, required: true },
+    price: { type: String, required: true },
     availability: {
       type: String,
       enum: ["available", "not available"],

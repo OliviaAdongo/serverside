@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Product = require("./models/product.model.js");
+const Land = require("./models/land.model.js");
 const app = express();
 
 // middleware
@@ -82,6 +83,35 @@ app.delete("/api/products/:id", async (req, res) => {
 
 // -------------------------------------------------------Land CRUD begin -------------------------------------------------
 
+// POST
+app.post("/api/lands", async (req, res) => {
+  try {
+    const land = await Land.create(req.body);
+    res.status(200).json(land);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// READ
+app.get("/api/lands", async (req, res) => {
+  try {
+    const lands = await Land.find({});
+    res.status(200).json(lands);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// by id
+app.get("/api/lands/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const land = await Land.findById(id);
+    res.status(200).json(land);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 // -------------------------------------------------------Land CRUD end -------------------------------------------------
 
 
