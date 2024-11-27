@@ -23,12 +23,13 @@ app.use('/api/residentialproperties', residentialRoute);
 app.use('/api/commercialproperties', commercialRoute);
 app.use('/api/insights', insightsRoute);
 
-
-
+// set template engine
+app.set("view engine", "ejs")
 
 // CRUD  beginning
 app.get("/", (req, res) => {
-  res.send("Hello from SolidRoots NodeAPI server updated");
+  // res.send("Home Page");
+  res.render("index", {title: "Home Page"})
 });
 
 // POST

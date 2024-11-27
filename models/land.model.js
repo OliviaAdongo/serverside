@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const landSchema = new mongoose.Schema(
   {
+    image: {
+      type: String,
+      required: true,
+    },
     location: { type: String, required: true },
     price: { type: String, required: true },
     availability: {
