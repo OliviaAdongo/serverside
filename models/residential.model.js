@@ -7,7 +7,7 @@ const residentialSchema = new mongoose.Schema(
     availability: {
       type: String,
       enum: ["Available", "Not Available"],
-      default: "available",
+      default: "Available",
     },
     category: {
       type: String,
