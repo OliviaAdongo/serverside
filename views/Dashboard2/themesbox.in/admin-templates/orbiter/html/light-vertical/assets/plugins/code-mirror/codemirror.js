@@ -114,7 +114,7 @@
   function activeElt() {
     // IE and Edge may throw an "Unspecified Error" when accessing document.activeElement.
     // IE < 10 will throw when accessed while the page is loading or in an iframe.
-    // IE > 9 and Edge will throw when accessed in an iframe if document.body is unavailable.
+    // IE > 9 and Edge will throw when accessed in an iframe if document.body is Not Available.
     var activeElement;
     try {
       activeElement = document.activeElement;
