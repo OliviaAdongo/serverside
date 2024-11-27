@@ -28,8 +28,7 @@ app.set("view engine", "ejs")
 
 // CRUD  beginning
 app.get("/", (req, res) => {
-  // res.send("Home Page");
-  res.render("index", {title: "Home Page"})
+  res.send("Hello from SolidRoots NodeAPI server updated");
 });
 
 // POST

@@ -1,0 +1,31 @@
+HTTrack3.49-2 launched on Thu, 14 Nov 2024 10:06:14 at https://themesbox.in/admin-templates/orbiter/html/light-vertical/dashboard-school.html +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/*
+(webhttrack -q -%i -w https://themesbox.in/admin-templates/orbiter/html/light-vertical/dashboard-school.html -O "/Users/apple/websites/Dashboard2" -n -%P -N0 -s2 -p7 -D -a -K0 -c4 -%k -A25000 -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -%s -%u )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+10:14:08	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/page-checkout.html (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/ecommerce-cart.html)
+10:14:08	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/my-account.html (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/ecommerce-myaccount.html)
+10:35:28	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/cropped.jpg (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/advanced-ui-kits-image-crop.html)
+10:36:10	Warning: 	Retry after error -2 (Receive Time Out) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/flags/1x1/th.svg (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/css/flag-icon.min.css)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/popper.js (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/js/bootstrap.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/GET (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/cropperjs/cropper.js)
+10:36:11	Warning: 	Moved Permanently for https://themesbox.in/admin-templates/orbiter/html/light-vertical/isDSTShifted is deprecated. See http://momentjs.com/guides/
+10:36:11	Warning: 	File has moved from https://themesbox.in/admin-templates/orbiter/html/light-vertical/isDSTShifted is deprecated. See http://momentjs.com/guides/ to https://themesbox.in/admin-templates/orbiter/html/light-vertical/isDSTShifted%20is%20deprecated.%20See%20http:/momentjs.com/guides/
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/clipboard.png (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/summernote/summernote-bs4.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/image/ (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/summernote/summernote-bs4.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/Trident/ (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/tinymce/tinymce.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/Edge/ (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/tinymce/tinymce.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/typeahead.js (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/bootstrap-tagsinput/typeahead.bundle.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/zlib/deflate.js (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/datatables/jszip.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/zlib/inflate.js (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/datatables/jszip.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/xl/worksheets/sheet1.xml (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/datatables/buttons.html5.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/xl/workbook.xml (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/datatables/buttons.html5.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/xl/styles.xml (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/datatables/buttons.html5.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/[Content_Types].xml (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/datatables/buttons.html5.min.js)
+10:36:11	Error: 	"Not Found" (404) at link https://themesbox.in/admin-templates/orbiter/html/light-vertical/buttons.pdf (from https://themesbox.in/admin-templates/orbiter/html/light-vertical/assets/plugins/datatables/buttons.html5.min.js)
+
+HTTrack Website Copier/3.49-2 mirror complete in 29 minutes 58 seconds : 1077 links scanned, 1057 files written (35596630 bytes overall) [13490782 bytes received at 7503 bytes/sec], 31129901 bytes transferred using HTTP compression in 849 files, ratio 25%, 25.0 requests per connection
+(17 errors, 3 warnings, 0 messages)
