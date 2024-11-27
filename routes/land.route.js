@@ -1,17 +1,19 @@
 const express = require('express');
-const Product = require('../models/product.model.js');
+const Land = require('../models/land.model.js');
 const router = express.Router();
-const {getProducts, getProduct, createProduct, updateProduct,deleteProduct} = require('../controllers/product.contoller.js');
+const {getLands, getLand, createLand, updateLand,deleteLand} = require('../controllers/land.contoller.js');
 
 
 
-router.get('/', getProducts);
-router.get("/:id", getProduct);
+router.get('/', getLands);
+router.get("/:id", getLand);
 
-router.post("/", createProduct);
+router.post("/", createLand);
 
-// update a product
-router.put("/:id", updateProduct);
+// update a land
+router.put("/:id", updateLand);
 
-// delete a product
-router.delete("/:id", deleteProduct);
+// delete a land
+router.delete("/:id", deleteLand);
+
+module.exports = router;

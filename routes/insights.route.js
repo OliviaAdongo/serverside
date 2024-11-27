@@ -1,17 +1,19 @@
 const express = require('express');
-const Product = require('../models/product.model.js');
+const Insight = require('../models/insight.model.js');
 const router = express.Router();
-const {getProducts, getProduct, createProduct, updateProduct,deleteProduct} = require('../controllers/product.contoller.js');
+const {getInsights, getInsight, createInsight, updateInsight,deleteInsight} = require('../controllers/insight.contoller.js');
 
 
 
-router.get('/', getProducts);
-router.get("/:id", getProduct);
+router.get('/', getInsights);
+router.get("/:id", getInsight);
 
-router.post("/", createProduct);
+router.post("/", createInsight);
 
-// update a product
-router.put("/:id", updateProduct);
+// update a insight
+router.put("/:id", updateInsight);
 
-// delete a product
-router.delete("/:id", deleteProduct);
+// delete a insight
+router.delete("/:id", deleteInsight);
+
+module.exports = router;

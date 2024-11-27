@@ -5,16 +5,28 @@ const Land = require("./models/land.model.js");
 const Commercial = require("./models/commercial.model.js");
 const Residential = require("./models/residential.model.js");
 const Insight = require("./models/insight.model.js");
-
+const productRoute = require ("./routes/product.route.js");
+const landRoute = require ("./routes/land.route.js");
+const residentialRoute = require ("./routes/residential.route.js");
+const commercialRoute = require ("./routes/commercial.route.js");
+const insightsRoute = require ("./routes/insights.route.js");
 const app = express();
 
-// middleware
+// middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // routes
-// app.use('/api/products', productRoute);
+app.use('/api/products', productRoute);
+app.use('/api/lands', landRoute);
+app.use('/api/residentialproperties', residentialRoute);
+app.use('/api/commercialproperties', commercialRoute);
+app.use('/api/insights', insightsRoute);
 
+
+
+
+// CRUD  beginning
 app.get("/", (req, res) => {
   res.send("Hello from SolidRoots NodeAPI server updated");
 });
