@@ -1,7 +1,14 @@
 const mongoose = require("mongoose");
 
 const residentialSchema = new mongoose.Schema(
-  {
+  { 
+    images: {
+      type: [String],
+      validate: {
+        validator: (arr) => arr.length >= 1 && arr.length <= 10,
+        message: "You must provide between 1 and 10 images.",
+      },
+    },
     location: { type: String, required: true },
     price: { type: String, required: true },
     availability: {
@@ -22,7 +29,14 @@ const residentialSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
-    }
+    },
+    floorplan: {
+      type: [String],
+      validate: {
+        validator: (arr) => arr.length >= 1 && arr.length <= 10,
+        message: "You must provide between 1 and 10 images.",
+      },
+    },
   },
   { timestamps: true }
 );

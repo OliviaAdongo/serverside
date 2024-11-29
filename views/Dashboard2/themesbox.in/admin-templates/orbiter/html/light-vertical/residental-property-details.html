@@ -221,79 +221,82 @@
             <div class="contentbar">
                 <!-- Start row -->
                 <div class="container mt-5">
-                    <!-- <h1>Land Listings</h1> -->
-                
-                    <!-- Form to Add or Update Land -->
-                    <form id="landForm" class="mb-4">
-                      <h2 id="formTitle">Add New Residential Property</h2>
-                      <input type="hidden" id="landId" name="id">
-                
-                      <div class="mb-3">
-                        <label for="images" class="form-label">Images (5-10 URLs):</label>
-                        <textarea id="images" name="images" class="form-control" placeholder="Enter image URLs, one per line" required></textarea>
+                  <h1 class="text-center">Residential Properties</h1>
+                  
+                  <!-- Form for CRUD -->
+                  <form id="propertyForm" class="mb-4">
+                      <div class="row">
+                          <div class="mb-3 col-md-6">
+                              <label for="location" class="form-label">Location</label>
+                              <input type="text" class="form-control" id="location" name="location" required>
+                          </div>
+                          <div class="mb-3 col-md-6">
+                              <label for="price" class="form-label">Price</label>
+                              <input type="text" class="form-control" id="price" name="price" required>
+                          </div>
                       </div>
-                
-                      <div class="mb-3">
-                        <label for="location" class="form-label">Property Title:</label>
-                        <input type="text" id="location" name="location" class="form-control" required>
+                      <div class="row">
+                          <div class="mb-3 col-md-6">
+                              <label for="category" class="form-label">Category</label>
+                              <select class="form-select" id="category" name="category" required>
+                                  <option value="Residential">Residential</option>
+                                  <option value="Commercial">Commercial</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-6">
+                              <label for="status" class="form-label">Status</label>
+                              <select class="form-select" id="status" name="status" required>
+                                  <option value="For Sale">For Sale</option>
+                                  <option value="For Rent">For Rent</option>
+                              </select>
+                          </div>
                       </div>
-                
-                      <div class="mb-3">
-                        <label for="price" class="form-label">Asking Price:</label>
-                        <input type="text" id="price" name="price" class="form-control" required>
-                      </div>
-                
-                      <div class="mb-3">
-                        <label for="availability" class="form-label  mr-10">Availability:</label>
-                        <select id="availability" name="availability" class="form-select w-50">
-                          <option value="Available">Available</option>
-                          <option value="Not Available">Not Available</option>
-                        </select>
-                      </div>
-                
-                      <div class="mb-3">
-                        <label for="category" class="form-label">Category:</label>
-                        <select id="category" name="category" class="form-select w-50" required>
-                          <option value="Agricultural">Land</option>
-                          <option value="Commercial">Commercial</option>
-                          <option value="Residential">Residential</option>
-                        </select>
+                      <div class="row">
+                          <div class="mb-3 col-md-6">
+                              <label for="availability" class="form-label">Availability</label>
+                              <select class="form-select" id="availability" name="availability">
+                                  <option value="Available">Available</option>
+                                  <option value="Not Available">Not Available</option>
+                              </select>
+                          </div>
+                          <div class="mb-3 col-md-6">
+                              <label for="images" class="form-label">Images (Comma-separated URLs)</label>
+                              <input type="text" class="form-control" id="images" name="images">
+                          </div>
                       </div>
                       <div class="mb-3">
-                        <label for="description" class="form-label">Description:</label>
-                        <input type="text" id="description" name="description" class="form-control" required>
-                        
+                          <label for="description" class="form-label">Description</label>
+                          <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
                       </div>
-                
                       <div class="mb-3">
-                        <label for="status" class="form-label">Status:</label>
-                        <select id="status" name="status" class="form-select w-50" required>
-                          <option value="For Sale">For Sale</option>
-                          <option value="For Rent">For Rent</option>
-                        </select>
+                          <label for="floorplan" class="form-label">Floorplan (Comma-separated URLs)</label>
+                          <input type="text" class="form-control" id="floorplan" name="floorplan">
                       </div>
-                
-                      <button type="submit" id="submitButton" class="btn btn-primary">Add Land</button>
-                      <p class="error text-danger mt-3" id="formError"></p>
-                    </form>
-                
-                    <!-- Table to Display Lands -->
-                    <table id="landTable" class="table table-bordered table-striped table-hover">
+                      <input type="hidden" id="propertyId">
+                      <button type="submit" class="btn btn-primary">Save Property</button>
+                      <button type="button" class="btn btn-secondary" id="resetForm">Reset</button>
+                  </form>
+          
+                  <!-- Table for CRUD -->
+                  <table class="table table-bordered">
                       <thead class="table-dark">
-                        <tr>
-                          <th>Images</th>
-                          <th>Location</th>
-                          <th>Price</th>
-                          <th>Availability</th>
-                          <th>Category</th>
-                          <th>Description</th>
-                          <th>Status</th>
-                          <th>Actions</th>
-                        </tr>
+                          <tr>
+                              <th>Location</th>
+                              <th>Price</th>
+                              <th>Category</th>
+                              <th>Status</th>
+                              <th>Availability</th>
+                              <th>Description</th>
+                              <th>Images</th>
+                              <th>Floorplan</th>
+                              <th>Actions</th>
+                          </tr>
                       </thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
+                      <tbody id="propertyTable">
+                          <!-- Data will be populated here dynamically -->
+                      </tbody>
+                  </table>
+              </div>
                 
                 <!-- End row -->
             </div>
@@ -309,6 +312,112 @@
         </div>
         <!-- End Rightbar -->
     </div>
+
+    <script>
+      const apiUrl = 'http://localhost:3000/api/residentialproperties'; // Replace with your backend endpoint
+
+      // Fetch and display properties
+      const fetchProperties = async () => {
+          try {
+              const response = await axios.get(apiUrl);
+              const properties = response.data;
+              const tableBody = document.getElementById('propertyTable');
+              tableBody.innerHTML = '';
+
+              properties.forEach(property => {
+                  const images = property.images.map(img => `<img src="${img}" alt="Image" class="img-thumbnail" style="width: 80px; height: 80px; margin: 2px;">`).join('');
+                  const floorplans = property.floorplan.map(plan => `<img src="${plan}" alt="Floorplan" class="img-thumbnail" style="width: 80px; height: 80px; margin: 2px;">`).join('');
+
+                  const row = `<tr>
+                      <td>${property.location}</td>
+                      <td>${property.price}</td>
+                      <td>${property.category}</td>
+                      <td>${property.status}</td>
+                      <td>${property.availability}</td>
+                      <td>${property.description}</td>
+                      <td>${images}</td>
+                      <td>${floorplans}</td>
+                      <td>
+                          <button class="btn btn-sm btn-warning" onclick="editProperty('${property._id}')">Edit</button>
+                          <button class="btn btn-sm btn-danger" onclick="deleteProperty('${property._id}')">Delete</button>
+                      </td>
+                  </tr>`;
+                  tableBody.innerHTML += row;
+              });
+          } catch (error) {
+              console.error('Error fetching properties:', error);
+          }
+      };
+
+      // Add or update property
+      document.getElementById('propertyForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const propertyId = document.getElementById('propertyId').value;
+          const propertyData = {
+              location: document.getElementById('location').value,
+              price: document.getElementById('price').value,
+              category: document.getElementById('category').value,
+              status: document.getElementById('status').value,
+              availability: document.getElementById('availability').value,
+              description: document.getElementById('description').value,
+              images: document.getElementById('images').value.split(','),
+              floorplan: document.getElementById('floorplan').value.split(',')
+          };
+
+          try {
+              if (propertyId) {
+                  await axios.put(`${apiUrl}/${propertyId}`, propertyData);
+              } else {
+                  await axios.post(apiUrl, propertyData);
+              }
+
+              document.getElementById('propertyForm').reset();
+              fetchProperties();
+          } catch (error) {
+              console.error('Error saving property:', error);
+          }
+      });
+
+      // Edit property
+      const editProperty = async (id) => {
+          try {
+              const response = await axios.get(`${apiUrl}/${id}`);
+              const property = response.data;
+
+              document.getElementById('propertyId').value = property._id;
+              document.getElementById('location').value = property.location;
+              document.getElementById('price').value = property.price;
+              document.getElementById('category').value = property.category;
+              document.getElementById('status').value = property.status;
+              document.getElementById('availability').value = property.availability;
+              document.getElementById('description').value = property.description;
+              document.getElementById('images').value = property.images.join(',');
+              document.getElementById('floorplan').value = property.floorplan.join(',');
+          } catch (error) {
+              console.error('Error fetching property:', error);
+          }
+      };
+
+      // Delete property
+      const deleteProperty = async (id) => {
+          try {
+              await axios.delete(`${apiUrl}/${id}`);
+              fetchProperties();
+          } catch (error) {
+              console.error('Error deleting property:', error);
+          }
+      };
+
+      // Reset form
+      document.getElementById('resetForm').addEventListener('click', () => {
+          document.getElementById('propertyForm').reset();
+          document.getElementById('propertyId').value = '';
+      });
+
+      // Initial fetch
+      fetchProperties();
+  </script>
     <!-- End Containerbar -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
