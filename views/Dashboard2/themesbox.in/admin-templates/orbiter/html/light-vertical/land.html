@@ -22,12 +22,12 @@
       </div>
 
       <div class="mb-3">
-        <label for="location" class="form-label">Property Title:</label>
+        <label for="location" class="form-label">Location:</label>
         <input type="text" id="location" name="location" class="form-control" required>
       </div>
 
       <div class="mb-3">
-        <label for="price" class="form-label">Asking Price:</label>
+        <label for="price" class="form-label">Price:</label>
         <input type="text" id="price" name="price" class="form-control" required>
       </div>
 
@@ -46,11 +46,6 @@
           <option value="Commercial">Commercial</option>
           <option value="Residential">Residential</option>
         </select>
-      </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">Description:</label>
-        <input type="text" id="description" name="price" class="form-control" required>
-        
       </div>
 
       <div class="mb-3">
@@ -74,7 +69,6 @@
           <th>Price</th>
           <th>Availability</th>
           <th>Category</th>
-          <th>Description</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
@@ -102,7 +96,6 @@
               <td>${land.price}</td>
               <td>${land.availability}</td>
               <td>${land.category}</td>
-              <td>${land.description}</td>
               <td>${land.status}</td>
               <td>
                 <button onclick="editLand('${land._id}')" class="btn btn-warning btn-sm">Edit</button>
@@ -130,7 +123,6 @@
         price: document.getElementById('price').value,
         availability: document.getElementById('availability').value,
         category: document.getElementById('category').value,
-        description: document.getElementById('description').value,
         status: document.getElementById('status').value,
       };
 
@@ -161,7 +153,6 @@
           document.getElementById('price').value = land.price;
           document.getElementById('availability').value = land.availability;
           document.getElementById('category').value = land.category;
-          document.getElementById('description').value = land.description;
           document.getElementById('status').value = land.status;
         });
     };

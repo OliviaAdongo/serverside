@@ -22,9 +22,7 @@ const landSchema = new mongoose.Schema(
       required: true,
     },
     description: {
-      type: String,
-
-      required: true,
+      type: String, required: true,
     },
     status: {
       type: String,
