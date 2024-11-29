@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solid Roots CRUD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f8f8f8;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #4cae4c;
+        }
+        .actions button {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Solid Roots CRUD Functionality</h1>
+
+    <!-- Form for Land Property -->
+    <form id="land-property-form">
+        <h2>Land Property Details</h2>
+        <label for="land-title">Property Title</label>
+        <input type="text" id="land-title" name="title" required>
+
+        <label for="land-images">Upload Images (1-10)</label>
+        <input type="file" id="land-images" name="images" multiple accept="image/*" required>
+
+        <label for="land-price">Asking Price</label>
+        <input type="text" id="land-price" name="price" required>
+
+        <label for="land-description">Description</label>
+        <textarea id="land-description" name="description" rows="4" required></textarea>
+
+        <label for="land-key-features">Key Features (comma-separated)</label>
+        <input type="text" id="land-key-features" name="keyFeatures" required>
+
+        <label for="land-status">Property Status</label>
+        <select id="land-status" name="status">
+            <option value="Available">Available</option>
+            <option value="Not Available">Not Available</option>
+        </select>
+
+        <label for="land-category">Property Category</label>
+        <select id="land-category" name="category">
+            <option value="For Sale">For Sale</option>
+            <option value="For Rent">For Rent</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Form for Commercial Property -->
+    <form id="commercial-property-form">
+        <h2>Commercial Property Details</h2>
+        <label for="commercial-title">Property Title</label>
+        <input type="text" id="commercial-title" name="title" required>
+
+        <label for="commercial-images">Upload Images (1-10)</label>
+        <input type="file" id="commercial-images" name="images" multiple accept="image/*" required>
+
+        <label for="commercial-price">Asking Price</label>
+        <input type="text" id="commercial-price" name="price" required>
+
+        <label for="commercial-description">Description</label>
+        <textarea id="commercial-description" name="description" rows="4" required></textarea>
+
+        <label for="commercial-key-features">Key Features (comma-separated)</label>
+        <input type="text" id="commercial-key-features" name="keyFeatures" required>
+
+        <label for="commercial-status">Property Status</label>
+        <select id="commercial-status" name="status">
+            <option value="Available">Available</option>
+            <option value="Not Available">Not Available</option>
+        </select>
+
+        <label for="commercial-category">Property Category</label>
+        <select id="commercial-category" name="category">
+            <option value="For Sale">For Sale</option>
+            <option value="For Rent">For Rent</option>
+        </select>
+
+        <label for="commercial-amenities">Amenities (comma-separated)</label>
+        <input type="text" id="commercial-amenities" name="amenities" required>
+
+        <label for="commercial-floor-plan">Upload Floor Plan</label>
+        <input type="file" id="commercial-floor-plan" name="floorPlan" accept="image/*">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Form for Residential Property -->
+    <form id="residential-property-form">
+        <h2>Residential Property Details</h2>
+        <label for="residential-title">Property Title</label>
+        <input type="text" id="residential-title" name="title" required>
+
+        <label for="residential-images">Upload Images (1-10)</label>
+        <input type="file" id="residential-images" name="images" multiple accept="image/*" required>
+
+        <label for="residential-price">Asking Price</label>
+        <input type="text" id="residential-price" name="price" required>
+
+        <label for="residential-description">Description</label>
+        <textarea id="residential-description" name="description" rows="4" required></textarea>
+
+        <label for="residential-key-features">Key Features (comma-separated)</label>
+        <input type="text" id="residential-key-features" name="keyFeatures" required>
+
+        <label for="residential-status">Property Status</label>
+        <select id="residential-status" name="status">
+            <option value="Available">Available</option>
+            <option value="Not Available">Not Available</option>
+        </select>
+
+        <label for="residential-category">Property Category</label>
+        <select id="residential-category" name="category">
+            <option value="For Sale">For Sale</option>
+            <option value="For Rent">For Rent</option>
+        </select>
+
+        <label for="residential-amenities">Amenities (comma-separated)</label>
+        <input type="text" id="residential-amenities" name="amenities" required>
+
+        <label for="residential-floor-plan">Upload Floor Plan</label>
+        <input type="file" id="residential-floor-plan" name="floorPlan" accept="image/*">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Table to Display Properties -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="property-table-body">
+            <!-- Data Rows Will Be Populated Dynamically -->
+        </tbody>
+    </table>
+</body>
+</html>

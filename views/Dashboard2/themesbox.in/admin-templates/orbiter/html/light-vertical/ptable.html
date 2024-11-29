@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Land Listings</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    form {
+      margin: 20px 0;
+    }
+    input, select, button {
+      margin: 5px;
+      padding: 8px;
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+    }
+    .icon-btn img {
+      width: 20px;
+      height: 20px;
+    }
+    img {
+      max-width: 100px;
+      max-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Land Listings</h1>
+
+  <!-- Form to Add or Update Land -->
+  <form id="landForm">
+    <h2 id="formTitle">Add New Land</h2>
+    <input type="hidden" id="landId" name="id">
+
+    <label for="image">Image URL:</label>
+    <input type="url" id="image" name="image" placeholder="Enter image URL" required><br>
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required><br>
+
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" required><br>
+
+    <label for="availability">Availability:</label>
+    <select id="availability" name="availability">
+      <option value="Available">Available</option>
+      <option value="Not Available">Not Available</option>
+    </select><br>
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+      <option value="Agricultural">Agricultural</option>
+      <option value="Commercial">Commercial</option>
+      <option value="residentialpropertyesidential">Residential</option>
+    </select><br>
+
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+      <option value="For Sale">For Sale</option>
+      <option value="For Rent">For Rent</option>
+    </select><br>
+
+    <button type="submit" id="submitButton">Add Land</button>
+  </form>
+
+  <!-- Table to Display Lands -->
+  <table id="landTable">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Location</th>
+        <th>Price</th>
+        <th>Availability</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be added dynamically here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Fetch lands and populate the table
+    const fetchLands = () => {
+      fetch('http://localhost:3000/api/lands')
+        .then(response => response.json())
+        .then(lands => {
+          const tableBody = document.querySelector('#landTable tbody');
+          tableBody.innerHTML = ''; // Clear existing rows
+          lands.forEach(land => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td><img src="${land.image}" alt="Land Image"></td>
+              <td>${land.location}</td>
+              <td>${land.price}</td>
+              <td>${land.availability}</td>
+              <td>${land.category}</td>
+              <td>${land.status}</td>
+              <td>
+                <button class="icon-btn" onclick="editLand('${land._id}')">
+                  <img src="edit-icon.png" alt="Edit">
+                </button>
+                <button class="icon-btn" onclick="deleteLand('${land._id}')">
+                  <img src="delete-icon.png" alt="Delete">
+                </button>
+              </td>
+            `;
+            tableBody.appendChild(row);
+          });
+        })
+        .catch(err => console.error('Error fetching lands:', err));
+    };
+
+    // Handle form submission (Add or Update)
+    const form = document.getElementById('landForm');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const id = formData.get('id');
+      const landData = {
+        image: formData.get('image'),
+        location: formData.get('location'),
+        price: formData.get('price'),
+        availability: formData.get('availability'),
+        category: formData.get('category'),
+        status: formData.get('status'),
+      };
+
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? `http://localhost:3000/api/lands/${id}` : 'http://localhost:3000/api/lands';
+
+      fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(landData),
+      })
+        .then(response => response.json())
+        .then(() => {
+          form.reset();
+          document.getElementById('formTitle').innerText = 'Add New Land';
+          document.getElementById('submitButton').innerText = 'Add Land';
+          fetchLands();
+        })
+        .catch(err => console.error('Error saving land:', err));
+    });
+
+    // Handle delete action
+    const deleteLand = (id) => {
+      fetch(`http://localhost:3000/api/lands/${id}`, {
+        method: 'DELETE',
+      })
+        .then(() => fetchLands())
+        .catch(err => console.error('Error deleting land:', err));
+    };
+
+    // Handle edit action
+    const editLand = (id) => {
+      fetch(`http://localhost:3000/api/lands/${id}`)
+        .then(response => response.json())
+        .then(land => {
+          document.getElementById('landId').value = id;
+          document.getElementById('image').value = land.image;
+          document.getElementById('location').value = land.location;
+          document.getElementById('price').value = land.price;
+          document.getElementById('availability').value = land.availability;
+          document.getElementById('category').value = land.category;
+          document.getElementById('status').value = land.status;
+
+          document.getElementById('formTitle').innerText = 'Edit Land';
+          document.getElementById('submitButton').innerText = 'Update Land';
+        })
+        .catch(err => console.error('Error fetching land for edit:', err));
+    };
+
+    // Initial fetch to populate the table
+    fetchLands();
+  </script>
+</body>
+</html>

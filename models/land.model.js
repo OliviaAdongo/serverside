@@ -10,17 +10,17 @@ const landSchema = new mongoose.Schema(
     price: { type: String, required: true },
     availability: {
       type: String,
-      enum: ["available", "not available"],
+      enum: ["Available", "Not Available"],
       default: "available",
     },
     category: {
       type: String,
-      enum: ["agricultural", "commercial", "residential"],
+      enum: ["Agricultural", "Commercial", "residentialpropertyesidential"],
       required: true,
     },
     status: {
       type: String,
-      enum: ["for sale", "not for sale"],
+      enum: ["For Sale", "For Rent"],
       required: true,
     },
   },

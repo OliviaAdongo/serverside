@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Land Listings</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    form {
+      margin: 20px 0;
+    }
+    input, select, button {
+      margin: 5px;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Land Listings</h1>
+
+  <!-- Form to Add New Land -->
+  <form id="landForm">
+    <h2>Add New Land</h2>
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" required><br>
+
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" required><br>
+
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state"><br>
+
+    <label for="country">Country:</label>
+    <input type="text" id="country" name="country" required><br>
+
+    <label for="lat">Latitude:</label>
+    <input type="number" id="lat" name="lat" step="any"><br>
+
+    <label for="lng">Longitude:</label>
+    <input type="number" id="lng" name="lng" step="any"><br>
+
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" required><br>
+
+    <label for="availability">Availability:</label>
+    <select id="availability" name="availability">
+      <option value="available">Available</option>
+      <option value="not available">Not Available</option>
+    </select><br>
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+      <option value="agricultural">Agricultural</option>
+      <option value="commercial">Commercial</option>
+      <option value="residential">Residential</option>
+    </select><br>
+
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+      <option value="for sale">For Sale</option>
+      <option value="not for sale">Not For Sale</option>
+    </select><br>
+
+    <button type="submit">Add Land</button>
+  </form>
+
+  <!-- Table to Display Lands -->
+  <table id="landTable">
+    <thead>
+      <tr>
+        <th>Address</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Price</th>
+        <th>Availability</th>
+        <th>Category</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be added dynamically here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Fetch data from the API and populate the table
+    const fetchLands = () => {
+      fetch('/http://localhost:3000/api/lands')
+        .then(response => response.json())
+        .then(lands => {
+          const tableBody = document.querySelector('#landTable tbody');
+          tableBody.innerHTML = ''; // Clear existing rows
+          lands.forEach(land => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${land.location.address}</td>
+              <td>${land.location.city}</td>
+              <td>${land.location.country}</td>
+              <td>${land.price}</td>
+              <td>${land.availability}</td>
+              <td>${land.category}</td>
+              <td>${land.status}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+        })
+        .catch(err => console.error('Error fetching lands:', err));
+    };
+
+    // Handle form submission
+    const form = document.getElementById('landForm');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent page refresh
+      const formData = new FormData(form);
+
+      const landData = {
+        location: {
+          address: formData.get('address'),
+          city: formData.get('city'),
+          state: formData.get('state'),
+          country: formData.get('country'),
+          coordinates: {
+            lat: parseFloat(formData.get('lat')) || null,
+            lng: parseFloat(formData.get('lng')) || null,
+          },
+        },
+        price: parseFloat(formData.get('price')),
+        availability: formData.get('availability'),
+        category: formData.get('category'),
+        status: formData.get('status'),
+      };
+
+      fetch('/http://localhost:3000/api/lands', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(landData),
+      })
+        .then(response => response.json())
+        .then(() => {
+          form.reset(); // Reset the form
+          fetchLands(); // Refresh the table
+        })
+        .catch(err => console.error('Error adding land:', err));
+    });
+
+    // Initial fetch to populate the table
+    fetchLands();
+  </script>
+</body>
+</html>
