@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// routes  
+// routes
 app.use('/api/products', productRoute);
 app.use('/api/lands', landRoute);
 app.use('/api/residentialproperties', residentialRoute);
