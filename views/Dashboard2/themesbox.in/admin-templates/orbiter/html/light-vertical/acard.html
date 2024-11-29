@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+          <!-- Assuming you have an array of land objects fetched from your database -->
+          <!-- Example array: const lands = [{...landData}, {...landData}]; -->
+          <div class="col-md-4 mb-4" id="landCardTemplate" style="display: none;">
+            <div class="card">
+              <div class="carousel slide" id="carousel{LAND_ID}" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <!-- Images will be inserted here dynamically -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel{LAND_ID}" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel{LAND_ID}" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{LOCATION}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Category: {CATEGORY}</h6>
+                <p class="card-text">Price: {PRICE}</p>
+                <p class="card-text">Status: {STATUS}</p>
+                <p class="card-text">Availability: {AVAILABILITY}</p>
+                <a href="/land-details/{LAND_ID}" class="btn btn-primary">More Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script>
+        // Example data from your database
+        const lands = [
+          {
+            _id: "1",
+            images: [
+              "https://via.placeholder.com/150",
+              "https://via.placeholder.com/150/0000FF",
+            ],
+            location: "Green Acres",
+            price: "$100,000",
+            availability: "Available",
+            category: "Residential",
+            description: "Beautiful 3-acre land suitable for building a family home.",
+            status: "For Sale",
+          },
+          // Additional land objects...
+        ];
+      
+        const cardContainer = document.querySelector(".row");
+        const template = document.getElementById("landCardTemplate");
+      
+        lands.forEach((land) => {
+          const card = template.cloneNode(true);
+          card.style.display = "block";
+          card.id = "";
+      
+          // Replace placeholders
+          card.querySelector(".card-title").textContent = land.location;
+          card.querySelector(".card-subtitle").textContent = `Category: ${land.category}`;
+          card.querySelector(".card-text:nth-of-type(1)").textContent = `Price: ${land.price}`;
+          card.querySelector(".card-text:nth-of-type(2)").textContent = `Status: ${land.status}`;
+          card.querySelector(".card-text:nth-of-type(3)").textContent = `Availability: ${land.availability}`;
+          card.querySelector(".btn").href = `/land-details/${land._id}`;
+      
+          // Add carousel images
+          const carouselInner = card.querySelector(".carousel-inner");
+          carouselInner.innerHTML = land.images
+            .map(
+              (img, index) => `
+              <div class="carousel-item ${index === 0 ? "active" : ""}">
+                <img src="${img}" class="d-block w-100" alt="Land Image">
+              </div>`
+            )
+            .join("");
+          cardContainer.appendChild(card);
+        });
+      </script>
+      
+</body>
+</html>
