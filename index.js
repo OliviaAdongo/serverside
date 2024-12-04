@@ -5,6 +5,7 @@ const Land = require("./models/land.model.js");
 const Commercial = require("./models/commercial.model.js");
 const Residential = require("./models/residential.model.js");
 const Insight = require("./models/insight.model.js");
+// import routes
 const productRoute = require ("./routes/product.route.js");
 const landRoute = require ("./routes/land.route.js");
 const residentialRoute = require ("./routes/residential.route.js");
@@ -12,9 +13,11 @@ const commercialRoute = require ("./routes/commercial.route.js");
 const insightsRoute = require ("./routes/insights.route.js");
 const app = express();
 
+ 
 // middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 
 // routes
 app.use('/api/products', productRoute);
