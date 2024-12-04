@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
+
 const Product = require("./models/product.model.js");
 const Land = require("./models/land.model.js");
 const Commercial = require("./models/commercial.model.js");
@@ -12,20 +14,37 @@ const landRoute = require ("./routes/land.route.js");
 const residentialRoute = require ("./routes/residential.route.js");
 const commercialRoute = require ("./routes/commercial.route.js");
 const insightsRoute = require ("./routes/insights.route.js");
+const authRoutes = require('./routes/auth.route.js');
+
 const app = express();
 
  
-// middleware 
+// Middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
-// routes
+// Routes
 app.use('/api/products', productRoute);
 app.use('/api/lands', landRoute);
 app.use('/api/residentialproperties', residentialRoute);
 app.use('/api/commercialproperties', commercialRoute);
 app.use('/api/insights', insightsRoute);
+
+// Auth routes
+app.use('/auth', authRoutes);
+
+// Serve frontend pages
+app.get('/register.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'register.html'));
+});
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'login.html'));
+});
+
+
+
 
 // set template engine
 app.set("view engine", "ejs")
