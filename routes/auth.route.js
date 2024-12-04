@@ -24,11 +24,24 @@ router.post('/login', async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).send('Invalid credentials');
     }
-    res.send('Login successful');
+    // Save user session
+    req.session.user = { id: user._id, email: user.email };
+    res.redirect('/adash.html');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error logging in');
   }
+});
+
+// Logout endpoint
+router.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error logging out');
+    }
+    res.redirect('/login.html');
+  });
 });
 
 module.exports = router;
