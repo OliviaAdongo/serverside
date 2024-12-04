@@ -1,0 +1,18 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  h2 {
+    color: #124824;
+  }
+  
+  .btn-primary {
+    background-color: #b78509;
+    border-color: #b78509;
+  }
+  
+  .btn-success {
+    background-color: #124824;
+    border-color: #124824;
+  }
+  

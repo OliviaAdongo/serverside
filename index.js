@@ -5,7 +5,8 @@ const Land = require("./models/land.model.js");
 const Commercial = require("./models/commercial.model.js");
 const Residential = require("./models/residential.model.js");
 const Insight = require("./models/insight.model.js");
-// import routes
+
+// Import routes
 const productRoute = require ("./routes/product.route.js");
 const landRoute = require ("./routes/land.route.js");
 const residentialRoute = require ("./routes/residential.route.js");
