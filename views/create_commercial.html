@@ -83,15 +83,15 @@
     </div>
 </nav>
 
-<!-- Residential Property Section -->
+<!-- CommercialProperty Section -->
 <div class="container mt-5">
-    <h1 class="text-center">Residential Property Management</h1>
+    <h1 class="text-center">Commercial Property Management</h1>
     
     <!-- Form Section -->
     <div class="card my-4">
-        <h4 id="formTitle">Create Residential Property</h4>
-        <form id="residentialForm" enctype="multipart/form-data">
-            <input type="hidden" id="residentialId">
+        <h4 id="formTitle">Create Commercial Property</h4>
+        <form id="commercialForm" enctype="multipart/form-data">
+            <input type="hidden" id="commercialId">
             <div class="mb-3">
                 <label for="location" class="form-label">Location</label>
                 <input type="text" class="form-control" id="location" name="location" required>
@@ -140,7 +140,7 @@
 
     <!-- Table Section -->
     <div class="card p-3">
-        <h4>Residential Property List</h4>
+        <h4>Commercial Property List</h4>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -155,7 +155,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="residentialTable">
+            <tbody id="commercialTable">
                 <!-- JavaScript will populate this -->
             </tbody>
         </table>
@@ -163,12 +163,13 @@
 </div>
 
 <script>
-// Fetch and display residential properties
-fetch('http://localhost:3000/api/commercialpropertiesproperties')
+// Fetch and display commercial properties
+fetch('http://localhost:3000/api/commercialproperties')
   .then(response => response.json())
   .then(properties => {
-    const table = document.getElementById('residentialTable');
+    const table = document.getElementById('commercialTable');
     properties.forEach(property => {
+      const images = property.images.map(img => `<img src="${img}" width="50" style="border: 1px solid #b78509;" />`).join(' ');
       const row = `<tr>
         <td>${property.location}</td>
         <td>${property.price}</td>
@@ -177,22 +178,22 @@ fetch('http://localhost:3000/api/commercialpropertiesproperties')
         <td>${property.availability}</td>
         <td>${property.amenities}</td>
         <td>${property.description}</td>
-        <td>${property.images.map(img => `<img src="/${img}" width="50" style="border: 1px solid #b78509;" />`).join(' ')}</td>
+        <td>${images}</td>
         <td>
-          <button onclick="editResidentialProperty('${property._id}')" class="btn btn-sm btn-warning">Edit</button>
-          <button onclick="deleteResidentialProperty('${property._id}')" class="btn btn-sm btn-danger">Delete</button>
+          <button onclick="editCommercialProperty('${property._id}')" class="btn btn-sm btn-warning">Edit</button>
+          <button onclick="deleteCommercialProperty('${property._id}')" class="btn btn-sm btn-danger">Delete</button>
         </td>
       </tr>`;
       table.innerHTML += row;
     });
   });
 
-// Edit residential property function
-function editResidentialProperty(id) {
-  fetch(`http://localhost:3000/api/commercialpropertiesproperties/${id}`)
+// Edit commercial property function
+function editCommercialProperty(id) {
+  fetch(`http://localhost:3000/api/commercialproperties/${id}`)
     .then(response => response.json())
     .then(property => {
-      document.getElementById('residentialId').value = property._id;
+      document.getElementById('commercialId').value = property._id;
       document.getElementById('location').value = property.location;
       document.getElementById('price').value = property.price;
       document.getElementById('category').value = property.category;
@@ -200,19 +201,19 @@ function editResidentialProperty(id) {
       document.getElementById('availability').value = property.availability;
       document.getElementById('amenities').value = property.amenities;
       document.getElementById('description').value = property.description;
-      document.getElementById('formTitle').textContent = "Edit Residential Property";
+      document.getElementById('formTitle').textContent = "Edit Commercial Property";
     });
 }
 
 // Handle form submission
-document.getElementById('residentialForm').addEventListener('submit', function(event) {
+document.getElementById('commercialForm').addEventListener('submit', function(event) {
   event.preventDefault();
 
   const formData = new FormData(this);
-  const id = document.getElementById('residentialId').value;
+  const id = document.getElementById('commercialId').value;
   const method = id ? 'PUT' : 'POST';  
 
-  fetch(`http://localhost:3000/api/commercialpropertiesproperties${id ? '/' + id : ''}`, {
+  fetch(`http://localhost:3000/api/commercialproperties${id ? '/' + id : ''}`, {
     method: method,
     body: formData
   })
@@ -222,9 +223,9 @@ document.getElementById('residentialForm').addEventListener('submit', function(e
   });
 });
 
-// Delete residential property function
-function deleteResidentialProperty(id) {
-  fetch(`http://localhost:3000/api/commercialpropertiesproperties/${id}`, { method: 'DELETE' })
+// Delete commercial property function
+function deleteCommercialProperty(id) {
+  fetch(`http://localhost:3000/api/commercialproperties/${id}`, { method: 'DELETE' })
     .then(() => location.reload());
 }
 </script>
