@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const landSchema = new mongoose.Schema(
   {
-    images: {
+    images: { 
       type: [String],
       validate: {
         validator: (arr) => arr.length >= 1 && arr.length <= 10,
@@ -21,9 +21,7 @@ const landSchema = new mongoose.Schema(
       enum: ["Land", "Commercial", "Residential"],
       required: true,
     },
-    description: {
-      type: String, required: true,
-    },
+    description: { type: String, required: true },
     status: {
       type: String,
       enum: ["For Sale", "For Rent"],

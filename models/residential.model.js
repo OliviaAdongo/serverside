@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const residentialSchema = new mongoose.Schema(
-  { 
+  {
     images: {
       type: [String],
       validate: {
@@ -26,15 +26,12 @@ const residentialSchema = new mongoose.Schema(
       enum: ["For Sale", "For Rent"],
       required: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
+    description: { type: String, required: true },
     floorplan: {
       type: [String],
       validate: {
         validator: (arr) => arr.length >= 1 && arr.length <= 10,
-        message: "You must provide between 1 and 10 images.",
+        message: "You must provide between 1 and 10 floorplan images.",
       },
     },
   },
