@@ -5,38 +5,84 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #124824;
-      color: white;
+      background-color: #f5f5f5;
+      color: #333;
     }
-    .navbar, .btn-primary {
-      background-color: #b78509 !important;
+
+    h1 {
+      color: #124824;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background-color: #b78509;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #124824;
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background-color: #124824;
+      color: #fff;
+    }
+
+    .btn-secondary:hover {
+      background-color: #b78509;
+      color: #fff;
+    }
+
+    .table {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .table thead {
+      background-color: #124824;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .table img {
+      border-radius: 5px;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      color: #124824;
+      font-weight: bold;
+    }
+
+    .form-control {
       border-color: #b78509 !important;
     }
-    .table thead {
-      background-color: #b78509;
-      color: white;
-    }
-    .form-label, .table th, .table td {
-      color: white;
-    }
-    .btn-warning {
-      background-color: #ffc107 !important;
-      border-color: #ffc107 !important;
-    }
-    .btn-danger {
-      background-color: #dc3545 !important;
-      border-color: #dc3545 !important;
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
 <div class="container mt-5">
-  <h2 class="text-center">Land Management</h2>
+  <h1 class="text-center">Land Management</h1>
   
   <!-- Form Section -->
-  <div class="card my-4 p-3" style="background-color: #124824; border: 1px solid #b78509;">
-    <h4>Create Land</h4>
-    <form action="http://localhost:3000/api/lands" method="POST" enctype="multipart/form-data">
+  <div class="card my-4">
+    <h4 id="formTitle">Create Land</h4>
+    <form id="landForm" enctype="multipart/form-data">
+      <input type="hidden" id="landId">
       <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input type="text" class="form-control" id="location" name="location" required>
@@ -61,19 +107,26 @@
         </select>
       </div>
       <div class="mb-3">
+        <label for="availability" class="form-label">Availability</label>
+        <select class="form-control" id="availability" name="availability" required>
+          <option value="Available">Available</option>
+          <option value="Not Available">Not Available</option>
+        </select>
+      </div>
+      <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control" id="description" name="description" required></textarea>
       </div>
       <div class="mb-3">
         <label for="images" class="form-label">Images</label>
-        <input type="file" class="form-control" id="images" name="images" multiple required>
+        <input type="file" class="form-control" id="images" name="images" multiple>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
 
   <!-- Table Section -->
-  <div class="card p-3" style="background-color: #124824; border: 1px solid #b78509;">
+  <div class="card p-3">
     <h4>Land List</h4>
     <table class="table table-striped">
       <thead>
@@ -82,6 +135,7 @@
           <th>Price</th>
           <th>Category</th>
           <th>Status</th>
+          <th>Availability</th>
           <th>Description</th>
           <th>Images</th>
           <th>Actions</th>
@@ -106,10 +160,11 @@ fetch('http://localhost:3000/api/lands')
         <td>${land.price}</td>
         <td>${land.category}</td>
         <td>${land.status}</td>
+        <td>${land.availability}</td> <!-- Display Availability -->
         <td>${land.description}</td>
         <td>${land.images.map(img => `<img src="/${img}" width="50" style="border: 1px solid #b78509;" />`).join(' ')}</td>
         <td>
-          <a href="/edit_land.html?id=${land._id}" class="btn btn-sm btn-warning">Edit</a>
+          <button onclick="editLand('${land._id}')" class="btn btn-sm btn-warning">Edit</button>
           <button onclick="deleteLand('${land._id}')" class="btn btn-sm btn-danger">Delete</button>
         </td>
       </tr>`;
@@ -117,9 +172,45 @@ fetch('http://localhost:3000/api/lands')
     });
   });
 
+// Edit land function
+function editLand(id) {
+  fetch(`http://localhost:3000/api/lands/${id}`)
+    .then(response => response.json())
+    .then(land => {
+      // Prefill the form with current data
+      document.getElementById('landId').value = land._id;
+      document.getElementById('location').value = land.location;
+      document.getElementById('price').value = land.price;
+      document.getElementById('category').value = land.category;
+      document.getElementById('status').value = land.status;
+      document.getElementById('availability').value = land.availability; // Prefill availability
+      document.getElementById('description').value = land.description;
+      document.getElementById('formTitle').textContent = "Edit Land";
+    });
+}
+
+// Handle form submission
+document.getElementById('landForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const formData = new FormData(this);
+  const id = document.getElementById('landId').value;
+  const method = id ? 'PUT' : 'POST';  // Use PUT if editing an existing land, otherwise POST for creating new
+
+  fetch(`http://localhost:3000/api/lands${id ? '/' + id : ''}`, {
+    method: method,
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    location.reload(); // Reload page to refresh land list
+  });
+});
+
+// Delete land function
 function deleteLand(id) {
   fetch(`http://localhost:3000/api/lands/${id}`, { method: 'DELETE' })
-    .then(() => location.reload());
+    .then(() => location.reload()); // Reload page after deleting
 }
 </script>
 </body>
