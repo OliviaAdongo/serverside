@@ -18,25 +18,16 @@ const commercialSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Commercial", "Residential"],
+      enum: ["Commercial"],
       required: true,
     },
+    description: { type: String, required: true },
     status: {
       type: String,
       enum: ["For Sale", "For Rent"],
       required: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
-    floorplan: {
-      type: [String],
-      validate: {
-        validator: (arr) => arr.length >= 1 && arr.length <= 10,
-        message: "You must provide between 1 and 10 images.",
-      },
-    },
+    amenities: { type: [String], required: true },
   },
   { timestamps: true }
 );

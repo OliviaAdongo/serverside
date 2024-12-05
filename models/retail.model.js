@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const landSchema = new mongoose.Schema(
+const retailSchema = new mongoose.Schema(
   {
-    images: {  
-      type: [String], 
+    images: {
+      type: [String],
       validate: {
         validator: (arr) => arr.length >= 1 && arr.length <= 10,
         message: "You must provide between 1 and 10 images.",
@@ -18,7 +18,7 @@ const landSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Land", "Commercial", "Residential"],
+      enum: ["Retail"],
       required: true,
     },
     description: { type: String, required: true },
@@ -27,10 +27,11 @@ const landSchema = new mongoose.Schema(
       enum: ["For Sale", "For Rent"],
       required: true,
     },
+    amenities: { type: [String], required: true },
   },
   { timestamps: true }
 );
 
-const Land = mongoose.model("Land", landSchema);
+const Retail = mongoose.model("Retail", retailSchema);
 
-module.exports = Land;
+module.exports = Retail;

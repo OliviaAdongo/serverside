@@ -38,7 +38,7 @@ const updateLand = async (req, res) => {
 
     const land = await Land.findByIdAndUpdate(
       id,
-      { ...req.body, images },
+      { ...req.body, images }, 
       { new: true }
     );
 
@@ -47,7 +47,7 @@ const updateLand = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};  
 
 const deleteLand = async (req, res) => {
   try {

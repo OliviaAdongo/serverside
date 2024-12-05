@@ -18,22 +18,16 @@ const residentialSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Commercial", "Residential"],
+      enum: ["Residential"],
       required: true,
     },
+    description: { type: String, required: true },
     status: {
       type: String,
       enum: ["For Sale", "For Rent"],
       required: true,
     },
-    description: { type: String, required: true },
-    floorplan: {
-      type: [String],
-      validate: {
-        validator: (arr) => arr.length >= 1 && arr.length <= 10,
-        message: "You must provide between 1 and 10 floorplan images.",
-      },
-    },
+    amenities: { type: [String], required: true },
   },
   { timestamps: true }
 );

@@ -1,17 +1,13 @@
+
+
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const {
-  getLands,
-  getLand,
-  createLand,
-  updateLand,
-  deleteLand,
-} = require("../controllers/land.contoller.js");  
+const {getRetails, getRetail, createRetail, updateRetail,deleteRetail} = require('../controllers/retail.controller.js');
+
 
 const router = express.Router();
 
-// Set up Multer for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -33,10 +29,11 @@ const upload = multer({
   },
 });
 
-router.get("/", getLands);
-router.get("/:id", getLand);
-router.post("/", upload.array("images", 10), createLand);
-router.put("/:id", upload.array("images", 10), updateLand);
-router.delete("/:id", deleteLand);
+
+router.get("/", getRetails);
+router.get("/:id", getRetail);
+router.post("/", upload.array("images", 10), createRetail);
+router.put("/:id", upload.array("images", 10), updateRetail);
+router.delete("/:id", deleteRetail);
 
 module.exports = router;
