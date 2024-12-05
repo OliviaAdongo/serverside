@@ -89,24 +89,24 @@ app.get("/adash.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "adash.html"));
 });
 
-app.get("/commercialt.html", isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "commercialt.html"));
+app.get("/create_commercial.html", isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "create_commercial.html"));
 });
 
 app.get("/create_land.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "create_land.html"));
 });
 
-app.get("/atable.html", isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "atable.html"));
+app.get("/create_residential.html", isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "create_residential.html"));
 });
 
 app.get("/insights.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "insights.html"));
 });
 
-app.get("/retail.html", isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "retail.html"));
+app.get("/create_retail.html", isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "create_retail.html"));
 });
 
 // Serve frontend pages
