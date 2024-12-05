@@ -2,9 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const multer = require("multer"); // Import multer
 const path = require("path");
-
-
 
 
 // Import models
@@ -29,10 +28,24 @@ const PORT = 3000;
 const MONGO_URI = "mongodb://adongoolivia0698:zrkNQIFCJXZwRDpe@backendd-shard-00-00.hjcwh.mongodb.net:27017,backendd-shard-00-01.hjcwh.mongodb.net:27017,backendd-shard-00-02.hjcwh.mongodb.net:27017/?ssl=true&replicaSet=atlas-x8k1ky-shard-0&authSource=admin&retryWrites=true&w=majority&appName=BackendD";
 const SESSION_SECRET = "hardcoded-secret-key";
 
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "public/uploads"));
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ dest: 'uploads' }) // Configure multer
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+
 
 // Middleware for checking if the user is authenticated
 function isAuthenticated(req, res, next) {
@@ -177,10 +190,27 @@ app.delete("/api/products/:id", async (req, res) => {
 // -------------------------------------------------------Land CRUD begin -------------------------------------------------
 
 // POST
-app.post("/api/lands", async (req, res) => {
+// Land CRUD with image upload
+// Create a new land entry
+app.post("/api/lands", upload.array("images", 10), async (req, res) => {
   try {
-    const land = await Land.create(req.body);
-    res.status(200).json(land);
+    const { location, price, category, description, status } = req.body;
+    const images = req.files.map((file) => `/uploads/${file.filename}`);
+
+    if (images.length < 1 || images.length > 10) {
+      return res.status(400).json({ message: "You must upload between 1 and 10 images." });
+    }
+
+    const land = await Land.create({
+      images,
+      location,
+      price,
+      category,
+      description,
+      status,
+    });
+
+    res.status(201).json(land);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -206,22 +236,34 @@ app.get("/api/lands/:id", async (req, res) => {
   }
 });
 
-// UPDATE
-app.put("/api/lands/:id", async (req, res) => {
+// Update an existing land entry
+app.put("/api/lands/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
+    const { location, price, category, description, status } = req.body;
+    const images = req.files.map((file) => `/uploads/${file.filename}`);
 
-    const land = await Land.findByIdAndUpdate(id, req.body);
+    const updateData = { location, price, category, description, status };
+    if (images.length > 0) {
+      if (images.length > 10) {
+        return res.status(400).json({ message: "You can upload a maximum of 10 images." });
+      }
+      updateData.images = images;
+    }
+
+    const land = await Land.findByIdAndUpdate(id, updateData, { new: true });
 
     if (!land) {
       return res.status(404).json({ message: "Land not found" });
     }
-    const updatedLand = await Land.findById(id);
-    res.status(200).json(updatedLand);
+
+    res.status(200).json(land);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
+
 // DELETE  LAND
 
 app.delete("/api/lands/:id", async (req, res) => {
