@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/user.model');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const router = express.Router();
 
 // Registration endpoint
@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user || !(await bcryptjs.compare(password, user.password))) {
       return res.status(401).send('Invalid credentials');
     }
     // Save user session
