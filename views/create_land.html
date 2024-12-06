@@ -218,7 +218,7 @@
 
 <script>
 // Fetch and display lands
-fetch('http://localhost:3000/api/lands')
+fetch('http://serversidesolid.vercel.app/api/lands')
   .then(response => response.json())
   .then(lands => {
     const table = document.getElementById('landTable');
@@ -243,7 +243,7 @@ fetch('http://localhost:3000/api/lands')
 
 // Edit land function
 function editLand(id) {
-  fetch(`http://localhost:3000/api/lands/${id}`)
+  fetch(`http://serversidesolid.vercel.app/api/lands/${id}`)
     .then(response => response.json())
     .then(land => {
       // Prefill the form with current data
@@ -266,7 +266,7 @@ document.getElementById('landForm').addEventListener('submit', function(event) {
   const id = document.getElementById('landId').value;
   const method = id ? 'PUT' : 'POST';  // Use PUT if editing an existing land, otherwise POST for creating new
 
-  fetch(`http://localhost:3000/api/lands${id ? '/' + id : ''}`, {
+  fetch(`http://serversidesolid.vercel.app/api/lands${id ? '/' + id : ''}`, {
     method: method,
     body: formData
   })
@@ -278,7 +278,7 @@ document.getElementById('landForm').addEventListener('submit', function(event) {
 
 // Delete land function
 function deleteLand(id) {
-  fetch(`http://localhost:3000/api/lands/${id}`, { method: 'DELETE' })
+  fetch(`http://serversidesolid.vercel.app/api/lands/${id}`, { method: 'DELETE' })
     .then(() => location.reload()); // Reload page after deleting
 }
 </script>
