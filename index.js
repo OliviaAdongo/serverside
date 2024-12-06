@@ -645,7 +645,7 @@ app.delete("/api/retailproperties/:id", async (req, res) => {
 
 // Connect to MongoDB and start the server
 mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGO_URI)
   .then(() => {
     console.log("Connected to database successfully!");
     app.listen(PORT, () => {
