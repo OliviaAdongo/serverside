@@ -106,7 +106,7 @@
                 <label for="category" class="form-label">Category</label>
                 <select class="form-control" id="category" name="category" required>
                     <option value="Residential">Residential</option>
-                    <option value="Commercial">Commercial</option>
+                    <option value="Residential">Commercial</option>
                     <option value="Land">Land</option>
                 </select>
             </div>
@@ -165,73 +165,72 @@
 </div>
 
 <script>
-// Fetch and display residential properties
-fetch('http://localhost:3000/api/residentialproperties')
-  .then(response => response.json())
-  .then(properties => {
-    const table = document.getElementById('residentialTable');
-    properties.forEach(property => {
-      const row = `<tr>
-        <td>${property.location}</td>
-        <td>${property.price}</td>
-        <td>${property.category}</td>
-        <td>${property.status}</td>
-        <td>${property.availability}</td>
-        <td>${property.amenities}</td>
-        <td>${property.description}</td>
-        <td>
-          ${property.images.map(img => `<img src="/uploads/${img}" width="100" style="border: 1px solid #b78509; margin-right: 5px;" />`).join(' ')}
-        </td>
-        <td>
-          <button onclick="editResidentialProperty('${property._id}')" class="btn btn-sm btn-warning">Edit</button>
-          <button onclick="deleteResidentialProperty('${property._id}')" class="btn btn-sm btn-danger">Delete</button>
-        </td>
-      </tr>`;
-      table.innerHTML += row;
+    // Fetch and display residential properties
+    fetch('http://localhost:3000/api/residentialproperties')
+      .then(response => response.json())
+      .then(properties => {
+        const table = document.getElementById('residentialTable');
+        properties.forEach(property => {
+          const images = property.images.map(img => `<img src="${img}" width="50" style="border: 1px solid #b78509;" />`).join(' ');
+          const row = `<tr>
+            <td>${property.location}</td>
+            <td>${property.price}</td>
+            <td>${property.category}</td>
+            <td>${property.status}</td>
+            <td>${property.availability}</td>
+            <td>${property.amenities}</td>
+            <td>${property.description}</td>
+            <td>${images}</td>
+            <td>
+              <button onclick="editResidentialProperty('${property._id}')" class="btn btn-sm btn-warning">Edit</button>
+              <button onclick="deleteResidentialProperty('${property._id}')" class="btn btn-sm btn-danger">Delete</button>
+            </td>
+          </tr>`;
+          table.innerHTML += row;
+        });
+      });
+    
+    // Edit residential property function
+    function editResidentialProperty(id) {
+      fetch(`http://localhost:3000/api/residentialproperties/${id}`)
+        .then(response => response.json())
+        .then(property => {
+          document.getElementById('residentialId').value = property._id;
+          document.getElementById('location').value = property.location;
+          document.getElementById('price').value = property.price;
+          document.getElementById('category').value = property.category;
+          document.getElementById('status').value = property.status;
+          document.getElementById('availability').value = property.availability;
+          document.getElementById('amenities').value = property.amenities;
+          document.getElementById('description').value = property.description;
+          document.getElementById('formTitle').textContent = "Edit Residential Property";
+        });
+    }
+    
+    // Handle form submission
+    document.getElementById('residentialForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+    
+      const formData = new FormData(this);
+      const id = document.getElementById('residentialId').value;
+      const method = id ? 'PUT' : 'POST';  
+    
+      fetch(`http://localhost:3000/api/residentialproperties${id ? '/' + id : ''}`, {
+        method: method,
+        body: formData
+      })
+      .then(response => response.json())
+      .then(() => {
+        location.reload(); // Refresh the property list
+      });
     });
-  });
-
-// Edit residential property function
-function editResidentialProperty(id) {
-  fetch(`http://localhost:3000/api/residentialproperties/${id}`)
-    .then(response => response.json())
-    .then(property => {
-      document.getElementById('residentialId').value = property._id;
-      document.getElementById('location').value = property.location;
-      document.getElementById('price').value = property.price;
-      document.getElementById('category').value = property.category;
-      document.getElementById('status').value = property.status;
-      document.getElementById('availability').value = property.availability;
-      document.getElementById('amenities').value = property.amenities;
-      document.getElementById('description').value = property.description;
-      document.getElementById('formTitle').textContent = "Edit Residential Property";
-    });
-}
-
-// Handle form submission
-document.getElementById('residentialForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  const formData = new FormData(this);
-  const id = document.getElementById('residentialId').value;
-  const method = id ? 'PUT' : 'POST';  
-
-  fetch(`http://localhost:3000/api/residentialproperties${id ? '/' + id : ''}`, {
-    method: method,
-    body: formData
-  })
-  .then(response => response.json())
-  .then(() => {
-    location.reload(); // Refresh the property list
-  });
-});
-
-// Delete residential property function
-function deleteResidentialProperty(id) {
-  fetch(`http://localhost:3000/api/residentialproperties/${id}`, { method: 'DELETE' })
-    .then(() => location.reload());
-}
-</script>
+    
+    // Delete residential property function
+    function deleteResidentialProperty(id) {
+      fetch(`http://localhost:3000/api/residentialproperties/${id}`, { method: 'DELETE' })
+        .then(() => location.reload());
+    }
+    </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>

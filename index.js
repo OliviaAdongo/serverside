@@ -46,7 +46,8 @@ const upload = multer({ dest: 'uploads' }) // Configure multer
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(__dirname + '/public'));
+// app.use(express.static(__dirname + '/public'));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 // Middleware for checking if the user is authenticated
