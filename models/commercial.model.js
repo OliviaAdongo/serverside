@@ -27,6 +27,7 @@ const commercialSchema = new mongoose.Schema(
       enum: ["For Sale", "For Rent"],
       required: true,
     },
+    agent: { type: String, required: true },
     amenities: { type: [String], required: true },
   },
   { timestamps: true }

@@ -133,6 +133,10 @@
                 <textarea class="form-control" id="description" name="description" required></textarea>
             </div>
             <div class="mb-3">
+                <label for="agent" class="form-label">Agent</label>
+                <textarea class="form-control" id="agent" name="agent" required></textarea>
+            </div>
+            <div class="mb-3">
                 <label for="images" class="form-label">Images</label>
                 <input type="file" class="form-control" id="images" name="images" multiple>
             </div>
@@ -153,6 +157,7 @@
                     <th>Availability</th>
                     <th>Amenities</th>
                     <th>Description</th>
+                    <th>Agent</th>
                     <th>Images</th>
                     <th>Actions</th>
                 </tr>
@@ -180,6 +185,7 @@
             <td>${property.availability}</td>
             <td>${property.amenities}</td>
             <td>${property.description}</td>
+            <td>${property.agent}</td>
             <td>${images}</td>
             <td>
               <button onclick="editResidentialProperty('${property._id}')" class="btn btn-sm btn-warning">Edit</button>

@@ -12,7 +12,7 @@ const getLands = async (req, res) => {
 
 const getLand = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params; 
     const land = await Land.findById(id);
     if (!land) return res.status(404).json({ message: "Land not found" });
     res.status(200).json(land);

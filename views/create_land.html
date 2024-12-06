@@ -181,6 +181,10 @@
                 <textarea class="form-control" id="description" name="description" required></textarea>
             </div>
             <div class="mb-3">
+                <label for="agent" class="form-label">Agent</label>
+                <textarea class="form-control" id="agent" name="agent" required></textarea>
+            </div>
+            <div class="mb-3">
                 <label for="images" class="form-label">Images</label>
                 <input type="file" class="form-control" id="images" name="images" multiple>
             </div>
@@ -200,6 +204,7 @@
                     <th>Status</th>
                     <th>Availability</th>
                     <th>Description</th>
+                    <th>Agent</th>
                     <th>Images</th>
                     <th>Actions</th>
                 </tr>
@@ -225,6 +230,7 @@ fetch('http://localhost:3000/api/lands')
         <td>${land.status}</td>
         <td>${land.availability}</td> <!-- Display Availability -->
         <td>${land.description}</td>
+        <td>${land.agent}</td>
         <td>${land.images.map(img => `<img src="/${img}" width="50" style="border: 1px solid #b78509;" />`).join(' ')}</td>
         <td>
           <button onclick="editLand('${land._id}')" class="btn btn-sm btn-warning">Edit</button>
