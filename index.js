@@ -6,7 +6,6 @@ const MongoStore = require("connect-mongo");
 const multer = require("multer"); // Import multer
 const path = require("path");
 
-
 // Import models
 const Product = require("./models/product.model.js");
 const Land = require("./models/land.model.js");
@@ -21,7 +20,7 @@ const landRoute = require("./routes/land.route.js");
 const residentialRoute = require("./routes/residential.route.js");
 const retailRoute = require("./routes/retail.route.js");
 const commercialRoute = require("./routes/commercial.route.js");
-const insightsRoute = require("./routes/insights.route.js");  
+const insightsRoute = require("./routes/insights.route.js");
 const authRoutes = require("./routes/auth.route.js");
 
 const app = express(); 
@@ -51,7 +50,6 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static(__dirname + '/public'));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 
 // Middleware for checking if the user is authenticated
 function isAuthenticated(req, res, next) {
@@ -191,17 +189,10 @@ app.delete("/api/products/:id", async (req, res) => {
   }
 });
 
-// Repeat similar CRUD structure for Lands, Commercial, Residential, and Insights
-
-
-// -------------------------------------------------------Land CRUD begin -------------------------------------------------
-
-// POST
-// Land CRUD with image upload
-// Create a new land entry
+// CRUD operations for Land
 app.post("/api/lands", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, price, category, description, status } = req.body;
+    const { location, price, category, description, status, agent } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -214,7 +205,7 @@ app.post("/api/lands", upload.array("images", 10), async (req, res) => {
       price,
       category,
       description,
-      status, 
+      status,
       agent,
     });
 
@@ -224,7 +215,6 @@ app.post("/api/lands", upload.array("images", 10), async (req, res) => {
   }
 });
 
-// READ
 app.get("/api/lands", async (req, res) => {
   try {
     const lands = await Land.find({});
@@ -233,7 +223,7 @@ app.get("/api/lands", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-// by id
+
 app.get("/api/lands/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -244,7 +234,6 @@ app.get("/api/lands/:id", async (req, res) => {
   }
 });
 
-// Update an existing land entry
 app.put("/api/lands/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
@@ -271,14 +260,10 @@ app.put("/api/lands/:id", upload.array("images", 10), async (req, res) => {
   }
 });
 
-
-// DELETE  LAND
-
 app.delete("/api/lands/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const land = await Land.findByIdAndDelete(id);
-
     if (!land) {
       return res.status(404).json({ message: "Land not found" });
     }
@@ -287,371 +272,13 @@ app.delete("/api/lands/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-// -------------------------------------------------------Land CRUD end -------------------------------------------------
 
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// -------------------------------------------------------Commercial Properties CRUD beginning -------------------------------------------------
-// POST
-// Commercial Properties POST (with image upload)
-app.post("/api/commercialproperties", upload.array("images", 10), async (req, res) => {
-  try {
-    const { location, price, category, description, status, agent, amenities } = req.body;
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-
-    if (images.length < 1 || images.length > 10) {
-      return res.status(400).json({ message: "You must upload between 1 and 10 images." });
-    }
-
-    const commercial = await Commercial.create({
-      images,
-      location,
-      price,
-      category,
-      description,
-      status,
-      agent,
-      amenities,
-    });
-
-    res.status(201).json(commercial);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Commercial Properties GET (all)
-app.get("/api/commercialproperties", async (req, res) => {
-  try {
-    const commercialProperties = await Commercial.find({});
-    res.status(200).json(commercialProperties);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Commercial Properties GET by ID
-app.get("/api/commercialproperties/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const commercialProperty = await Commercial.findById(id);
-    res.status(200).json(commercialProperty);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Commercial Properties PUT (update)
-app.put("/api/commercialproperties/:id", upload.array("images", 10), async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { location, price, category, description, status,  agent, amenities } = req.body;
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-
-    const updateData = { location, price, category, description, status, agent, amenities };
-    if (images.length > 0) {
-      if (images.length > 10) {
-        return res.status(400).json({ message: "You can upload a maximum of 10 images." });
-      }
-      updateData.images = images;
-    }
-
-    const commercial = await Commercial.findByIdAndUpdate(id, updateData, { new: true });
-
-    if (!commercial) {
-      return res.status(404).json({ message: "Commercial property not found" });
-    }
-
-    res.status(200).json(commercial);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Commercial Properties DELETE
-app.delete("/api/commercialproperties/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const commercial = await Commercial.findByIdAndDelete(id);
-
-    if (!commercial) {
-      return res.status(404).json({ message: "Commercial property not found" });
-    }
-    res.status(200).json({ message: "Commercial property deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// -------------------------------------------------------Commercial Properties  CRUD end -------------------------------------------------
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// -------------------------------------------------------Residential Properties CRUD beginning -------------------------------------------------
-// POST
-// Residential Properties POST (with image upload)
-app.post("/api/residentialproperties", upload.array("images", 10), async (req, res) => {
-  try {
-    const { location, price, category, description, status, agent, amenities } = req.body;
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-
-    if (images.length < 1 || images.length > 10) {
-      return res.status(400).json({ message: "You must upload between 1 and 10 images." });
-    }
-
-    const residential = await Residential.create({
-      images,
-      location,
-      price,
-      category,
-      description,
-      status,
-      agent,
-      amenities,
-    });
-
-    res.status(201).json(residential);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Residential Properties GET (all)
-app.get("/api/residentialproperties", async (req, res) => {
-  try {
-    const residentialProperties = await Residential.find({});
-    res.status(200).json(residentialProperties);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Residential Properties GET by ID
-app.get("/api/residentialproperties/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const residentialProperty = await Residential.findById(id);
-    res.status(200).json(residentialProperty);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Residential Properties PUT (update)
-app.put("/api/residentialproperties/:id", upload.array("images", 10), async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { location, price, category, description, status, agent, amenities } = req.body;
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-
-    const updateData = { location, price, category, description, status, agent, amenities };
-    if (images.length > 0) {
-      if (images.length > 10) {
-        return res.status(400).json({ message: "You can upload a maximum of 10 images." });
-      }
-      updateData.images = images;
-    }
-
-    const residential = await Residential.findByIdAndUpdate(id, updateData, { new: true });
-
-    if (!residential) {
-      return res.status(404).json({ message: "Residential property not found" });
-    }
-
-    res.status(200).json(residential);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Residential Properties DELETE
-app.delete("/api/residentialproperties/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const residential = await Residential.findByIdAndDelete(id);
-
-    if (!residential) {
-      return res.status(404).json({ message: "Residential property not found" });
-    }
-    res.status(200).json({ message: "Residential property deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// -------------------------------------------------------Residential Properties  CRUD end -------------------------------------------------
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// -------------------------------------------------------  Insight CRUD beginning -------------------------------------------------
-// POST
-app.post("/api/insights", async (req, res) => {
-  try {
-    const blogInsight = await Insight.create(req.body);
-    res.status(200).json(blogInsight);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// READ
-app.get("/api/insights", async (req, res) => {
-  try {
-    const insights = await Insight.find({});
-    res.status(200).json(insights);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-// by id
-app.get("/api/insights/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const blogInsight = await Insight.findById(id);
-    res.status(200).json(blogInsight);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// UPDATE
-app.put("/api/insights/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const blogInsight = await Insight.findByIdAndUpdate(id, req.body);
-
-    if (!blogInsight) {
-      return res.status(404).json({ message: "Insight not found" });
-    }
-    const updatedInsight = await Insight.findById(id);
-    res.status(200).json(updatedInsight);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-// DELETE  LAND
-
-app.delete("/api/insights/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const blogInsight = await Insight.findByIdAndDelete(id);
-
-    if (!blogInsight) {
-      return res.status(404).json({ message: "Insight not found" });
-    }
-    res.status(200).json({ message: "Insight deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-// ------------------------------------------------------- Insight   CRUD end -------------------------------------------------
-// ------------------------------------------------------- Retail   CRUD start -------------------------------------------------
-
-// Retail Properties POST (with image upload)
-app.post("/api/retailproperties", upload.array("images", 10), async (req, res) => {
-  try {
-    const { location, price, category, description, status, agent, amenities } = req.body;
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-
-    if (images.length < 1 || images.length > 10) {
-      return res.status(400).json({ message: "You must upload between 1 and 10 images." });
-    }
-
-    const retail = await Retail.create({
-      images,
-      location,
-      price,
-      category,
-      description,
-      status,
-      agent,
-      amenities,
-    });
-
-    res.status(201).json(retail);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Retail Properties GET (all)
-app.get("/api/retailproperties", async (req, res) => {
-  try {
-    const retailProperties = await Retail.find({});
-    res.status(200).json(retailProperties);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Retail Properties GET by ID
-app.get("/api/retailproperties/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const retailProperty = await Retail.findById(id);
-    res.status(200).json(retailProperty);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Retail Properties PUT (update)
-app.put("/api/retailproperties/:id", upload.array("images", 10), async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { location, price, category, description, status, agent, amenities } = req.body;
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-
-    const updateData = { location, price, category, description, status, agent,amenities };
-    if (images.length > 0) {
-      if (images.length > 10) {
-        return res.status(400).json({ message: "You can upload a maximum of 10 images." });
-      }
-      updateData.images = images;
-    }
-
-    const retail = await Retail.findByIdAndUpdate(id, updateData, { new: true });
-
-    if (!retail) {
-      return res.status(404).json({ message: "Retail property not found" });
-    }
-
-    res.status(200).json(retail);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Retail Properties DELETE
-app.delete("/api/retailproperties/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const retail = await Retail.findByIdAndDelete(id);
-
-    if (!retail) {
-      return res.status(404).json({ message: "Retail property not found" });
-    }
-    res.status(200).json({ message: "Retail property deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// ------------------------------------------------------- Retail  CRUD end -------------------------------------------------
-
-// Connect to MongoDB and start the server
-mongoose
-  .connect(MONGO_URI)
+mongoose.connect(MONGO_URI)
   .then(() => {
-    console.log("Connected to database successfully!");
     app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
+      console.log(`Server running on http://localhost:${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("Database connection failed:", err.message);
+    console.error("Error connecting to MongoDB", err);
   });
