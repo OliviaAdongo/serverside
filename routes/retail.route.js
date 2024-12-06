@@ -1,10 +1,13 @@
-
-
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const {getRetails, getRetail, createRetail, updateRetail,deleteRetail} = require('../controllers/retail.controller.js');
-
+const {
+  getRetails,
+  getRetail,
+  createRetail,
+  updateRetail,
+  deleteRetail,
+} = require("../controllers/retail.controller.js");
 
 const router = express.Router();
 
@@ -28,7 +31,6 @@ const upload = multer({
     }
   },
 });
-
 
 router.get("/", getRetails);
 router.get("/:id", getRetail);

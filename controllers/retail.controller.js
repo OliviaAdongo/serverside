@@ -1,7 +1,7 @@
 const Retail = require("../models/retail.model.js");
 const path = require("path");
 
-const getRetailProperties = async (req, res) => {
+const getRetails = async (req, res) => {
   try {
     const properties = await Retail.find({});
     res.status(200).json(properties);
@@ -10,8 +10,8 @@ const getRetailProperties = async (req, res) => {
   }
 };
 
-const getRetailProperty = async (req, res) => {
-  try {
+const getRetail = async (req, res) => {
+  try { 
     const { id } = req.params;
     const property = await Retail.findById(id);
     if (!property) return res.status(404).json({ message: "Property not found" });
@@ -21,7 +21,7 @@ const getRetailProperty = async (req, res) => {
   }
 };
 
-const createRetailProperty = async (req, res) => {
+const createRetail = async (req, res) => {
   try {
     const images = req.files ? req.files.map((file) => file.path) : [];
     const property = await Retail.create({ ...req.body, images });
@@ -31,7 +31,7 @@ const createRetailProperty = async (req, res) => {
   }
 };
 
-const updateRetailProperty = async (req, res) => {
+const updateRetail = async (req, res) => {
   try {
     const { id } = req.params;
     const images = req.files ? req.files.map((file) => file.path) : [];
@@ -49,7 +49,7 @@ const updateRetailProperty = async (req, res) => {
   }
 };
 
-const deleteRetailProperty = async (req, res) => {
+const deleteRetail = async (req, res) => {
   try {
     const { id } = req.params;
     const property = await Retail.findByIdAndDelete(id);
@@ -61,9 +61,9 @@ const deleteRetailProperty = async (req, res) => {
 };
 
 module.exports = {
-  getRetailProperties,
-  getRetailProperty,
-  createRetailProperty,
-  updateRetailProperty,
-  deleteRetailProperty,
+  getRetails,
+  getRetail,
+  createRetail,
+  updateRetail,
+  deleteRetail,
 };

@@ -15,7 +15,7 @@ const retailSchema = new mongoose.Schema(
       type: String,
       enum: ["Available", "Not Available"],
       default: "Available",
-    },
+    }, 
     category: {
       type: String,
       enum: ["Retail"],

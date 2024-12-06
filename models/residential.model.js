@@ -22,7 +22,7 @@ const residentialSchema = new mongoose.Schema(
       required: true,
     },
     description: { type: String, required: true },
-    status: {
+    status: { 
       type: String,
       enum: ["For Sale", "For Rent"],
       required: true,

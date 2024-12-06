@@ -18,6 +18,7 @@ const Insight = require("./models/insight.model.js");
 const productRoute = require("./routes/product.route.js");
 const landRoute = require("./routes/land.route.js");
 const residentialRoute = require("./routes/residential.route.js");
+const retailRoute = require("./routes/retail.route.js");
 const commercialRoute = require("./routes/commercial.route.js");
 const insightsRoute = require("./routes/insights.route.js");  
 const authRoutes = require("./routes/auth.route.js");
@@ -76,6 +77,7 @@ app.use("/api/products", productRoute);
 app.use("/api/lands", landRoute);
 app.use("/api/residentialproperties", residentialRoute);
 app.use("/api/commercialproperties", commercialRoute);
+app.use("/api/retailproperties", retailRoute);
 app.use("/api/insights", insightsRoute);
 app.use("/auth", authRoutes);
 
