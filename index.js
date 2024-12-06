@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -44,6 +45,7 @@ const storage = multer.diskStorage({
 const upload = multer({ dest: 'uploads' }) // Configure multer
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, "public")));
