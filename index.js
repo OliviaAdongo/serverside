@@ -45,13 +45,27 @@ const storage = multer.diskStorage({
 const upload = multer({ dest: 'uploads' }) // Configure multer
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow frontend origin (adjust for your frontend URL)
+  methods: ['GET', 'POST'], // Allow only the necessary methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow necessary headers
+  credentials: true, // Allows cookies to be sent if needed
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(path.join(__dirname, "public")));
-// app.use(express.static(__dirname + '/public'));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
+  setHeaders: (res, filePath) => {
+      const ext = path.extname(filePath).toLowerCase();
+      let mimeType = 'application/octet-stream';
+
+      if (ext === '.jpg' || ext === '.jpeg') mimeType = 'image/jpeg';
+      else if (ext === '.png') mimeType = 'image/png';
+      else if (ext === '.gif') mimeType = 'image/gif';
+
+      res.setHeader('Content-Type', mimeType);
+  }
+}));
 
 // Middleware for checking if the user is authenticated
 function isAuthenticated(req, res, next) {
