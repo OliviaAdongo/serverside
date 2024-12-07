@@ -6,6 +6,7 @@ const MongoStore = require("connect-mongo");
 const multer = require("multer"); // Import multer
 const path = require("path");
 
+
 // Import models
 const Product = require("./models/product.model.js");
 const Land = require("./models/land.model.js");
@@ -20,16 +21,14 @@ const landRoute = require("./routes/land.route.js");
 const residentialRoute = require("./routes/residential.route.js");
 const retailRoute = require("./routes/retail.route.js");
 const commercialRoute = require("./routes/commercial.route.js");
-const insightsRoute = require("./routes/insights.route.js");
+const insightsRoute = require("./routes/insights.route.js");  
 const authRoutes = require("./routes/auth.route.js");
 
 const app = express(); 
 const PORT = 3000;
 
 // MongoDB connection string and session secret
-const MONGO_URI= "mongodb+srv://adongoolivia0698:hXdRPyL87SdXMTl7@srback.rquir.mongodb.net/?retryWrites=true&w=majority&appName=srback";
-
-// const MONGO_URI = "mongodb://adongoolivia0698:zrkNQIFCJXZwRDpe@backendd-shard-00-00.hjcwh.mongodb.net:27017,backendd-shard-00-01.hjcwh.mongodb.net:27017,backendd-shard-00-02.hjcwh.mongodb.net:27017/?ssl=true&replicaSet=atlas-x8k1ky-shard-0&authSource=admin&retryWrites=true&w=majority&appName=BackendD";
+const MONGO_URI = "mongodb://adongoolivia0698:zrkNQIFCJXZwRDpe@backendd-shard-00-00.hjcwh.mongodb.net:27017,backendd-shard-00-01.hjcwh.mongodb.net:27017,backendd-shard-00-02.hjcwh.mongodb.net:27017/?ssl=true&replicaSet=atlas-x8k1ky-shard-0&authSource=admin&retryWrites=true&w=majority&appName=BackendD";
 const SESSION_SECRET = "hardcoded-secret-key";
 
 // Multer setup for file uploads
@@ -52,6 +51,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static(__dirname + '/public'));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // Middleware for checking if the user is authenticated
 function isAuthenticated(req, res, next) {
@@ -191,10 +191,17 @@ app.delete("/api/products/:id", async (req, res) => {
   }
 });
 
-// CRUD operations for Land
+// Repeat similar CRUD structure for Lands, Commercial, Residential, and Insights
+
+
+// -------------------------------------------------------Land CRUD begin -------------------------------------------------
+
+// POST
+// Land CRUD with image upload
+// Create a new land entry
 app.post("/api/lands", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, price, category, description, status, agent } = req.body;
+    const { location, price, category, description, status } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -207,7 +214,7 @@ app.post("/api/lands", upload.array("images", 10), async (req, res) => {
       price,
       category,
       description,
-      status,
+      status, 
       agent,
     });
 
@@ -217,6 +224,7 @@ app.post("/api/lands", upload.array("images", 10), async (req, res) => {
   }
 });
 
+// READ
 app.get("/api/lands", async (req, res) => {
   try {
     const lands = await Land.find({});
@@ -225,7 +233,7 @@ app.get("/api/lands", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
+// by id
 app.get("/api/lands/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -236,6 +244,7 @@ app.get("/api/lands/:id", async (req, res) => {
   }
 });
 
+// Update an existing land entry
 app.put("/api/lands/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
@@ -262,10 +271,14 @@ app.put("/api/lands/:id", upload.array("images", 10), async (req, res) => {
   }
 });
 
+
+// DELETE  LAND
+
 app.delete("/api/lands/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const land = await Land.findByIdAndDelete(id);
+
     if (!land) {
       return res.status(404).json({ message: "Land not found" });
     }
@@ -274,6 +287,11 @@ app.delete("/api/lands/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+// -------------------------------------------------------Land CRUD end -------------------------------------------------
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // -------------------------------------------------------Commercial Properties CRUD beginning -------------------------------------------------
 // POST
 // Commercial Properties POST (with image upload)
@@ -625,18 +643,15 @@ app.delete("/api/retailproperties/:id", async (req, res) => {
 
 // ------------------------------------------------------- Retail  CRUD end -------------------------------------------------
 
-
-mongoose.connect(MONGO_URI)
+// Connect to MongoDB and start the server
+mongoose
+  .connect(MONGO_URI)
   .then(() => {
+    console.log("Connected to database successfully!");
     app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`Server listening on port ${PORT}`);
     });
   })
-
-
   .catch((err) => {
-    console.error("Error connecting to MongoDB", err);
+    console.error("Database connection failed:", err.message);
   });
-  module.exports = (req, res) => {
-    app(req, res);
-  };                                  

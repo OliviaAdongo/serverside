@@ -171,7 +171,7 @@
 
 <script>
     // Fetch and display residential properties
-    fetch('http://serversidesolid.vercel.app/api/residentialproperties')
+    fetch('http://localhost:3000/api/residentialproperties')
       .then(response => response.json())
       .then(properties => {
         const table = document.getElementById('residentialTable');
@@ -198,7 +198,7 @@
     
     // Edit residential property function
     function editResidentialProperty(id) {
-      fetch(`http://serversidesolid.vercel.app/api/residentialproperties/${id}`)
+      fetch(`http://localhost:3000/api/residentialproperties/${id}`)
         .then(response => response.json())
         .then(property => {
           document.getElementById('residentialId').value = property._id;
@@ -221,7 +221,7 @@
       const id = document.getElementById('residentialId').value;
       const method = id ? 'PUT' : 'POST';  
     
-      fetch(`http://serversidesolid.vercel.app/api/residentialproperties${id ? '/' + id : ''}`, {
+      fetch(`http://localhost:3000/api/residentialproperties${id ? '/' + id : ''}`, {
         method: method,
         body: formData
       })
@@ -233,7 +233,7 @@
     
     // Delete residential property function
     function deleteResidentialProperty(id) {
-      fetch(`http://serversidesolid.vercel.app/api/residentialproperties/${id}`, { method: 'DELETE' })
+      fetch(`http://localhost:3000/api/residentialproperties/${id}`, { method: 'DELETE' })
         .then(() => location.reload());
     }
     </script>

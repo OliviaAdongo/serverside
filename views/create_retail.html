@@ -170,7 +170,7 @@
 
 <script>
 // Fetch and display retail properties
-fetch('http://serversidesolid.vercel.app/api/retailproperties')
+fetch('http://localhost:3000/api/retailproperties')
   .then(response => response.json())
   .then(properties => {
     const table = document.getElementById('retailTable');
@@ -197,7 +197,7 @@ fetch('http://serversidesolid.vercel.app/api/retailproperties')
 
 // Edit retail property function
 function editRetailProperty(id) {
-  fetch(`http://serversidesolid.vercel.app/api/retailproperties/${id}`)
+  fetch(`http://localhost:3000/api/retailproperties/${id}`)
     .then(response => response.json())
     .then(property => {
       document.getElementById('retailId').value = property._id;
@@ -220,7 +220,7 @@ document.getElementById('retailForm').addEventListener('submit', function(event)
   const id = document.getElementById('retailId').value;
   const method = id ? 'PUT' : 'POST';  
 
-  fetch(`http://serversidesolid.vercel.app/api/retailproperties${id ? '/' + id : ''}`, {
+  fetch(`http://localhost:3000/api/retailproperties${id ? '/' + id : ''}`, {
     method: method,
     body: formData
   })
@@ -232,7 +232,7 @@ document.getElementById('retailForm').addEventListener('submit', function(event)
 
 // Delete retail property function
 function deleteRetailProperty(id) {
-  fetch(`http://serversidesolid.vercel.app/api/retailproperties/${id}`, { method: 'DELETE' })
+  fetch(`http://localhost:3000/api/retailproperties/${id}`, { method: 'DELETE' })
     .then(() => location.reload());
 }
 </script>

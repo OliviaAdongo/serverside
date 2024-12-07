@@ -205,16 +205,16 @@
       const fetchCounts = async () => {
         try {
           const [residential, commercial, retail, land] = await Promise.all([
-            fetch("http://serversidesolid.vercel.app/api/residentialproperties").then(
+            fetch("http://localhost:3000/api/residentialproperties").then(
               (res) => res.json()
             ),
-            fetch("http://serversidesolid.vercel.app/api/commercialproperties").then(
+            fetch("http://localhost:3000/api/commercialproperties").then(
               (res) => res.json()
             ),
-            fetch("http://serversidesolid.vercel.app/api/retailproperties").then((res) =>
+            fetch("http://localhost:3000/api/retailproperties").then((res) =>
               res.json()
             ),
-            fetch("http://serversidesolid.vercel.app/api/lands").then((res) =>
+            fetch("http://localhost:3000/api/lands").then((res) =>
               res.json()
             ),
           ]);
