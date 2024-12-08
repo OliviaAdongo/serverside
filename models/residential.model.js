@@ -10,6 +10,8 @@ const residentialSchema = new mongoose.Schema(
       },
     },
     location: { type: String, required: true },
+    propertyname: { type: String, required: true  },
+    size: { type: String, required: true  },
     price: { type: String, required: true },
     availability: {
       type: String,
@@ -17,7 +19,7 @@ const residentialSchema = new mongoose.Schema(
       default: "Available",
     },
     category: {
-      type: String,
+      type: String, 
       enum: ["Residential"],
       required: true,
     },

@@ -215,7 +215,7 @@ app.delete("/api/products/:id", async (req, res) => {
 // Create a new land entry
 app.post("/api/lands", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, price, category, description, status } = req.body;
+    const { location, propertyname, size, price, category, description, status } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -225,6 +225,8 @@ app.post("/api/lands", upload.array("images", 10), async (req, res) => {
     const land = await Land.create({
       images,
       location,
+      propertyname,
+      size,
       price,
       category,
       description,
@@ -262,10 +264,10 @@ app.get("/api/lands/:id", async (req, res) => {
 app.put("/api/lands/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
-    const { location, price, category, description, status, agent } = req.body;
+    const { location, propertyname, size, price, category, description, status, agent } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
-    const updateData = { location, price, category, description, status, agent };
+    const updateData = { location, propertyname, size, price, category, description, status, agent };
     if (images.length > 0) {
       if (images.length > 10) {
         return res.status(400).json({ message: "You can upload a maximum of 10 images." });
@@ -311,7 +313,7 @@ app.delete("/api/lands/:id", async (req, res) => {
 // Commercial Properties POST (with image upload)
 app.post("/api/commercialproperties", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, price, category, description, status, agent, amenities } = req.body;
+    const { location, propertyname, size,price, category, description, status, agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -321,6 +323,8 @@ app.post("/api/commercialproperties", upload.array("images", 10), async (req, re
     const commercial = await Commercial.create({
       images,
       location,
+      propertyname,
+      size,
       price,
       category,
       description,
@@ -360,10 +364,10 @@ app.get("/api/commercialproperties/:id", async (req, res) => {
 app.put("/api/commercialproperties/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
-    const { location, price, category, description, status,  agent, amenities } = req.body;
+    const { location,propertyname, size, price, category, description, status,  agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
-    const updateData = { location, price, category, description, status, agent, amenities };
+    const updateData = { location, propertyname, size, price, category, description, status, agent, amenities };
     if (images.length > 0) {
       if (images.length > 10) {
         return res.status(400).json({ message: "You can upload a maximum of 10 images." });
@@ -408,7 +412,7 @@ app.delete("/api/commercialproperties/:id", async (req, res) => {
 // Residential Properties POST (with image upload)
 app.post("/api/residentialproperties", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, price, category, description, status, agent, amenities } = req.body;
+    const { location, propertyname, size, price, category, description, status, agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -418,6 +422,8 @@ app.post("/api/residentialproperties", upload.array("images", 10), async (req, r
     const residential = await Residential.create({
       images,
       location,
+      propertyname,
+      size,
       price,
       category,
       description,
@@ -457,10 +463,10 @@ app.get("/api/residentialproperties/:id", async (req, res) => {
 app.put("/api/residentialproperties/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
-    const { location, price, category, description, status, agent, amenities } = req.body;
+    const { location,propertyname, size, price, category, description, status, agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
-    const updateData = { location, price, category, description, status, agent, amenities };
+    const updateData = { location, propertyname, size, price, category, description, status, agent, amenities };
     if (images.length > 0) {
       if (images.length > 10) {
         return res.status(400).json({ message: "You can upload a maximum of 10 images." });
@@ -568,7 +574,7 @@ app.delete("/api/insights/:id", async (req, res) => {
 // Retail Properties POST (with image upload)
 app.post("/api/retailproperties", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, price, category, description, status, agent, amenities } = req.body;
+    const { location, propertyname, size, price, category, description, status, agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -578,6 +584,8 @@ app.post("/api/retailproperties", upload.array("images", 10), async (req, res) =
     const retail = await Retail.create({
       images,
       location,
+      propertyname,
+      size,
       price,
       category,
       description,
@@ -617,10 +625,10 @@ app.get("/api/retailproperties/:id", async (req, res) => {
 app.put("/api/retailproperties/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
-    const { location, price, category, description, status, agent, amenities } = req.body;
+    const { location,propertyname, size, price, category, description, status, agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
-    const updateData = { location, price, category, description, status, agent,amenities };
+    const updateData = { location, propertyname, size, price, category, description, status, agent,amenities };
     if (images.length > 0) {
       if (images.length > 10) {
         return res.status(400).json({ message: "You can upload a maximum of 10 images." });

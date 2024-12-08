@@ -10,6 +10,8 @@ const landSchema = new mongoose.Schema(
       },
     },
     location: { type: String, required: true },
+    propertyname: { type: String, required: false },
+    size: { type: String, required: false },
     price: { type: String, required: true },
     availability: {
       type: String,
@@ -18,8 +20,8 @@ const landSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Land", "Commercial", "Residential"],
-      required: true,
+      enum: ["Land"],
+      required: true,  
     },
     description: { type: String, required: true },
     status: {
@@ -27,7 +29,7 @@ const landSchema = new mongoose.Schema(
       enum: ["For Sale", "For Rent"],
       required: true,
     }, 
-   agent: { type: String, required: true },
+   agent: { type: String, required: false },
   },
   { timestamps: true }
 );

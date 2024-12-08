@@ -10,6 +10,8 @@ const retailSchema = new mongoose.Schema(
       },
     },
     location: { type: String, required: true },
+    propertyname: { type: String, required: true },
+    size: { type: String, required: true},
     price: { type: String, required: true },
     availability: {
       type: String,
@@ -19,7 +21,7 @@ const retailSchema = new mongoose.Schema(
     category: {
       type: String,
       enum: ["Retail"],
-      required: true,
+      required: true, 
     },
     description: { type: String, required: true },
     status: {

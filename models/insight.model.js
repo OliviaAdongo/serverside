@@ -10,7 +10,7 @@ const InsightSchema = mongoose.Schema(
       type: String,
       required: true,
       default: 0,
-    }
+    } 
   },
 
   { 

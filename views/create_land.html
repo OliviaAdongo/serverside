@@ -1,143 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SolidRoots Properties</title>
-    <link rel="shortcut icon" href="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      rel="shortcut icon"
+      href="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-         a {
-            display: inline-block;
-            font-weight: 500;
-            color: #b78509;
-            text-decoration: none;
-            transition: 0.3s;
-        }
+      a {
+        display: inline-block;
+        font-weight: 500;
+        color: #b78509;
+        text-decoration: none;
+        transition: 0.3s;
+      }
 
-        .widget-icon {
-            font-size: 2.5rem;
-            color: #124824;
-        }
+      .widget-icon {
+        font-size: 2.5rem;
+        color: #124824;
+      }
 
-        .navbar-dark .navbar-brand {
-            color: #fff;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+      .navbar-dark .navbar-brand {
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
 
-        .navbar-dark .nav-link {
-            color: rgba(255, 255, 255, 0.75);
-            margin: 10px;
-        }
+      .navbar-dark .nav-link {
+        color: rgba(255, 255, 255, 0.75);
+        margin: 10px;
+      }
 
-        .navbar-dark .nav-link:hover {
-            color: #fff;
-            background-color: #b78509;
-            border-radius: 10px;
-        }
+      .navbar-dark .nav-link:hover {
+        color: #fff;
+        background-color: #b78509;
+        border-radius: 10px;
+      }
 
-        .navbar-dark {
-            background-color: #124824; /* Dark background */
-            letter-spacing: 1px;
-        }
+      .navbar-dark {
+        background-color: #124824; /* Dark background */
+        letter-spacing: 1px;
+      }
 
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-        }
+      body {
+        background-color: #f5f5f5;
+        color: #333;
+      }
 
-        h1 {
-            color: #124824;
-            font-weight: bold;
-        }
+      h1 {
+        color: #124824;
+        font-weight: bold;
+      }
 
-        .btn-primary {
-            background-color: #b78509;
-            border: none;
-        }
+      .btn-primary {
+        background-color: #b78509;
+        border: none;
+      }
 
-        .btn-primary:hover {
-            background-color: #124824;
-            color: #fff;
-        }
+      .btn-primary:hover {
+        background-color: #124824;
+        color: #fff;
+      }
 
-        .btn-secondary {
-            background-color: #124824;
-            color: #fff;
-        }
+      .btn-secondary {
+        background-color: #124824;
+        color: #fff;
+      }
 
-        .btn-secondary:hover {
-            background-color: #b78509;
-            color: #fff;
-        }
+      .btn-secondary:hover {
+        background-color: #b78509;
+        color: #fff;
+      }
 
-        .table {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
+      .table {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
 
-        .table thead {
-            background-color: #124824;
-            color: #fff;
-            border-radius: 10px;
-        }
+      .table thead {
+        background-color: #124824;
+        color: #fff;
+        border-radius: 10px;
+      }
 
-        .table img {
-            border-radius: 5px;
-        }
+      .table img {
+        border-radius: 5px;
+      }
+      .table td {
+        border: 1px solid #cfbb88;
+       
+      }
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
 
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
+      label {
+        color: #124824;
+        font-weight: bold;
+      }
 
-        label {
-            color: #124824;
-            font-weight: bold;
-        }
+      .form-control {
+        border-color: #b78509 !important;
+      }
 
-        .form-control {
-            border-color: #b78509 !important;
-        }
-
-        .card {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
+      .card {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
     </style>
-</head>
-<body>
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
         <div class="mx-auto">
-            <a class="navbar-brand" href="#">
-                    <img src="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg" alt="Logo" width="125" height="77">
-            </a>
+          <a class="navbar-brand" href="#">
+            <img
+              src="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg"
+              alt="Logo"
+              width="125"
+              height="77"
+            />
+          </a>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="adash.html">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="create_commercial.html">Commercial Property</a></li>
-                <li class="nav-item"><a class="nav-link" href="create_residential.html">Residential Property</a></li>
-                <li class="nav-item"><a class="nav-link" href="create_retail.html">Retail Property</a></li>
-                <li class="nav-item"><a class="nav-link" href="create_land.html">Land Details</a></li>
-            </ul>
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="adash.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="create_commercial.html"
+                >Commercial Property</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="create_residential.html"
+                >Residential Property</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="create_retail.html">Retail Property</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="create_land.html">Land Details</a>
+            </li>
+          </ul>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<!-- Create Land Section -->
+   <!-- Create Land Section -->
 <div class="container mt-5">
     <h1 class="text-center">Land Management</h1>
     
@@ -151,6 +189,14 @@
                 <input type="text" class="form-control" id="location" name="location" required>
             </div>
             <div class="mb-3">
+                <label for="propertyname" class="form-label">Name</label>
+                <input type="text" class="form-control" id="propertyname" name="propertyname" required>
+            </div>
+            <div class="mb-3">
+                <label for="size" class="form-label">Size</label>
+                <input type="text" class="form-control" id="size" name="size" required>
+            </div>
+            <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
                 <input type="text" class="form-control" id="price" name="price" required>
             </div>
@@ -158,8 +204,6 @@
                 <label for="category" class="form-label">Category</label>
                 <select class="form-control" id="category" name="category" required>
                     <option value="Land">Land</option>
-                    <option value="Commercial">Commercial</option>
-                    <option value="Residential">Residential</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -178,7 +222,7 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" required></textarea>
+                <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
             </div>
             <div class="mb-3">
                 <label for="agent" class="form-label">Agent</label>
@@ -199,6 +243,8 @@
             <thead>
                 <tr>
                     <th>Location</th>
+                    <th>Name</th>
+                    <th>Size</th>
                     <th>Price</th>
                     <th>Category</th>
                     <th>Status</th>
@@ -214,48 +260,79 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Pagination Section -->
+    <div class="d-flex justify-content-center mt-3">
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination">
+                <!-- JavaScript will populate this -->
+            </ul>
+        </nav>
+    </div>
 </div>
 
 <script>
-// Fetch and display lands
-fetch('http://localhost:3000/api/lands')
-  .then(response => response.json())
-  .then(lands => {
-    const table = document.getElementById('landTable');
-    lands.forEach(land => {
-      const row = `<tr>
-        <td>${land.location}</td>
-        <td>${land.price}</td>
-        <td>${land.category}</td>
-        <td>${land.status}</td>
-        <td>${land.availability}</td> <!-- Display Availability -->
-        <td>${land.description}</td>
-        <td>${land.agent}</td>
-        <td>${land.images.map(img => `<img src="/${img}" width="50" style="border: 1px solid #b78509;" />`).join(' ')}</td>
-        <td>
-          <button onclick="editLand('${land._id}')" class="btn btn-sm btn-warning">Edit</button>
-          <button onclick="deleteLand('${land._id}')" class="btn btn-sm btn-danger">Delete</button>
-        </td>
-      </tr>`;
-      table.innerHTML += row;
-    });
-  });
+let currentPage = 1;
+const rowsPerPage = 5;
+let lands = [];
 
-// Edit land function
-function editLand(id) {
-  fetch(`http://localhost:3000/api/lands/${id}`)
+// Fetch and display lands with pagination
+function fetchLands() {
+  fetch('http://localhost:3000/api/lands')
     .then(response => response.json())
-    .then(land => {
-      // Prefill the form with current data
-      document.getElementById('landId').value = land._id;
-      document.getElementById('location').value = land.location;
-      document.getElementById('price').value = land.price;
-      document.getElementById('category').value = land.category;
-      document.getElementById('status').value = land.status;
-      document.getElementById('availability').value = land.availability; // Prefill availability
-      document.getElementById('description').value = land.description;
-      document.getElementById('formTitle').textContent = "Edit Land";
+    .then(data => {
+      lands = data;
+      displayPage(currentPage);
+      setupPagination();
     });
+}
+
+// Display lands for the current page
+function displayPage(page) {
+  const start = (page - 1) * rowsPerPage;
+  const end = start + rowsPerPage;
+  const table = document.getElementById('landTable');
+  table.innerHTML = '';
+
+  lands.slice(start, end).forEach(land => {
+    const row = `<tr>
+      <td>${land.location}</td>
+      <td>${land.propertyname}</td>
+      <td>${land.size}</td>
+      <td>${land.price}</td>
+      <td>${land.category}</td>
+      <td>${land.status}</td>
+      <td>${land.availability}</td>
+      <td>${land.description}</td>
+      <td>${land.agent}</td>
+      <td>${land.images.map(img => `<img src="/${img}" width="50" />`).join(' ')}</td>
+      <td>
+        <button onclick="editLand('${land._id}')" class="btn btn-sm btn-warning">Edit</button>
+        <button onclick="deleteLand('${land._id}')" class="btn btn-sm btn-danger">Delete</button>
+      </td>
+    </tr>`;
+    table.innerHTML += row;
+  });
+}
+
+// Set up pagination
+function setupPagination() {
+  const pageCount = Math.ceil(lands.length / rowsPerPage);
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+
+  for (let i = 1; i <= pageCount; i++) {
+    const pageItem = `<li class="page-item ${i === currentPage ? 'active' : ''}">
+      <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+    </li>`;
+    pagination.innerHTML += pageItem;
+  }
+}
+
+// Change page
+function changePage(page) {
+  currentPage = page;
+  displayPage(page);
 }
 
 // Handle form submission
@@ -264,25 +341,51 @@ document.getElementById('landForm').addEventListener('submit', function(event) {
 
   const formData = new FormData(this);
   const id = document.getElementById('landId').value;
-  const method = id ? 'PUT' : 'POST';  // Use PUT if editing an existing land, otherwise POST for creating new
+  const method = id ? 'PUT' : 'POST';
+  const url = `http://localhost:3000/api/lands${id ? '/' + id : ''}`;
 
-  fetch(`http://localhost:3000/api/lands${id ? '/' + id : ''}`, {
+  fetch(url, {
     method: method,
-    body: formData
+    body: formData,
   })
-  .then(response => response.json())
-  .then(data => {
-    location.reload(); // Reload page to refresh land list
-  });
+    .then(response => response.json())
+    .then(() => {
+      document.getElementById('landForm').reset();
+      document.getElementById('formTitle').textContent = 'Create Land';
+      fetchLands();
+    });
 });
 
-// Delete land function
+// Edit land
+function editLand(id) {
+  fetch(`http://localhost:3000/api/lands/${id}`)
+    .then(response => response.json())
+    .then(land => {
+      document.getElementById('landId').value = land._id;
+      document.getElementById('location').value = land.location;
+      document.getElementById('propertyname').value = land.propertyname;
+      document.getElementById('size').value = land.size;
+      document.getElementById('price').value = land.price;
+      document.getElementById('category').value = land.category;
+      document.getElementById('status').value = land.status;
+      document.getElementById('availability').value = land.availability;
+      document.getElementById('description').value = land.description;
+      document.getElementById('agent').value = land.agent;
+      document.getElementById('formTitle').textContent = 'Edit Land';
+    });
+}
+
+// Delete land
 function deleteLand(id) {
   fetch(`http://localhost:3000/api/lands/${id}`, { method: 'DELETE' })
-    .then(() => location.reload()); // Reload page after deleting
+    .then(() => fetchLands());
 }
+
+// Initial load
+fetchLands();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
