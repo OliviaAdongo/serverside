@@ -6,6 +6,12 @@ const InsightSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter image name"],
     },
+
+    title: {
+      type: String,
+      required: true,
+      default: 0,
+    },
     content: {
       type: String,
       required: true,

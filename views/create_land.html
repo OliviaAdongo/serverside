@@ -167,6 +167,7 @@
             <li class="nav-item">
               <a class="nav-link" href="create_retail.html">Retail Property</a>
             </li>
+           
             <li class="nav-item">
               <a class="nav-link" href="create_land.html">Land Details</a>
             </li>
@@ -278,7 +279,7 @@ let lands = [];
 
 // Fetch and display lands with pagination
 function fetchLands() {
-  fetch('http://localhost:3000/api/lands')
+  fetch('https://srpropertiesbackend.vercel.app/api/lands')
     .then(response => response.json())
     .then(data => {
       lands = data;
@@ -342,7 +343,7 @@ document.getElementById('landForm').addEventListener('submit', function(event) {
   const formData = new FormData(this);
   const id = document.getElementById('landId').value;
   const method = id ? 'PUT' : 'POST';
-  const url = `http://localhost:3000/api/lands${id ? '/' + id : ''}`;
+  const url = `https://srpropertiesbackend.vercel.app/api/lands${id ? '/' + id : ''}`;
 
   fetch(url, {
     method: method,
@@ -358,7 +359,7 @@ document.getElementById('landForm').addEventListener('submit', function(event) {
 
 // Edit land
 function editLand(id) {
-  fetch(`http://localhost:3000/api/lands/${id}`)
+  fetch(`https://srpropertiesbackend.vercel.app/api/lands/${id}`)
     .then(response => response.json())
     .then(land => {
       document.getElementById('landId').value = land._id;
@@ -377,7 +378,7 @@ function editLand(id) {
 
 // Delete land
 function deleteLand(id) {
-  fetch(`http://localhost:3000/api/lands/${id}`, { method: 'DELETE' })
+  fetch(`https://srpropertiesbackend.vercel.app/api/lands/${id}`, { method: 'DELETE' })
     .then(() => fetchLands());
 }
 

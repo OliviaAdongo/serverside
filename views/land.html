@@ -83,7 +83,7 @@
 
   <script>
     const fetchLands = () => {
-      fetch('http://localhost:3000/api/lands')
+      fetch('https://srpropertiesbackend.vercel.app/api/lands')
         .then(response => response.json())
         .then(lands => {
           const tableBody = document.querySelector('#landTable tbody');
@@ -127,7 +127,7 @@
       };
 
       const method = id ? 'PUT' : 'POST';
-      const url = id ? `http://localhost:3000/api/lands/${id}` : 'http://localhost:3000/api/lands';
+      const url = id ? `https://srpropertiesbackend.vercel.app/api/lands/${id}` : 'https://srpropertiesbackend.vercel.app/api/lands';
 
       fetch(url, {
         method,
@@ -140,11 +140,11 @@
     });
 
     const deleteLand = (id) => {
-      fetch(`http://localhost:3000/api/lands/${id}`, { method: 'DELETE' }).then(() => fetchLands());
+      fetch(`https://srpropertiesbackend.vercel.app/api/lands/${id}`, { method: 'DELETE' }).then(() => fetchLands());
     };
 
     const editLand = (id) => {
-      fetch(`http://localhost:3000/api/lands/${id}`)
+      fetch(`https://srpropertiesbackend.vercel.app/api/lands/${id}`)
         .then(res => res.json())
         .then(land => {
           document.getElementById('landId').value = land._id;

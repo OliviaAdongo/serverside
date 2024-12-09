@@ -201,7 +201,7 @@ let residentialProperties = [];
 
 // Fetch and display residential properties with pagination
 function fetchResidentialProperties() {
-  fetch('http://localhost:3000/api/residentialproperties')
+  fetch('https://srpropertiesbackend.vercel.app/api/residentialproperties')
     .then(response => response.json())
     .then(data => {
       residentialProperties = data;
@@ -262,7 +262,7 @@ function changePage(page) {
 
 // Edit residential property function
 function editResidentialProperty(id) {
-  fetch(`http://localhost:3000/api/residentialproperties/${id}`)
+  fetch(`https://srpropertiesbackend.vercel.app/api/residentialproperties/${id}`)
     .then(response => response.json())
     .then(property => {
       document.getElementById('residentialId').value = property._id;
@@ -287,7 +287,7 @@ document.getElementById('residentialForm').addEventListener('submit', function(e
   const id = document.getElementById('residentialId').value;
   const method = id ? 'PUT' : 'POST';  
 
-  fetch(`http://localhost:3000/api/residentialproperties${id ? '/' + id : ''}`, {
+  fetch(`https://srpropertiesbackend.vercel.app/api/residentialproperties${id ? '/' + id : ''}`, {
     method: method,
     body: formData
   })
@@ -299,7 +299,7 @@ document.getElementById('residentialForm').addEventListener('submit', function(e
 
 // Delete residential property function
 function deleteResidentialProperty(id) {
-  fetch(`http://localhost:3000/api/residentialproperties/${id}`, { method: 'DELETE' })
+  fetch(`https://srpropertiesbackend.vercel.app/api/residentialproperties/${id}`, { method: 'DELETE' })
     .then(() => fetchResidentialProperties()); // Refresh the property list
 }
 

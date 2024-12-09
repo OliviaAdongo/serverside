@@ -196,7 +196,7 @@ let retailProperties = [];
 
 // Fetch and display retail properties with pagination
 function fetchRetailProperties() {
-  fetch('http://localhost:3000/api/retailproperties')
+  fetch('https://srpropertiesbackend.vercel.app/api/retailproperties')
     .then(response => response.json())
     .then(data => {
       retailProperties = data;
@@ -257,7 +257,7 @@ function changePage(page) {
 
 // Edit retail property function
 function editRetailProperty(id) {
-  fetch(`http://localhost:3000/api/retailproperties/${id}`)
+  fetch(`https://srpropertiesbackend.vercel.app/api/retailproperties/${id}`)
     .then(response => response.json())
     .then(property => {
       document.getElementById('retailId').value = property._id;
@@ -282,7 +282,7 @@ document.getElementById('retailForm').addEventListener('submit', function(event)
   const id = document.getElementById('retailId').value;
   const method = id ? 'PUT' : 'POST';  
 
-  fetch(`http://localhost:3000/api/retailproperties${id ? '/' + id : ''}`, {
+  fetch(`https://srpropertiesbackend.vercel.app/api/retailproperties${id ? '/' + id : ''}`, {
     method: method,
     body: formData
   })
@@ -294,7 +294,7 @@ document.getElementById('retailForm').addEventListener('submit', function(event)
 
 // Delete retail property function
 function deleteRetailProperty(id) {
-  fetch(`http://localhost:3000/api/retailproperties/${id}`, { method: 'DELETE' })
+  fetch(`https://srpropertiesbackend.vercel.app/api/retailproperties/${id}`, { method: 'DELETE' })
     .then(() => fetchRetailProperties()); // Refresh the property list
 }
 

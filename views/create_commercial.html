@@ -194,7 +194,7 @@ let commercialProperties = [];
 
 // Fetch and display commercial properties with pagination
 function fetchCommercialProperties() {
-  fetch('http://localhost:3000/api/commercialproperties')
+  fetch('https://srpropertiesbackend.vercel.app/api/commercialproperties')
     .then(response => response.json())
     .then(data => {
       commercialProperties = data;
@@ -261,7 +261,7 @@ document.getElementById('commercialForm').addEventListener('submit', function(ev
   const id = document.getElementById('commercialId').value;
   const method = id ? 'PUT' : 'POST';  
 
-  fetch(`http://localhost:3000/api/commercialproperties${id ? '/' + id : ''}`, {
+  fetch(`https://srpropertiesbackend.vercel.app/api/commercialproperties${id ? '/' + id : ''}`, {
     method: method,
     body: formData
   })
@@ -275,7 +275,7 @@ document.getElementById('commercialForm').addEventListener('submit', function(ev
 
 // Edit commercial property
 function editCommercialProperty(id) {
-  fetch(`http://localhost:3000/api/commercialproperties/${id}`)
+  fetch(`https://srpropertiesbackend.vercel.app/api/commercialproperties/${id}`)
     .then(response => response.json())
     .then(property => {
       document.getElementById('commercialId').value = property._id;
@@ -295,7 +295,7 @@ function editCommercialProperty(id) {
 
 // Delete commercial property
 function deleteCommercialProperty(id) {
-  fetch(`http://localhost:3000/api/commercialproperties/${id}`, { method: 'DELETE' })
+  fetch(`https://srpropertiesbackend.vercel.app/api/commercialproperties/${id}`, { method: 'DELETE' })
     .then(() => fetchCommercialProperties());
 }
 
