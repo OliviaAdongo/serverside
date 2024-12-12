@@ -12,225 +12,255 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <!-- Font Awesome Icons -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+
     <style>
-      body {
-        background-color: #f8f9fa;
-        font-family: "Arial", sans-serif;
-      }
-      .navbar-dark {
-        background-color: #124824;
-        padding: 1rem;
-        letter-spacing: 0.5px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-      .navbar-brand img {
-        filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
-        transition: transform 0.3s ease;
-      }
-      .navbar-brand img:hover {
-        transform: scale(1.05);
-      }
-      .navbar-dark .navbar-brand {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #fff;
-        letter-spacing: 1px;
-      }
-      .navbar-dark .nav-link {
-        color: rgba(255, 255, 255, 0.85);
-        font-size: 1rem;
-        font-weight: 500;
-        margin: 5px 15px;
-        padding: 5px 10px;
-        transition: all 0.3s ease;
-      }
-      .navbar-dark .nav-link:hover {
-        color: #fff;
+      /* Custom Colors */
+      .bg-custom-yellow {
         background-color: #b78509;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       }
-      .card {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border: none;
-        background: linear-gradient(145deg, #ffffff, #f0f0f0);
-        border-radius: 10px;
+      .bg-custom-green {
+        background-color: #124824; /* Updated navbar color */
       }
-      .card-body {
-        padding: 2rem;
+      .navbar-custom {
+        background-color: #124824; /* Updated navbar base color */
       }
-      .widget-icon {
-        font-size: 3rem;
+      .btn-custom {
+        background-color: #b78509;
+        color: white;
+      }
+      .btn-custom:hover {
+        background-color: #9c6d07;
+      }
+      .col-lg-12 {
+        padding: 15px; /* Padding around each widget */
+        margin-bottom: 20px; /* Space between widgets */
+      }
+
+      /* Widget Styling */
+      .widget {
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 200px; /* Ensuring uniform height for widgets */
+      }
+
+      .widget i {
+        font-size: 40px;
         color: #124824;
+        margin-bottom: 15px; /* Space between icon and text */
       }
-      .card-title {
+      .widget h5 {
+        font-size: 18px;
         color: #124824;
+        margin-bottom: 10px; /* Space between title and description */
+      }
+      .widget p {
+        font-size: 16px;
+        color: #6c757d;
+        margin-bottom: 20px; /* Space between description and count */
+      }
+      .widget .count {
+        font-size: 22px;
         font-weight: bold;
-        font-size: 1.5rem;
-      }
-      .card-text {
-        font-size: 1.2rem;
         color: #b78509;
-        font-weight: bold;
       }
-      h1 {
-        color: #124824;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      /* Ensure all widgets are the same size */
+      .col-md-12 {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        margin-bottom: 20px; /* Space between widgets */
       }
-      .btn {
-        background-color: #b78509;
-        color: #fff;
-        border: none;
-        font-weight: bold;
-        padding: 10px 20px;
-        border-radius: 5px;
-        transition: background-color 0.3s;
+      /* Ensure spacing around each widget */
+      .col-md-12 {
+        padding: 15px; /* Added padding around each widget */
       }
-      .btn:hover {
-        background-color: #124824;
+      /* Make widgets full width on large screens */
+      @media (min-width: 992px) {
+        .col-lg-12 {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
       }
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container">
-        <div class="mx-auto">
-          <a class="navbar-brand" href="#">
-            <img
-              src="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg"
-              alt="Logo"
-              width="125"
-              height="77"
-            />
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+          <!-- Logo Section -->
+          <a class="navbar-brand" href="adash.html">
+            <img src="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg" alt="SolidRoots Properties" style="height: 80px;">
           </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="adash.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="create_land.html"><i class="fas fa-map"></i> Land Properties</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="create_commercial.html"><i class="fas fa-building"></i> Commercial Properties</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="create_residential.html"><i class="fas fa-home"></i> Residential Sales</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="create_retail.html"><i class="fas fa-door-open"></i> Retail Properties</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="userDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-user-circle"></i> Profile
+                </a>
+                <ul
+                  class="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="userDropdown"
+                >
+                  <!-- <li>
+                    <a class="dropdown-item" href="admin.html"><i class="fas fa-user-cog"></i> Profile Management</a>
+                  </li> -->
+                  <li><a class="dropdown-item" href="#"><form action="/auth/logout" method="POST" style="margin-top: 20px; margin-bottom: 20px;">
+                    <button type="submit" class="btn btn-danger w-100"><i class="fas fa-sign-out-alt"></i>Logout</button>
+                  </form></a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="collapse navbar-collapse justify-content-center"
-          id="navbarNav"
-        >
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="adash.html">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="create_commercial.html"
-                >Commercial Property</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="create_residential.html"
-                >Residential Property</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="create_retail.html">Retail Property</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="create_land.html">Land Details</a>
-            </li>
-          </ul>
+      </nav>
+      
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+      <h3 class="text-center mb-4">Admin Dashboard</h3>
+      <div class="row">
+        <!-- Dashboard Widget Section -->
+        <div class="col-lg-12 col-12 mb-20">
+          <div class="widget">
+            <i class="fas fa-warehouse"></i>
+            <h5>Land Properties</h5>
+            <p>Large plots of land available for development or investment.</p>
+            <p class="count" id="land-count">Loading...</p>
+            
+          </div>
         </div>
+        <div class="col-lg-12 col-12 mt-20">
+          <div class="widget">
+            <i class="fas fa-home"></i>
+            <h5>Residential Sales</h5>
+            <p>Homes and apartments for sale.</p>
+            <p class="count" id="residential-sales-count">Loading...</p>
+          </div>
+        </div>
+        <div class="col-lg-12 col-12">
+          <div class="widget">
+            <i class="fas fa-building"></i>
+            <h5>Commercial Properties</h5>
+            <p>Offices, shops, and more.</p>
+            <p class="count" id="commercial-count">Loading...</p>
+          </div>
+        </div>
+        <div class="col-lg-12 col-12">
+          <div class="widget">
+            <i class="fas fa-building"></i>
+            <h5>Retail Properties</h5>
+            <p>Offices, shops, and more.</p>
+            <p class="count" id="retailcount">Loading...</p>
+          </div>
+        </div>
+        <!-- <div class="col-lg-12 col-12">
+          <div class="widget">
+            <i class="fas fa-bed"></i>
+            <h5>Residential Lettings</h5>
+            <p>Properties available for rent.</p>
+            <p class="count" id="residential-lettings-count">Loading...</p>
+
+          </div>
+        </div> -->
       </div>
-    </nav>
-    <div class="container mt-5">
-      <h1 class="text-center">Dashboard</h1>
-      <div class="row g-4">
-        <!-- Residential Properties Widget -->
-        <div class="col-lg-12 col-md-6">
-          <div class="card text-center">
-            <div class="card-body">
-              <i class="bi bi-house-fill widget-icon"></i>
-              <h5 class="card-title">Residential Properties</h5>
-              <p class="card-text fs-4" id="residentialCount">0</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Commercial Properties Widget -->
-        <div class="col-lg-12 col-md-6">
-          <div class="card text-center">
-            <div class="card-body">
-              <i class="bi bi-building widget-icon"></i>
-              <h5 class="card-title">Commercial Properties</h5>
-              <p class="card-text fs-4" id="commercialCount">0</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Retail Properties Widget -->
-        <div class="col-lg-12 col-md-6">
-          <div class="card text-center">
-            <div class="card-body">
-              <i class="bi bi-shop-window widget-icon"></i>
-              <h5 class="card-title">Retail Properties</h5>
-              <p class="card-text fs-4" id="retailCount">0</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Land Widget -->
-        <div class="col-lg-12 col-md-6">
-          <div class="card text-center">
-            <div class="card-body">
-              <i class="bi bi-tree-fill widget-icon"></i>
-              <h5 class="card-title">Land Properties</h5>
-              <p class="card-text fs-4" id="landCount">0</p>
-            </div>
-          </div>
-        </div>
+      <div class="text-center mt-4">
+        <button class="btn btn-custom">Refresh Data</button>
       </div>
-      <form action="/auth/logout" method="POST" style="margin-top: 20px; margin-bottom: 20px;">
-        <button type="submit" class="btn btn-danger w-100">Logout</button>
-      </form>
     </div>
+
+    <!-- Bootstrap JS and Popper.js for navbar and form functionality -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      const fetchCounts = async () => {
-        try {
-          const [residential, commercial, retail, land] = await Promise.all([
-            fetch("https://srpropertiesbackend.vercel.app/api/residentialproperties").then(
-              (res) => res.json()
-            ),
-            fetch("https://srpropertiesbackend.vercel.app/api/commercialproperties").then(
-              (res) => res.json()
-            ),
-            fetch("https://srpropertiesbackend.vercel.app/api/retailproperties").then((res) =>
-              res.json()
-            ),
-            fetch("https://srpropertiesbackend.vercel.app/api/lands").then((res) =>
-              res.json()
-            ),
-          ]);
-
-          document.getElementById("residentialCount").textContent =
-            residential.length;
-          document.getElementById("commercialCount").textContent =
-            commercial.length;
-          document.getElementById("retailCount").textContent = retail.length;
-          document.getElementById("landCount").textContent = land.length;
-        } catch (error) {
-          console.error("Error fetching property counts:", error);
-        }
-      };
-
-      fetchCounts();
-    </script>
+        const fetchPropertyCounts = async () => {
+          try {
+            const [land, residentialSales, commercial, retail, residentialLettings] =
+              await Promise.all([
+                fetch("https://srpropertiesbackend.vercel.app/api/lands").then(
+                  (res) => res.json()
+                ),
+                fetch("https://srpropertiesbackend.vercel.app/api/residentialproperties").then(
+                  (res) => res.json()
+                ),
+                fetch("https://srpropertiesbackend.vercel.app/api/commercialproperties").then(
+                  (res) => res.json()
+                ),
+                fetch("https://srpropertiesbackend.vercel.app/api/retailproperties").then(
+                  (res) => res.json()
+                ),
+                // fetch("https://srpropertiesbackend.vercel.app/api/lettings").then(
+                //   (res) => res.json()
+                // ),
+              ]);
+      
+            // Update the respective widgets with the fetched counts
+            document.getElementById("land-count").textContent = land.length;
+            document.getElementById("residential-sales-count").textContent =
+              residentialSales.length;
+            document.getElementById("commercial-count").textContent = commercial.length;
+            document.getElementById("retailcount").textContent = retail.length;
+            document.getElementById("residential-lettings-count").textContent =
+              residentialLettings.length;
+          } catch (error) {
+            console.error("Error fetching property counts:", error);
+          }
+        };
+      
+        // Fetch property counts on page load
+        fetchPropertyCounts();
+      
+        // Optional: Add functionality for the "Refresh Data" button
+        document.querySelector(".btn-custom").addEventListener("click", fetchPropertyCounts);
+      </script>
+      
   </body>
 </html>

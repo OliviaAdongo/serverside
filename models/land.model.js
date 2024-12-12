@@ -22,14 +22,19 @@ const landSchema = new mongoose.Schema(
       type: String,
       enum: ["Land"],
       required: true,  
-    },
+    }, 
     description: { type: String, required: true },
     status: {
       type: String,
       enum: ["For Sale", "For Rent"],
       required: true,
     }, 
-   agent: { type: String, required: false },
+    amenities: { type: [String],
+    
+       required: false},
+   agent: { type: String,
+    // enum: ["SolidRoots Properties"],
+     required: false },
   },
   { timestamps: true }
 );

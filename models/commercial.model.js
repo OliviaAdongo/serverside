@@ -10,15 +10,15 @@ const commercialSchema = new mongoose.Schema(
       },
     },
     location: { type: String, required: true },
-    ppropertyname: { type: String, required: true },
+    propertyname: { type: String, required: true },
     size: { type: String, required: true },
     price: { type: String, required: true },
     availability: {
       type: String,
       enum: ["Available", "Not Available"],
       default: "Available",
-    },
-    category: { 
+    }, 
+    category: {
       type: String,
       enum: ["Commercial"],
       required: true,

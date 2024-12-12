@@ -45,7 +45,9 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ dest: 'uploads' }) // Configure multer
+// const upload = multer({ dest: 'uploads' }) // Configure multer
+// Initialize multer with the storage configuration (no 'dest' property here)
+const upload = multer({ storage: storage });
 
 // Middleware
 app.use(cors({
@@ -56,7 +58,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
+
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads"), {
   setHeaders: (res, filePath) => {
     const ext = path.extname(filePath).toLowerCase();
     let mimeType = 'application/octet-stream';
@@ -125,13 +128,16 @@ app.get("/create_commercial.html", isAuthenticated, (req, res) => {
 app.get("/create_land.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "create_land.html"));
 });
+app.get("/admin.html", isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "admin.html"));
+});
 
 app.get("/create_residential.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "create_residential.html"));
 });
-app.get("/residential-letting.html", isAuthenticated, (req, res) => {
-  console.log("Request for residential-letting.html received");
-  res.sendFile(path.join(__dirname, "views", "residential-letting.html"));
+app.get("/residentiallettings.html", isAuthenticated, (req, res) => {
+  console.log("Request for residentiallettings.html received");
+  res.sendFile(path.join(__dirname, "views", "residentiallettings.html"));
 });
 
 
@@ -229,7 +235,7 @@ app.delete("/api/products/:id", async (req, res) => {
 // Create a new land entry
 app.post("/api/lands", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, propertyname, size, price, category, description, status } = req.body;
+    const { location, propertyname, size, price, category, description, status, amenities, agent } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -245,6 +251,7 @@ app.post("/api/lands", upload.array("images", 10), async (req, res) => {
       category,
       description,
       status, 
+      amenities,
       agent,
     });
 
@@ -278,10 +285,10 @@ app.get("/api/lands/:id", async (req, res) => {
 app.put("/api/lands/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
-    const { location, propertyname, size, price, category, description, status, agent } = req.body;
+    const { location, propertyname, size, price, category, description, status, amenities, agent } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
-    const updateData = { location, propertyname, size, price, category, description, status, agent };
+    const updateData = { location, propertyname, size, price, category, description, status, amenities, agent };
     if (images.length > 0) {
       if (images.length > 10) {
         return res.status(400).json({ message: "You can upload a maximum of 10 images." });
@@ -321,13 +328,13 @@ app.delete("/api/lands/:id", async (req, res) => {
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+ 
 // -------------------------------------------------------Commercial Properties CRUD beginning -------------------------------------------------
 // POST
 // Commercial Properties POST (with image upload)
 app.post("/api/commercialproperties", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, propertyname, size,price, category, description, status, agent, amenities } = req.body;
+    const { location, propertyname, size, price, category, description, status, agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -345,7 +352,7 @@ app.post("/api/commercialproperties", upload.array("images", 10), async (req, re
       status,
       agent,
       amenities,
-    });
+    }); 
 
     res.status(201).json(commercial);
   } catch (error) {
@@ -598,7 +605,7 @@ app.put("/api/residentiallettings/:id", upload.array("images", 10), async (req, 
 // Residential Properties DELETE
 app.delete("/api/residentiallettings/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params; 
     const residentialletting = await ResidentialLetting.findByIdAndDelete(id);
 
     if (!residentialletting) {

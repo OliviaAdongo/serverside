@@ -7,6 +7,12 @@
   <link rel="shortcut icon" href="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       background-color: #f8f9fa;
       display: flex;
@@ -17,22 +23,49 @@
       font-family: Arial, sans-serif;
     }
 
-    .login-form-container {
-      max-width: 400px;
-      width: 100%;
-      background: #ffffff;
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 85%; /* Increased width from 80% to 85% */
+  max-width: 1300px; /* Increased max-width from 1100px to 1300px */
+    }
+
+    .form-container {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      max-width: 1100px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      height: 599px;
+    }
+
+    .form-image {
+      width: 40%;
+      height: auto;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 2rem;
-      text-align: center;
     }
 
-    .login-form-container img {
-      max-width: 120px;
-      margin-bottom: 1rem;
+    .form-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 55%;
     }
 
-    .login-form-container h2 {
+    .logo {
+      width: 150px;
+      height: 200px;
+      margin-bottom: 20px;
+    }
+
+    .form-content h2 {
       margin-bottom: 1.5rem;
       color: #124824;
       font-weight: bold;
@@ -71,23 +104,28 @@
   </style>
 </head>
 <body>
-  <div class="login-form-container">
-    <img src="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg" alt="SolidRoots Logo">
-    <h2>Login</h2>
-    <form id="loginForm" action="/auth/login" method="POST">
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" class="form-control" id="email" name="email" required>
+  <div class="container">
+    <div class="form-container">
+      <img src="https://img.freepik.com/free-vector/save-nature-human-hand-holding-city-against-tshirt-design-ecology-earth-day-concept_460848-14228.jpg?t=st=1733820532~exp=1733824132~hmac=9ce97e53436f4a874c8d03d5d725f9d0c11f7b27582774c4c25bcd5b76187df3&w=1380" alt="Image" class="form-image">
+      <div class="form-content">
+        <img src="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg" alt="SolidRoots Logo" class="logo">
+        <h2>Login</h2>
+        <form id="loginForm" action="/auth/login" method="POST">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <div class="form-group">
+            <p>Don't have an account? <a href="register.html">Register</a></p>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Login</button>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-      </div>
-      <div class="form-group">
-        <p>Don't have an account? <a href="register.html">Register</a></p>
-      </div>
-      <button type="submit" class="btn btn-success w-100">Login</button>
-    </form>
+    </div>
   </div>
 </body>
 </html>

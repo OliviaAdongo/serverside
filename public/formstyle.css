@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+        background-size: cover;
+    background-attachment: fixed;* {
+        
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body, html {
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+    
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        
+        background: url('https://img.freepik.com/free-photo/modern-residential-district-with-green-roof-balcony-generated-by-ai_188544-10276.jpg?t=st=1733819639~exp=1733823239~hmac=403f5432b2ba73a9d56a6979963d3cfc36b235ef9cbafbb66e739ea8aa7c3542&w=2000') no-repeat center center/cover;
+    }
+    
+    .form-container {
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        max-width: 1100px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 40px;
+        
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        height: 599px; /* Increased height for the forms */
+    }
+    
+    .form-image {
+        width: 40%;
+        height: auto;
+        border-radius: 10px;
+    }
+    
+    .form-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 55%;
+    }
+    
+    .logo {
+        width: 250px;
+        height: 200px;
+        margin-bottom: 20px;
+    }
+    
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #124824;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.3);
+        color: #fff;
+        font-size: 16px;
+        outline: none;
+    }
+    
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        background-color: #124824;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #b78509;
+    }
+    
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 1100px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.form-image {
+    width: 40%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 55%;
+}
+
+.logo {
+    width: 150px;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #b78509;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f1a85d;
+}
+a{
+    text-decoration: none;
+}
+.form-content h2 {
+    margin-bottom: 1.5rem;
+    color: #124824;
+    font-weight: bold;
+  }
