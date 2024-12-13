@@ -13,21 +13,16 @@ const Land = require("./models/land.model.js");
 const Commercial = require("./models/commercial.model.js");
 const Retail = require("./models/retail.model.js");
 const Residential = require("./models/residential.model.js");
-const ResidentialLetting = require("./models/residentialletting.model.js");
 const Insight = require("./models/insight.model.js");
-const Letting = require("./models/lettings.model.js");
 
 // Import routes
 const productRoute = require("./routes/product.route.js");
 const landRoute = require("./routes/land.route.js");
 const residentialRoute = require("./routes/residential.route.js");
-const residentialLettingRoute = require("./routes/residentialletting.route.js");
 const retailRoute = require("./routes/retail.route.js");
 const commercialRoute = require("./routes/commercial.route.js");
 const insightsRoute = require("./routes/insights.route.js");  
-const lettingRoute = require("./routes/lettings.route.js"); 
 const authRoutes = require("./routes/auth.route.js");
-const adminRoutes = require("./routes/admin.route.js"); // Add this line
 
 const app = express(); 
 const PORT = 3000;
@@ -35,7 +30,6 @@ const PORT = 3000;
 // MongoDB connection string and session secret
 const MONGO_URI = "mongodb://adongoolivia0698:zrkNQIFCJXZwRDpe@backendd-shard-00-00.hjcwh.mongodb.net:27017,backendd-shard-00-01.hjcwh.mongodb.net:27017,backendd-shard-00-02.hjcwh.mongodb.net:27017/?ssl=true&replicaSet=atlas-x8k1ky-shard-0&authSource=admin&retryWrites=true&w=majority&appName=BackendD";
 const SESSION_SECRET = "hardcoded-secret-key";
-
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -50,33 +44,26 @@ const storage = multer.diskStorage({
 
 const upload = multer({ dest: 'uploads' }) // Configure multer
 
-
 // Middleware
 app.use(cors({
-  origin: '*', // Allow frontend origin (adjust for your frontend URL)
-  methods: ['GET', 'POST', 'PUT'], // Allow only the necessary methods
+  origin: 'http://localhost:3000', // Allow frontend origin (adjust for your frontend URL)
+  methods: ['GET', 'POST'], // Allow only the necessary methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allow necessary headers
   credentials: true, // Allows cookies to be sent if needed
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/uploads", express.static(path.join(__dirname, "public/uploads"), {
+app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
   setHeaders: (res, filePath) => {
-    const ext = path.extname(filePath).toLowerCase();
-    let mimeType = 'application/octet-stream';
+      const ext = path.extname(filePath).toLowerCase();
+      let mimeType = 'application/octet-stream';
 
-    if (ext === '.jpg' || ext === '.jpeg') mimeType = 'image/jpeg';
-    else if (ext === '.png') mimeType = 'image/png';
-    else if (ext === '.gif') mimeType = 'image/gif';
+      if (ext === '.jpg' || ext === '.jpeg') mimeType = 'image/jpeg';
+      else if (ext === '.png') mimeType = 'image/png';
+      else if (ext === '.gif') mimeType = 'image/gif';
 
-    // Set the Content-Type header based on the file extension
-    res.setHeader('Content-Type', mimeType);
-
-    // Allow cross-origin requests for images
-    res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins (use specific origin in production)
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      res.setHeader('Content-Type', mimeType);
   }
 }));
 
@@ -105,13 +92,10 @@ app.use(
 app.use("/api/products", productRoute);
 app.use("/api/lands", landRoute);
 app.use("/api/residentialproperties", residentialRoute);
-app.use("/api/residentiallettings", residentialLettingRoute);
 app.use("/api/commercialproperties", commercialRoute);
 app.use("/api/retailproperties", retailRoute);
 app.use("/api/insights", insightsRoute);
-app.use("/api/lettings", lettingRoute);
 app.use("/auth", authRoutes);
-app.use("/auth", adminRoutes);
 
 // Protect dashboard route
 // app.get("/adash.html", (req, res) => {
@@ -132,18 +116,10 @@ app.get("/create_commercial.html", isAuthenticated, (req, res) => {
 app.get("/create_land.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "create_land.html"));
 });
-app.get("/admin.html", isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "admin.html"));
-});
 
 app.get("/create_residential.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "create_residential.html"));
 });
-app.get("/residentiallettings.html", isAuthenticated, (req, res) => {
-  console.log("Request for residentiallettings.html received");
-  res.sendFile(path.join(__dirname, "views", "residentiallettings.html"));
-});
-
 
 app.get("/insights.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "insights.html"));
@@ -162,7 +138,7 @@ app.get("/login.html", (req, res) => {
 });
 
 // Set template engine
-app.set("view engine", "html");
+app.set("view engine", "ejs");
 
 // Test route
 app.get("/", (req, res) => {
@@ -239,7 +215,7 @@ app.delete("/api/products/:id", async (req, res) => {
 // Create a new land entry
 app.post("/api/lands", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, propertyname, size, price, category, description, status, amenities, agent } = req.body;
+    const { location, propertyname, size, price, category, description, status } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -255,7 +231,6 @@ app.post("/api/lands", upload.array("images", 10), async (req, res) => {
       category,
       description,
       status, 
-      amenities,
       agent,
     });
 
@@ -289,10 +264,10 @@ app.get("/api/lands/:id", async (req, res) => {
 app.put("/api/lands/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
-    const { location, propertyname, size, price, category, description, status, amenities, agent } = req.body;
+    const { location, propertyname, size, price, category, description, status, agent } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
-    const updateData = { location, propertyname, size, price, category, description, status, amenities, agent };
+    const updateData = { location, propertyname, size, price, category, description, status, agent };
     if (images.length > 0) {
       if (images.length > 10) {
         return res.status(400).json({ message: "You can upload a maximum of 10 images." });
@@ -332,13 +307,13 @@ app.delete("/api/lands/:id", async (req, res) => {
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
+
 // -------------------------------------------------------Commercial Properties CRUD beginning -------------------------------------------------
 // POST
 // Commercial Properties POST (with image upload)
 app.post("/api/commercialproperties", upload.array("images", 10), async (req, res) => {
   try {
-    const { location, propertyname, size, price, category, description, status, agent, amenities } = req.body;
+    const { location, propertyname, size,price, category, description, status, agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
 
     if (images.length < 1 || images.length > 10) {
@@ -356,7 +331,7 @@ app.post("/api/commercialproperties", upload.array("images", 10), async (req, re
       status,
       agent,
       amenities,
-    }); 
+    });
 
     res.status(201).json(commercial);
   } catch (error) {
@@ -527,101 +502,6 @@ app.delete("/api/residentialproperties/:id", async (req, res) => {
 });
 
 // -------------------------------------------------------Residential Properties  CRUD end -------------------------------------------------
-// ------------------------------------------------------- Letting Properties CRUD beginning -------------------------------------------------
-// POST
-// Letting Properties POST (with image upload)
-app.post("/api/lettings", upload.array("images", 10), async (req, res) => {
-  try {
-    const { location, propertyname, size, price, category, description, status, agent, amenities } = req.body;
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-
-    if (images.length < 1 || images.length > 10) {
-      return res.status(400).json({ message: "You must upload between 1 and 10 images." });
-    }
-
-    const letting= await Letting.create({
-      images,
-      location,
-      propertyname,
-      size,
-      price,
-      category,
-      description,
-      status,
-      agent,
-      amenities,
-    });
-
-    res.status(201).json(letting);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Letting Properties GET (all)
-app.get("/api/lettings", async (req, res) => {
-  try {
-    const lettingProperties = await Letting.find({});
-    res.status(200).json(lettingProperties);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Letting Properties GET by ID
-app.get("/api/lettingproperties/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const lettingProperty = await Letting.findById(id);
-    res.status(200).json(lettingProperty);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Letting Properties PUT (update)
-app.put("/api/lettings/:id", upload.array("images", 10), async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { location,propertyname, size, price, category, description, status, agent, amenities } = req.body;
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-
-    const updateData = { location, propertyname, size, price, category, description, status, agent, amenities };
-    if (images.length > 0) {
-      if (images.length > 10) {
-        return res.status(400).json({ message: "You can upload a maximum of 10 images." });
-      }
-      updateData.images = images;
-    }
-
-    const letting = await LettingLetting.findByIdAndUpdate(id, updateData, { new: true });
-
-    if (!letting) {
-      return res.status(404).json({ message: "Letting property not found" });
-    }
-
-    res.status(200).json(letting);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Letting Properties DELETE
-app.delete("/api/lettings/:id", async (req, res) => {
-  try {
-    const { id } = req.params; 
-    const letting = await LettingLetting.findByIdAndDelete(id);
-
-    if (!letting) {
-      return res.status(404).json({ message: "Letting property not found" });
-    }
-    res.status(200).json({ message: "Letting property deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// -------------------------------------------------------Letting Lettings Properties  CRUD end -------------------------------------------------
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
