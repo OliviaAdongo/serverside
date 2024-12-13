@@ -39,6 +39,25 @@
     background-color: #0f3b1f;
     border-color: #0f3b1f;
   }
+  .page-item a {
+    background-color: #124824;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 2px;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+
+  .page-item a:hover {
+    background-color: #0d3b1f;
+  }
+
+  .page-item.active a {
+    background-color: #0a2e18;
+    font-weight: bold;
+  }
   .btn-success {
     background-color: #b78509;
     border-color: #b78509;
@@ -256,7 +275,7 @@
 
   // Global variables for pagination
   let currentPage = 1;
-  const rowsPerPage = 10;
+  const rowsPerPage = 5;
   let lands = []; // Array to store all lands
   
   // Fetch and display lands with pagination

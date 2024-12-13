@@ -169,18 +169,32 @@
     </div>
     <div class="form-group col-md-6">
       <label for="category">Category</label>
-      <input type="text" class="form-control" id="category" required>
+      <select class="form-control" id="category" name="category" required>
+        <option value="Commercial">Commercial</option>
+        <option value="Residential">Residential</option>
+        <option value="Letting">Letting</option>
+      </select>
     </div>
     <div class="form-group col-md-6">
       <label for="status">Status</label>
-      <input type="text" class="form-control" id="status" required>
+      <select class="form-control" id="status" name="status" required>
+        <option value="For Sale">For Sale</option>
+        <option value="For Rent">For Rent</option>
+      </select>
     </div>
     <div class="form-group col-md-6">
       <label for="agent">Agent (seperated with commas)</label>
       <input type="text" class="form-control" id="agent" required>
     </div>
     <div class="form-group col-md-6">
-      <label for="amenities">Amenities (seperated with coommas)</label>
+      <label for="availability" class="form-label">Availability</label>
+      <select class="form-control" id="availability" name="availability" required>
+        <option value="Available">Available</option>
+        <option value="Not Available">Not Available</option>
+      </select>
+    </div>
+    <div class="form-group col-md-12">
+      <label for="amenities">Amenities (seperated with commas)</label>
       <input type="text" class="form-control" id="amenities" required>
     </div>
     <div class="form-group col-md-12">
@@ -208,6 +222,8 @@
             <th>Price</th>
             <th>Category</th>
             <th>Status</th>
+            
+            <th>Availability</th>
             <th>Amenities</th>
             <th>Agent</th>
             <th>Description</th>
@@ -253,6 +269,7 @@
               <td>${property.price}</td>
               <td>${property.category}</td>
               <td>${property.status}</td>
+               <td>${property.availability}</td>
               <td>${property.amenities}</td>
               <td>${property.agent}</td>
               <td>${property.description}</td>
@@ -295,6 +312,7 @@
           document.getElementById('price').value = property.price;
           document.getElementById('category').value = property.category;
           document.getElementById('status').value = property.status;
+          document.getElementById('availability').value = property.availability;
           document.getElementById('agent').value = property.agent;
           document.getElementById('amenities').value = property.amenities;
           document.getElementById('description').value = property.description;
@@ -316,6 +334,7 @@
       formData.append('price', document.getElementById('price').value);
       formData.append('category', document.getElementById('category').value);
       formData.append('status', document.getElementById('status').value);
+      formData.append('availability', document.getElementById('availability').value);
       formData.append('agent', document.getElementById('agent').value);
       formData.append('amenities', document.getElementById('amenities').value);
       formData.append('description', document.getElementById('description').value);

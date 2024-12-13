@@ -167,20 +167,36 @@
     </div>
     <div class="form-group col-md-12">
       <label for="category">Category</label>
-      <input type="text" class="form-control" id="category" required>
+      <select class="form-control" id="category" name="category" required>
+        <option value="Commercial">Commercial</option>
+        <option value="Letting">Letting</option>
+        <option value="Residential">Residential</option>
+        <option value="Retail">Retail</option>
+      </select>
     </div>
     <div class="form-group col-md-12">
       <label for="status">Status</label>
-      <input type="text" class="form-control" id="status" required>
+      <select class="form-control" id="status" name="status" required>
+        <option value="For Sale">For Sale</option>
+        <option value="For Rent">For Rent</option>
+      </select>
     </div>
     <div class="form-group col-md-12">
       <label for="agent">Agent (seperated with commas)</label>
       <input type="text" class="form-control" id="agent" required>
     </div>
     <div class="form-group col-md-12">
-      <label for="amenities">Amenities (seperated with coommas)</label>
+      <label for="availability" class="form-label">Availability</label>
+      <select class="form-control" id="availability" name="availability" required>
+        <option value="Available">Available</option>
+        <option value="Not Available">Not Available</option>
+      </select>
+    </div>
+    <div class="form-group col-md-12">
+      <label for="amenities">Amenities</label>
       <input type="text" class="form-control" id="amenities" required>
     </div>
+    
     <div class="form-group col-md-12">
       <label for="description">Description</label>
       <textarea class="form-control" id="description" rows="3" required></textarea>
@@ -191,7 +207,7 @@
     </div>
     <button type="submit" class="btn btn-primary col-md-12" style="margin-top: 20px;">Submit</button>
   </div>
-</form>
+</form> 
 
     </div>
    
@@ -206,6 +222,7 @@
             <th>Price</th>
             <th>Category</th>
             <th>Status</th>
+            <th>Availability</th>
             <th>Amenities</th>
             <th>Agent</th>
             <th>Description</th>
@@ -256,6 +273,7 @@
           <td>${land.price}</td>
           <td>${land.category}</td>
           <td>${land.status}</td>
+             <td>${land.availability}</td>
           <td>${land.amenities}</td>
           <td>${land.agent}</td>
           <td>${land.description}</td>
@@ -301,6 +319,7 @@
           document.getElementById('price').value = land.price;
           document.getElementById('category').value = land.category;
           document.getElementById('status').value = land.status;
+          document.getElementById('availability').value = land.availability;
           document.getElementById('agent').value = land.agent;
           document.getElementById('amenities').value = land.amenities;
           document.getElementById('description').value = land.description;

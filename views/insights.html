@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SolidRoots Properties - Letting Details</title>
+  <title>SolidRoots Properties - Residential Details</title>
   <link
     rel="shortcut icon"
     href="https://i.pinimg.com/736x/30/bd/b7/30bdb7888e4126d0638d9c274417faac.jpg"
   />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -80,6 +81,7 @@
 </style>
 </head>
 <body>
+
   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
       <!-- Logo Section -->
@@ -144,43 +146,59 @@
   </nav>
   <div class="container mt-5">
     <h2 id="formTitle">Add Letting Property</h2>
-    <div class="card my-4" style="padding: 30px;">
- <!-- Form for adding or editing letting properties -->
- <form id="lettingForm" enctype="multipart/form-data">
+    <div class="card my-4" style="padding: 30px;"> 
+<!-- Form for adding or editing letting properties -->
+<form id="lettingForm" enctype="multipart/form-data">
   <input type="hidden" id="propertyId">
   <div class="form-row">
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
       <label for="propertyname">Property Name</label>
       <input type="text" class="form-control" id="propertyname" required>
     </div>
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
       <label for="location">Location</label>
       <input type="text" class="form-control" id="location" required>
     </div>
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
       <label for="size">Size</label>
       <input type="text" class="form-control" id="size" required>
     </div>
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
       <label for="price">Price</label>
       <input type="text" class="form-control" id="price" required>
     </div>
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
       <label for="category">Category</label>
-      <input type="text" class="form-control" id="category" required>
+      <select class="form-control" id="category" name="category" required>
+        <option value="Letting">Letting</option>
+        <option value="Commercial">Commercial</option>
+        <option value="Residential">Residential</option>
+      </select>
     </div>
-    <div class="form-group col-md-12">
+    <div class="form-group col-md-6">
       <label for="status">Status</label>
-      <input type="text" class="form-control" id="status" required>
+      <select class="form-control" id="status" name="status" required>
+        <option value="For Sale">For Sale</option>
+        <option value="For Rent">For Rent</option>
+      </select>
     </div>
-    <div class="form-group col-md-12">
+   
+    <div class="form-group col-md-6">
       <label for="agent">Agent (seperated with commas)</label>
       <input type="text" class="form-control" id="agent" required>
     </div>
+    <div class="form-group col-md-6">
+      <label for="availability" class="form-label">Availability</label>
+      <select class="form-control" id="availability" name="availability" required>
+        <option value="Available">Available</option>
+        <option value="Not Available">Not Available</option>
+      </select>
+    </div>
     <div class="form-group col-md-12">
-      <label for="amenities">Amenities (seperated with coommas)</label>
+      <label for="amenities">Amenities</label>
       <input type="text" class="form-control" id="amenities" required>
     </div>
+    
     <div class="form-group col-md-12">
       <label for="description">Description</label>
       <textarea class="form-control" id="description" rows="3" required></textarea>
@@ -189,12 +207,12 @@
       <label for="images">Images</label>
       <input type="file" class="form-control" id="images" name="images" multiple>
     </div>
-    <button type="submit" class="btn btn-primary col-md-12" style="margin-top: 20px;">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </div>
 </form>
 
     </div>
-   
+    
     <!-- Table to display letting properties -->
     <h3 class="mt-5">Letting Properties List</h3>
     <div class="card p-3" >
@@ -206,6 +224,7 @@
             <th>Price</th>
             <th>Category</th>
             <th>Status</th>
+            <th>Availability</th>
             <th>Amenities</th>
             <th>Agent</th>
             <th>Description</th>
@@ -215,9 +234,6 @@
         </thead>
         <tbody></tbody>
       </table>
-      <nav>
-        <ul id="pagination" class="pagination justify-content-center"></ul>
-      </nav>
     </div>
     
   </div>
@@ -226,63 +242,66 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <button id="scrollToTopBtn" onclick="scrollToTop()">↑</button>
+
   <script>
-    const propertiesPerPage = 5; // Number of properties to display per page
+    let properties = []; // Global variable to store fetched properties
     let currentPage = 1;
-    let totalPages = 1;
-
+    const rowsPerPage = 5;
+  
     // Fetch and display letting properties with pagination
-    function fetchLettingProperties(page = 1) {
-      fetch(`http://localhost:3000/api/lettings?page=${page}&limit=${propertiesPerPage}`)
-        .then(response => response.json())
-        .then(data => {
-          const properties = data.properties;
-          totalPages = Math.ceil(data.total / propertiesPerPage);
-
-          const table = document.getElementById('propertyTable').getElementsByTagName('tbody')[0];
-          table.innerHTML = ''; // Clear existing rows
-
-          properties.forEach(property => {
-            const row = `<tr>
-              <td>${property.propertyname}</td>
-              <td>${property.location}</td>
-              <td>${property.price}</td>
-              <td>${property.category}</td>
-              <td>${property.status}</td>
-              <td>${property.amenities}</td>
-              <td>${property.agent}</td>
-              <td>${property.description}</td>
-              <td>${property.images.map(img => `<img src="/${img}" alt="Property Image" class="thumbnail">`).join(' ')}</td>
-              <td>
-                <button onclick="editProperty('${property._id}')" class="btn btn-warning btn-sm">Edit</button>
-                <button onclick="deleteProperty('${property._id}')" class="btn btn-danger btn-sm">Delete</button>
-              </td>
-            </tr>`;
-            table.innerHTML += row;
-          });
-
-          updatePaginationControls();
-        });
+    fetch('http://localhost:3000/api/lettings')
+      .then(response => response.json())
+      .then(data => {
+        properties = data;
+        displayTable();
+        setupPagination();
+      });
+  
+    function displayTable() {
+      const table = document.getElementById('propertyTable').getElementsByTagName('tbody')[0];
+      table.innerHTML = ''; // Clear table
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const paginatedProperties = properties.slice(start, end);
+  
+      paginatedProperties.forEach(property => {
+        const row = `<tr>
+          <td>${property.propertyname}</td>
+          <td>${property.location}</td>
+          <td>${property.price}</td>
+          <td>${property.category}</td>
+          <td>${property.status}</td>
+          <td>${property.availability}</td>
+          <td>${property.amenities}</td>
+          <td>${property.agent}</td>
+          <td>${property.description}</td>
+          <td>${property.images.map(img => `<img src="/uploads/${img}" alt="Property Image">`).join(' ')}</td>
+          <td>
+            <button onclick="editProperty('${property._id}')" class="btn btn-warning btn-sm">Edit</button>
+            <button onclick="deleteProperty('${property._id}')" class="btn btn-danger btn-sm">Delete</button>
+          </td>
+        </tr>`;
+        table.innerHTML += row;
+      });
     }
-
-    // Update pagination controls
-    function updatePaginationControls() {
+  
+    function setupPagination() {
       const pagination = document.getElementById('pagination');
-      pagination.innerHTML = '';
-
-      for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = i;
-        pageButton.className = 'btn btn-sm btn-secondary';
-        if (i === currentPage) pageButton.classList.add('active');
-        pageButton.onclick = () => {
+      pagination.innerHTML = ''; // Clear pagination
+      const pageCount = Math.ceil(properties.length / rowsPerPage);
+      
+      for (let i = 1; i <= pageCount; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.className = 'btn btn-primary btn-sm mx-1';
+        button.onclick = () => {
           currentPage = i;
-          fetchLettingProperties(currentPage);
+          displayTable();
         };
-        pagination.appendChild(pageButton);
+        pagination.appendChild(button);
       }
     }
-
+  
     // Edit letting property
     function editProperty(id) {
       fetch(`http://localhost:3000/api/lettingproperties/${id}`)
@@ -295,20 +314,21 @@
           document.getElementById('price').value = property.price;
           document.getElementById('category').value = property.category;
           document.getElementById('status').value = property.status;
+          document.getElementById('availability').value = property.availability;
           document.getElementById('agent').value = property.agent;
           document.getElementById('amenities').value = property.amenities;
           document.getElementById('description').value = property.description;
           document.getElementById('formTitle').textContent = "Edit Letting Property";
         });
     }
-
+  
     // Handle form submission
-    document.getElementById('lettingForm').addEventListener('submit', function(event) {
+    document.getElementById('lettingForm').addEventListener('submit', function (event) {
       event.preventDefault();
       const id = document.getElementById('propertyId').value;
       const method = id ? 'PUT' : 'POST';
       const url = `http://localhost:3000/api/lettings${id ? '/' + id : ''}`;
-
+  
       const formData = new FormData();
       formData.append('propertyname', document.getElementById('propertyname').value);
       formData.append('location', document.getElementById('location').value);
@@ -316,6 +336,7 @@
       formData.append('price', document.getElementById('price').value);
       formData.append('category', document.getElementById('category').value);
       formData.append('status', document.getElementById('status').value);
+      formData.append('availability', document.getElementById('availability').value);
       formData.append('agent', document.getElementById('agent').value);
       formData.append('amenities', document.getElementById('amenities').value);
       formData.append('description', document.getElementById('description').value);
@@ -323,29 +344,29 @@
       for (let i = 0; i < images.length; i++) {
         formData.append('images', images[i]);
       }
-
+  
       fetch(url, {
         method: method,
         body: formData
       })
-      .then(response => response.json())
-      .then(data => {
-        alert('Property saved successfully!');
-        document.getElementById('lettingForm').reset();
-        fetchLettingProperties(currentPage);
-      })
-      .catch(error => {
-        console.error('Error submitting the form:', error);
-        alert('Error submitting the form. Please check the console for more details.');
-      });
+        .then(response => response.json())
+        .then(data => {
+          alert('Property saved successfully!');
+          document.getElementById('lettingForm').reset();
+          location.reload();
+        })
+        .catch(error => {
+          console.error('Error submitting the form:', error);
+          alert('Error submitting the form. Please check the console for more details.');
+        });
     });
-
+  
     // Delete letting property
     function deleteProperty(id) {
       fetch(`http://localhost:3000/api/lettings/${id}`, { method: 'DELETE' })
         .then(response => {
           alert('Property deleted successfully!');
-          fetchLettingProperties(currentPage);
+          location.reload();
         })
         .catch(error => {
           console.error('Error deleting property:', error);
@@ -353,24 +374,26 @@
         });
     }
 
+
     // Scroll to top functionality
-    window.onscroll = function() {
-      const btn = document.getElementById('scrollToTopBtn');
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        btn.style.display = 'block';
-      } else {
-        btn.style.display = 'none';
-      }
-    };
-
-    function scrollToTop() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+  window.onscroll = function() {
+    const btn = document.getElementById('scrollToTopBtn');
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      btn.style.display = 'block';
+    } else {
+      btn.style.display = 'none';
     }
-
-    // Initial fetch
-    fetchLettingProperties(currentPage);
-</script>
-
+  };
+  
+  function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+  
+  </script>
+  
+  <!-- Add pagination container in HTML -->
+  <div id="pagination" class="mt-2 d-flex justify-content-center"></div>
+  
 </body>
 </html>

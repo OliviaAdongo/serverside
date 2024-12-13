@@ -91,7 +91,7 @@
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
+        data-bs-target="#navbarNav"  
         aria-controls="navbarNav"
         aria-expanded="false"
         aria-label="Toggle navigation"
@@ -118,27 +118,7 @@
           <li class="nav-item">
             <a class="nav-link" href="insights.html"> <i class="fas fa-bed"></i> Residential Lettings </a>
           </li>
-          <!-- <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle active"
-              href="#"
-              id="userDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="fas fa-user-circle"></i> Profile
-            </a>
-            <ul
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="userDropdown"
-            >
-              <li>
-                <a class="dropdown-item" href="admin.html"><i class="fas fa-user-cog"></i> Profile Management</a>
-              </li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
-          </li> -->
+          
         </ul>
       </div>
     </div>
@@ -168,20 +148,36 @@
     </div>
     <div class="form-group col-md-6">
       <label for="category">Category</label>
-      <input type="text" class="form-control" id="category" required>
+      <select class="form-control" id="category" name="category" required>
+        <option value="Retail">Retail</option>
+        <option value="Commercial">Commercial</option>
+        <option value="Letting">Letting</option>
+        <option value="Residential">Residential</option>
+      </select>
     </div>
     <div class="form-group col-md-6">
       <label for="status">Status</label>
-      <input type="text" class="form-control" id="status" required>
+      <select class="form-control" id="status" name="status" required>
+        <option value="For Sale">For Sale</option>
+        <option value="For Rent">For Rent</option>
+      </select>
     </div>
     <div class="form-group col-md-6">
       <label for="agent">Agent (seperated with commas)</label>
       <input type="text" class="form-control" id="agent" required>
     </div>
     <div class="form-group col-md-6">
-      <label for="amenities">Amenities (seperated with coommas)</label>
+      <label for="availability" class="form-label">Availability</label>
+      <select class="form-control" id="availability" name="availability" required>
+        <option value="Available">Available</option>
+        <option value="Not Available">Not Available</option>
+      </select>
+    </div>
+    <div class="form-group col-md-12">
+      <label for="amenities">Amenities</label>
       <input type="text" class="form-control" id="amenities" required>
     </div>
+    
     <div class="form-group col-md-12">
       <label for="description">Description</label>
       <textarea class="form-control" id="description" rows="3" required></textarea>
@@ -207,6 +203,7 @@
             <th>Price</th>
             <th>Category</th>
             <th>Status</th>
+            <th>Availability</th>
             <th>Amenities</th>
             <th>Agent</th>
             <th>Description</th>
@@ -254,6 +251,7 @@
           <td>${property.price}</td>
           <td>${property.category}</td>
           <td>${property.status}</td>
+             <td>${property.availability}</td>
           <td>${property.amenities}</td>
           <td>${property.agent}</td>
           <td>${property.description}</td>
@@ -302,6 +300,7 @@
           document.getElementById('price').value = property.price;
           document.getElementById('category').value = property.category;
           document.getElementById('status').value = property.status;
+          document.getElementById('availability').value = property.availability;
           document.getElementById('agent').value = property.agent;
           document.getElementById('amenities').value = property.amenities;
           document.getElementById('description').value = property.description;
