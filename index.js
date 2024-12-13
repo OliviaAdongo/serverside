@@ -37,7 +37,6 @@ const MONGO_URI = "mongodb://adongoolivia0698:zrkNQIFCJXZwRDpe@backendd-shard-00
 const SESSION_SECRET = "hardcoded-secret-key";
 
 
-
 // Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -50,6 +49,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ dest: 'uploads' }) // Configure multer
+
 
 // Middleware
 app.use(cors({

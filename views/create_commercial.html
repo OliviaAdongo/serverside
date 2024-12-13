@@ -277,7 +277,7 @@
           <td>${land.amenities}</td>
           <td>${land.agent}</td>
           <td>${land.description}</td>
-          <td>${land.images.map(img => `<img src="/${img}" alt="Property Image" width="50">`).join(' ')}</td>
+          <td>${land.images.map(img => `<img src="/uploads/${img}" alt="Property Image" width="50">`).join(' ')}</td>
           <td>
             <button onclick="editLand('${land._id}')" class="btn btn-warning btn-sm">Edit</button>
             <button onclick="deleteLand('${land._id}')" class="btn btn-danger btn-sm">Delete</button>
