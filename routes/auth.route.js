@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
     console.error(err);
     res.status(500).send('Error registering user');
   }
-});
+}); 
 
 // Login endpoint
 router.post('/login', async (req, res) => {

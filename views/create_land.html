@@ -113,6 +113,9 @@
           <li class="nav-item">
             <a class="nav-link" href="create_retail.html"><i class="fas fa-door-open"></i> Retail Properties</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="insights.html"> <i class="fas fa-bed"></i> Residential Lettings </a>
+          </li>
           <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle active"
@@ -216,7 +219,7 @@
         <label for="images" class="form-label">Images</label>
         <input type="file" class="form-control" id="images" name="images" multiple>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary col-md-12" style="margin-top: 20px;">Submit</button>
     </form>
   </div>
 
@@ -243,25 +246,47 @@
         <!-- JavaScript will populate this -->
       </tbody>
     </table>
+    <nav>
+      <ul id="pagination" class="pagination justify-content-center"></ul>
+    </nav>
   </div>
 </div>
 <button id="scrollToTopBtn" onclick="scrollToTop()">↑</button>
 <script>
-// Fetch and display lands
-fetch('http://localhost:3000/api/lands')
-  .then(response => response.json())
-  .then(lands => {
+
+  // Global variables for pagination
+  let currentPage = 1;
+  const rowsPerPage = 10;
+  let lands = []; // Array to store all lands
+  
+  // Fetch and display lands with pagination
+  fetch('http://localhost:3000/api/lands')
+    .then(response => response.json())
+    .then(data => {
+      lands = data; // Save fetched lands to global array
+      displayLands();
+      setupPagination();
+    });
+  
+  // Display lands for the current page
+  function displayLands() {
     const table = document.getElementById('landTable');
-    lands.forEach(land => {
+    table.innerHTML = ""; // Clear existing rows
+  
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedLands = lands.slice(start, end);
+  
+    paginatedLands.forEach(land => {
       const row = `<tr>
         <td>${land.propertyname}</td>
         <td>${land.location}</td>
         <td>${land.price}</td>
         <td>${land.category}</td>
         <td>${land.status}</td>
-        <td>${land.availability}</td> <!-- Display Availability -->
-        <td>${land.amenities}</td> <!-- Display Availability -->
-        <td>${land.agent}</td> <!-- Display Availability -->
+        <td>${land.availability}</td>
+        <td>${land.amenities}</td>
+        <td>${land.agent}</td>
         <td>${land.description}</td>
         <td>${land.images.map(img => `<img src="/${img}" width="50" style="border: 1px solid #b78509;" />`).join(' ')}</td>
         <td>
@@ -271,68 +296,87 @@ fetch('http://localhost:3000/api/lands')
       </tr>`;
       table.innerHTML += row;
     });
-  });
-
-// Edit land function
-function editLand(id) {
-  fetch(`http://localhost:3000/api/lands/${id}`)
-    .then(response => response.json())
-    .then(land => {  
-      // Prefill the form with current data
-      document.getElementById('landId').value = land._id;
-      document.getElementById('propertyname').value = land.propertyname;
-      document.getElementById('location').value = land.location;
-      document.getElementById('price').value = land.price;
-      document.getElementById('category').value = land.category;
-      document.getElementById('status').value = land.status;
-      document.getElementById('availability').value = land.availability; // Prefill availability
-      document.getElementById('amenities').value = land.amenities; // Prefill availability
-      document.getElementById('agent').value = land.agent; // Prefill availability
-      document.getElementById('description').value = land.description;
-      document.getElementById('formTitle').textContent = "Edit Land";
-    });
-}
-
-// Handle form submission
-document.getElementById('landForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  const formData = new FormData(this);
-  const id = document.getElementById('landId').value;
-  const method = id ? 'PUT' : 'POST';  // Use PUT if editing an existing land, otherwise POST for creating new
-
-  fetch(`http://localhost:3000/api/lands${id ? '/' + id : ''}`, {
-    method: method,
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    location.reload(); // Reload page to refresh land list
-  });
-});
-
-// Delete land function
-function deleteLand(id) {
-  fetch(`http://localhost:3000/api/lands/${id}`, { method: 'DELETE' })
-    .then(() => location.reload()); // Reload page after deleting
-}
-
-
-// Scroll to top functionality
-window.onscroll = function() {
-      const btn = document.getElementById('scrollToTopBtn');
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        btn.style.display = 'block';
-      } else {
-        btn.style.display = 'none';
-      }
-    };
-
-    function scrollToTop() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+  }
+  
+  // Setup pagination buttons
+  function setupPagination() {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = ""; // Clear existing pagination
+  
+    const totalPages = Math.ceil(lands.length / rowsPerPage);
+  
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement('li');
+      li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+      li.innerHTML = `<a href="#" class="page-link" onclick="changePage(${i})">${i}</a>`;
+      pagination.appendChild(li);
     }
-
-</script>
+  }
+  
+  // Change page and re-render data
+  function changePage(page) {
+    currentPage = page;
+    displayLands();
+    setupPagination();
+  }
+  
+  // Edit land function
+  function editLand(id) {
+    fetch(`http://localhost:3000/api/lands/${id}`)
+      .then(response => response.json())
+      .then(land => {
+        document.getElementById('landId').value = land._id;
+        document.getElementById('propertyname').value = land.propertyname;
+        document.getElementById('location').value = land.location;
+        document.getElementById('price').value = land.price;
+        document.getElementById('category').value = land.category;
+        document.getElementById('status').value = land.status;
+        document.getElementById('availability').value = land.availability;
+        document.getElementById('amenities').value = land.amenities;
+        document.getElementById('agent').value = land.agent;
+        document.getElementById('description').value = land.description;
+        document.getElementById('formTitle').textContent = "Edit Land";
+      });
+  }
+  
+  // Handle form submission
+  document.getElementById('landForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+  
+    const formData = new FormData(this);
+    const id = document.getElementById('landId').value;
+    const method = id ? 'PUT' : 'POST';
+  
+    fetch(`http://localhost:3000/api/lands${id ? '/' + id : ''}`, {
+      method: method,
+      body: formData
+    })
+    .then(response => response.json())
+    .then(() => location.reload());
+  });
+  
+  // Delete land function
+  function deleteLand(id) {
+    fetch(`http://localhost:3000/api/lands/${id}`, { method: 'DELETE' })
+      .then(() => location.reload());
+  }
+  
+  // Scroll to top functionality
+  window.onscroll = function() {
+    const btn = document.getElementById('scrollToTopBtn');
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      btn.style.display = 'block';
+    } else {
+      btn.style.display = 'none';
+    }
+  };
+  
+  function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+  
+  </script>
+  
 </body>
 </html>

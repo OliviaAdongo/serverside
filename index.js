@@ -15,6 +15,7 @@ const Retail = require("./models/retail.model.js");
 const Residential = require("./models/residential.model.js");
 const ResidentialLetting = require("./models/residentialletting.model.js");
 const Insight = require("./models/insight.model.js");
+const Letting = require("./models/lettings.model.js");
 
 // Import routes
 const productRoute = require("./routes/product.route.js");
@@ -24,7 +25,9 @@ const residentialLettingRoute = require("./routes/residentialletting.route.js");
 const retailRoute = require("./routes/retail.route.js");
 const commercialRoute = require("./routes/commercial.route.js");
 const insightsRoute = require("./routes/insights.route.js");  
+const lettingRoute = require("./routes/lettings.route.js"); 
 const authRoutes = require("./routes/auth.route.js");
+const adminRoutes = require("./routes/admin.route.js"); // Add this line
 
 const app = express(); 
 const PORT = 3000;
@@ -107,7 +110,9 @@ app.use("/api/residentiallettings", residentialLettingRoute);
 app.use("/api/commercialproperties", commercialRoute);
 app.use("/api/retailproperties", retailRoute);
 app.use("/api/insights", insightsRoute);
+app.use("/api/lettings", lettingRoute);
 app.use("/auth", authRoutes);
+app.use("/auth", adminRoutes);
 
 // Protect dashboard route
 // app.get("/adash.html", (req, res) => {
@@ -523,10 +528,10 @@ app.delete("/api/residentialproperties/:id", async (req, res) => {
 });
 
 // -------------------------------------------------------Residential Properties  CRUD end -------------------------------------------------
-// -------------------------------------------------------Residential Letting Properties CRUD beginning -------------------------------------------------
+// ------------------------------------------------------- Letting Properties CRUD beginning -------------------------------------------------
 // POST
-// Residential Properties POST (with image upload)
-app.post("/api/residentiallettings", upload.array("images", 10), async (req, res) => {
+// Letting Properties POST (with image upload)
+app.post("/api/lettings", upload.array("images", 10), async (req, res) => {
   try {
     const { location, propertyname, size, price, category, description, status, agent, amenities } = req.body;
     const images = req.files.map((file) => `/uploads/${file.filename}`);
@@ -535,7 +540,7 @@ app.post("/api/residentiallettings", upload.array("images", 10), async (req, res
       return res.status(400).json({ message: "You must upload between 1 and 10 images." });
     }
 
-    const residentialletting= await ResidentialLetting.create({
+    const letting= await Letting.create({
       images,
       location,
       propertyname,
@@ -548,35 +553,35 @@ app.post("/api/residentiallettings", upload.array("images", 10), async (req, res
       amenities,
     });
 
-    res.status(201).json(residentialletting);
+    res.status(201).json(letting);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Residential Properties GET (all)
-app.get("/api/residentiallettings", async (req, res) => {
+// Letting Properties GET (all)
+app.get("/api/lettings", async (req, res) => {
   try {
-    const residentialLettingProperties = await ResidentialLetting.find({});
-    res.status(200).json(residentialLettingProperties);
+    const lettingProperties = await Letting.find({});
+    res.status(200).json(lettingProperties);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Residential Properties GET by ID
-app.get("/api/residentialproperties/:id", async (req, res) => {
+// Letting Properties GET by ID
+app.get("/api/lettingproperties/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const residentialLettingProperty = await ResidentialLetting.findById(id);
-    res.status(200).json(residentialLettingProperty);
+    const lettingProperty = await Letting.findById(id);
+    res.status(200).json(lettingProperty);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Residential Properties PUT (update)
-app.put("/api/residentiallettings/:id", upload.array("images", 10), async (req, res) => {
+// Letting Properties PUT (update)
+app.put("/api/lettings/:id", upload.array("images", 10), async (req, res) => {
   try {
     const { id } = req.params;
     const { location,propertyname, size, price, category, description, status, agent, amenities } = req.body;
@@ -590,34 +595,34 @@ app.put("/api/residentiallettings/:id", upload.array("images", 10), async (req, 
       updateData.images = images;
     }
 
-    const residentialletting = await ResidentialLetting.findByIdAndUpdate(id, updateData, { new: true });
+    const letting = await LettingLetting.findByIdAndUpdate(id, updateData, { new: true });
 
-    if (!residentialletting) {
-      return res.status(404).json({ message: "Residential property not found" });
+    if (!letting) {
+      return res.status(404).json({ message: "Letting property not found" });
     }
 
-    res.status(200).json(residentialletting);
+    res.status(200).json(letting);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Residential Properties DELETE
-app.delete("/api/residentiallettings/:id", async (req, res) => {
+// Letting Properties DELETE
+app.delete("/api/lettings/:id", async (req, res) => {
   try {
     const { id } = req.params; 
-    const residentialletting = await ResidentialLetting.findByIdAndDelete(id);
+    const letting = await LettingLetting.findByIdAndDelete(id);
 
-    if (!residentialletting) {
-      return res.status(404).json({ message: "Residential property not found" });
+    if (!letting) {
+      return res.status(404).json({ message: "Letting property not found" });
     }
-    res.status(200).json({ message: "Residential property deleted successfully" });
+    res.status(200).json({ message: "Letting property deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// -------------------------------------------------------Residential Lettings Properties  CRUD end -------------------------------------------------
+// -------------------------------------------------------Letting Lettings Properties  CRUD end -------------------------------------------------
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

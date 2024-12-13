@@ -1,0 +1,95 @@
+// ------------------------------------------------------- Letting Properties CRUD beginning -------------------------------------------------
+// POST
+// Letting Properties POST (with image upload)
+app.post("/api/lettings", upload.array("images", 10), async (req, res) => {
+  try {
+    const { location, propertyname, size, price, category, description, status, agent, amenities } = req.body;
+    const images = req.files.map((file) => `/uploads/${file.filename}`);
+
+    if (images.length < 1 || images.length > 10) {
+      return res.status(400).json({ message: "You must upload between 1 and 10 images." });
+    }
+
+    const letting= await Letting.create({
+      images,
+      location,
+      propertyname,
+      size,
+      price,
+      category,
+      description,
+      status,
+      agent,
+      amenities,
+    });
+
+    res.status(201).json(letting);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Letting Properties GET (all)
+app.get("/api/lettings", async (req, res) => {
+  try {
+    const lettingProperties = await Letting.find({});
+    res.status(200).json(lettingProperties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Letting Properties GET by ID
+app.get("/api/lettingproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const lettingProperty = await Letting.findById(id);
+    res.status(200).json(lettingProperty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Letting Properties PUT (update)
+app.put("/api/lettings/:id", upload.array("images", 10), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { location,propertyname, size, price, category, description, status, agent, amenities } = req.body;
+    const images = req.files.map((file) => `/uploads/${file.filename}`);
+
+    const updateData = { location, propertyname, size, price, category, description, status, agent, amenities };
+    if (images.length > 0) {
+      if (images.length > 10) {
+        return res.status(400).json({ message: "You can upload a maximum of 10 images." });
+      }
+      updateData.images = images;
+    }
+
+    const letting = await LettingLetting.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!letting) {
+      return res.status(404).json({ message: "Letting property not found" });
+    }
+
+    res.status(200).json(letting);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Letting Properties DELETE
+app.delete("/api/lettings/:id", async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const letting = await LettingLetting.findByIdAndDelete(id);
+
+    if (!letting) {
+      return res.status(404).json({ message: "Letting property not found" });
+    }
+    res.status(200).json({ message: "Letting property deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// -------------------------------------------------------Letting Lettings Properties  CRUD end -------------------------------------------------

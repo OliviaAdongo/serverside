@@ -136,6 +136,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="create_retail.html"><i class="fas fa-door-open"></i> Retail Properties</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="insights.html"> <i class="fas fa-bed"></i> Residential Lettings </a>
+              </li>
               <li class="nav-item dropdown">
                 <a
                   class="nav-link dropdown-toggle"
@@ -203,7 +206,7 @@
             <p class="count" id="retailcount">Loading...</p>
           </div>
         </div>
-        <!-- <div class="col-lg-12 col-12">
+        <div class="col-lg-12 col-12">
           <div class="widget">
             <i class="fas fa-bed"></i>
             <h5>Residential Lettings</h5>
@@ -211,7 +214,7 @@
             <p class="count" id="residential-lettings-count">Loading...</p>
 
           </div>
-        </div> -->
+        </div>
       </div>
       <div class="text-center mt-4">
         <button class="btn btn-custom">Refresh Data</button>
@@ -237,9 +240,9 @@
                 fetch("https://srpropertiesbackend.vercel.app/api/retailproperties").then(
                   (res) => res.json()
                 ),
-                // fetch("https://srpropertiesbackend.vercel.app/api/lettings").then(
-                //   (res) => res.json()
-                // ),
+                fetch("http://localhost:3000/api/lettings").then(
+                  (res) => res.json()
+                ),
               ]);
       
             // Update the respective widgets with the fetched counts

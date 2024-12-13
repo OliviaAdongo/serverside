@@ -114,6 +114,9 @@
           <li class="nav-item">
             <a class="nav-link" href="create_retail.html"><i class="fas fa-door-open"></i> Retail Properties</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="insights.html"> <i class="fas fa-bed"></i> Residential Lettings </a>
+          </li>
           <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle active"
@@ -146,36 +149,36 @@
  <form id="landForm" enctype="multipart/form-data">
   <input type="hidden" id="landId">
   <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label for="propertyname">Property Name</label>
       <input type="text" class="form-control" id="propertyname" required>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label for="location">Location</label>
       <input type="text" class="form-control" id="location" required>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label for="size">Size</label>
       <input type="text" class="form-control" id="size" required>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label for="price">Price</label>
       <input type="text" class="form-control" id="price" required>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label for="category">Category</label>
       <input type="text" class="form-control" id="category" required>
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label for="status">Status</label>
       <input type="text" class="form-control" id="status" required>
     </div>
-    <div class="form-group col-md-6">
-      <label for="agent">Agent</label>
+    <div class="form-group col-md-12">
+      <label for="agent">Agent (seperated with commas)</label>
       <input type="text" class="form-control" id="agent" required>
     </div>
-    <div class="form-group col-md-6">
-      <label for="amenities">Amenities</label>
+    <div class="form-group col-md-12">
+      <label for="amenities">Amenities (seperated with coommas)</label>
       <input type="text" class="form-control" id="amenities" required>
     </div>
     <div class="form-group col-md-12">
@@ -186,7 +189,7 @@
       <label for="images">Images</label>
       <input type="file" class="form-control" id="images" name="images" multiple>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary col-md-12" style="margin-top: 20px;">Submit</button>
   </div>
 </form>
 
@@ -212,6 +215,9 @@
         </thead>
         <tbody></tbody>
       </table>
+      <nav>
+        <ul id="pagination" class="pagination justify-content-center"></ul>
+      </nav>
     </div>
     
   </div>
@@ -219,33 +225,70 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+  <button id="scrollToTopBtn" onclick="scrollToTop()">↑</button>
   <script>
-    // Fetch and display lands
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    let lands = []; // To store fetched data
+  
+    // Fetch and display lands with pagination
     fetch('http://localhost:3000/api/commercialproperties')
       .then(response => response.json())
-      .then(lands => {
-        const table = document.getElementById('landTable').getElementsByTagName('tbody')[0];
-        lands.forEach(land => {
-          const row = `<tr>
-            <td>${land.propertyname}</td>
-            <td>${land.location}</td>
-            <td>${land.price}</td>
-            <td>${land.category}</td>
-            <td>${land.status}</td>
-            <td>${land.amenities}</td>
-            <td>${land.agent}</td>
-            <td>${land.description}</td>
-            <td>${land.images.map(img => `<img src="/${img}" alt="Property Image">`).join(' ')}</td>
-            <td>
-              <button onclick="editLand('${land._id}')" class="btn btn-warning btn-sm">Edit</button>
-              <button onclick="deleteLand('${land._id}')" class="btn btn-danger btn-sm">Delete</button>
-            </td>
-          </tr>`;
-          table.innerHTML += row;
-        });
+      .then(data => {
+        lands = data; // Store data globally
+        displayLands(); // Display initial page
+        setupPagination(); // Setup pagination buttons
       });
-
+  
+    // Display lands based on the current page
+    function displayLands() {
+      const table = document.getElementById('landTable').getElementsByTagName('tbody')[0];
+      table.innerHTML = ''; // Clear previous rows
+  
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const paginatedLands = lands.slice(start, end);
+  
+      paginatedLands.forEach(land => {
+        const row = `<tr>
+          <td>${land.propertyname}</td>
+          <td>${land.location}</td>
+          <td>${land.price}</td>
+          <td>${land.category}</td>
+          <td>${land.status}</td>
+          <td>${land.amenities}</td>
+          <td>${land.agent}</td>
+          <td>${land.description}</td>
+          <td>${land.images.map(img => `<img src="/${img}" alt="Property Image" width="50">`).join(' ')}</td>
+          <td>
+            <button onclick="editLand('${land._id}')" class="btn btn-warning btn-sm">Edit</button>
+            <button onclick="deleteLand('${land._id}')" class="btn btn-danger btn-sm">Delete</button>
+          </td>
+        </tr>`;
+        table.innerHTML += row;
+      });
+    }
+  
+    // Setup pagination buttons
+    function setupPagination() {
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = ''; // Clear existing buttons
+  
+      const totalPages = Math.ceil(lands.length / rowsPerPage);
+  
+      for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.className = `btn btn-sm ${currentPage === i ? 'btn-primary' : 'btn-light'}`;
+        button.addEventListener('click', () => {
+          currentPage = i;
+          displayLands();
+          setupPagination();
+        });
+        pagination.appendChild(button);
+      }
+    }
+  
     // Edit land function
     function editLand(id) {
       fetch(`http://localhost:3000/api/commercialproperties/${id}`)
@@ -264,14 +307,14 @@
           document.getElementById('formTitle').textContent = "Edit Commercial Property";
         });
     }
-
+  
     // Handle form submission
     document.getElementById('landForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const id = document.getElementById('landId').value;
       const method = id ? 'PUT' : 'POST';
       const url = `http://localhost:3000/api/commercialproperties${id ? '/' + id : ''}`;
-
+  
       const formData = new FormData();
       formData.append('propertyname', document.getElementById('propertyname').value);
       formData.append('location', document.getElementById('location').value);
@@ -286,7 +329,7 @@
       for (let i = 0; i < images.length; i++) {
         formData.append('images', images[i]);
       }
-
+  
       fetch(url, {
         method: method,
         body: formData
@@ -302,7 +345,7 @@
         alert('Error submitting the form. Please check the console for more details.');
       });
     });
-
+  
     // Delete land function
     function deleteLand(id) {
       fetch(`http://localhost:3000/api/commercialproperties/${id}`, { method: 'DELETE' })
@@ -315,6 +358,22 @@
           alert('Error deleting property. Please check the console for more details.');
         });
     }
+  
+    // Scroll to top functionality
+    window.onscroll = function() {
+      const btn = document.getElementById('scrollToTopBtn');
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        btn.style.display = 'block';
+      } else {
+        btn.style.display = 'none';
+      }
+    };
+  
+    function scrollToTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
   </script>
+  
 </body>
 </html>

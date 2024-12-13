@@ -116,6 +116,9 @@
           <li class="nav-item">
             <a class="nav-link" href="create_retail.html"><i class="fas fa-door-open"></i> Retail Properties</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="insights.html"> <i class="fas fa-bed"></i> Residential Lettings </a>
+          </li>
           <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle active"
@@ -173,11 +176,11 @@
       <input type="text" class="form-control" id="status" required>
     </div>
     <div class="form-group col-md-6">
-      <label for="agent">Agent</label>
+      <label for="agent">Agent (seperated with commas)</label>
       <input type="text" class="form-control" id="agent" required>
     </div>
     <div class="form-group col-md-6">
-      <label for="amenities">Amenities</label>
+      <label for="amenities">Amenities (seperated with coommas)</label>
       <input type="text" class="form-control" id="amenities" required>
     </div>
     <div class="form-group col-md-12">
@@ -188,7 +191,7 @@
       <label for="images">Images</label>
       <input type="file" class="form-control" id="images" name="images" multiple>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary col-md-12" style="margin-top: 20px;">Submit</button>
   </div>
 </form>
     </div>
@@ -214,6 +217,9 @@
         </thead>
         <tbody></tbody>
       </table>
+      <nav>
+        <ul id="pagination" class="pagination justify-content-center"></ul>
+      </nav>
     </div>
     
   </div>
@@ -221,32 +227,61 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+  <button id="scrollToTopBtn" onclick="scrollToTop()">↑</button>
   <script>
-    // Fetch and display residential properties
-    fetch('http://localhost:3000/api/residentialproperties')
-      .then(response => response.json())
-      .then(properties => {
-        const table = document.getElementById('propertyTable').getElementsByTagName('tbody')[0];
-        properties.forEach(property => {
-          const row = `<tr>
-            <td>${property.propertyname}</td>
-            <td>${property.location}</td>
-            <td>${property.price}</td>
-            <td>${property.category}</td>
-            <td>${property.status}</td>
-            <td>${property.amenities}</td>
-            <td>${property.agent}</td>
-            <td>${property.description}</td>
-            <td>${property.images.map(img => `<img src="/${img}" alt="Property Image">`).join(' ')}</td>
-            <td>
-              <button onclick="editProperty('${property._id}')" class="btn btn-warning btn-sm">Edit</button>
-              <button onclick="deleteProperty('${property._id}')" class="btn btn-danger btn-sm">Delete</button>
-            </td>
-          </tr>`;
-          table.innerHTML += row;
+    let currentPage = 1;
+    const rowsPerPage = 5;
+
+    // Fetch and display paginated residential properties
+    function fetchResidentialProperties(page = 1) {
+      fetch('http://localhost:3000/api/residentialproperties')
+        .then(response => response.json())
+        .then(properties => {
+          const table = document.getElementById('propertyTable').getElementsByTagName('tbody')[0];
+          const pagination = document.getElementById('pagination');
+          table.innerHTML = '';
+          pagination.innerHTML = '';
+
+          const start = (page - 1) * rowsPerPage;
+          const end = start + rowsPerPage;
+          const paginatedProperties = properties.slice(start, end);
+
+          paginatedProperties.forEach(property => {
+            const row = `<tr>
+              <td>${property.propertyname}</td>
+              <td>${property.location}</td>
+              <td>${property.price}</td>
+              <td>${property.category}</td>
+              <td>${property.status}</td>
+              <td>${property.amenities}</td>
+              <td>${property.agent}</td>
+              <td>${property.description}</td>
+              <td>${property.images.map(img => `<img src="/${img}" alt="Property Image">`).join(' ')}</td>
+              <td>
+                <button onclick="editProperty('${property._id}')" class="btn btn-warning btn-sm">Edit</button>
+                <button onclick="deleteProperty('${property._id}')" class="btn btn-danger btn-sm">Delete</button>
+              </td>
+            </tr>`;
+            table.innerHTML += row;
+          });
+
+          // Create pagination buttons
+          const totalPages = Math.ceil(properties.length / rowsPerPage);
+          for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.className = 'btn btn-sm btn-primary mx-1';
+            if (i === page) button.classList.add('active');
+            button.onclick = () => {
+              currentPage = i;
+              fetchResidentialProperties(i);
+            };
+            pagination.appendChild(button);
+          }
         });
-      });
+    }
+
+    fetchResidentialProperties();
 
     // Edit residential property
     function editProperty(id) {
@@ -297,7 +332,7 @@
       .then(data => {
         alert('Property saved successfully!');
         document.getElementById('residentialForm').reset();
-        location.reload();
+        fetchResidentialProperties(currentPage);
       })
       .catch(error => {
         console.error('Error submitting the form:', error);
@@ -310,13 +345,29 @@
       fetch(`http://localhost:3000/api/residentialproperties/${id}`, { method: 'DELETE' })
         .then(response => {
           alert('Property deleted successfully!');
-          location.reload();
+          fetchResidentialProperties(currentPage);
         })
         .catch(error => {
           console.error('Error deleting property:', error);
           alert('Error deleting property. Please check the console for more details.');
         });
     }
-  </script>
+
+    // Scroll to top functionality
+    window.onscroll = function() {
+      const btn = document.getElementById('scrollToTopBtn');
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        btn.style.display = 'block';
+      } else {
+        btn.style.display = 'none';
+      }
+    };
+
+    function scrollToTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+</script>
+
 </body>
 </html>
