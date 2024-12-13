@@ -13,12 +13,14 @@ const Land = require("./models/land.model.js");
 const Commercial = require("./models/commercial.model.js");
 const Retail = require("./models/retail.model.js");
 const Residential = require("./models/residential.model.js");
+const ResidentialLetting = require("./models/residentialletting.model.js");
 const Insight = require("./models/insight.model.js");
 
 // Import routes
 const productRoute = require("./routes/product.route.js");
 const landRoute = require("./routes/land.route.js");
 const residentialRoute = require("./routes/residential.route.js");
+const residentialLettingRoute = require("./routes/residentialletting.route.js");
 const retailRoute = require("./routes/retail.route.js");
 const commercialRoute = require("./routes/commercial.route.js");
 const insightsRoute = require("./routes/insights.route.js");  
@@ -30,6 +32,7 @@ const PORT = 3000;
 // MongoDB connection string and session secret
 const MONGO_URI = "mongodb://adongoolivia0698:zrkNQIFCJXZwRDpe@backendd-shard-00-00.hjcwh.mongodb.net:27017,backendd-shard-00-01.hjcwh.mongodb.net:27017,backendd-shard-00-02.hjcwh.mongodb.net:27017/?ssl=true&replicaSet=atlas-x8k1ky-shard-0&authSource=admin&retryWrites=true&w=majority&appName=BackendD";
 const SESSION_SECRET = "hardcoded-secret-key";
+
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -46,24 +49,29 @@ const upload = multer({ dest: 'uploads' }) // Configure multer
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow frontend origin (adjust for your frontend URL)
-  methods: ['GET', 'POST'], // Allow only the necessary methods
+  origin: '*', // Allow frontend origin (adjust for your frontend URL)
+  methods: ['GET', 'POST', 'PUT'], // Allow only the necessary methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allow necessary headers
   credentials: true, // Allows cookies to be sent if needed
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
   setHeaders: (res, filePath) => {
-      const ext = path.extname(filePath).toLowerCase();
-      let mimeType = 'application/octet-stream';
+    const ext = path.extname(filePath).toLowerCase();
+    let mimeType = 'application/octet-stream';
 
-      if (ext === '.jpg' || ext === '.jpeg') mimeType = 'image/jpeg';
-      else if (ext === '.png') mimeType = 'image/png';
-      else if (ext === '.gif') mimeType = 'image/gif';
+    if (ext === '.jpg' || ext === '.jpeg') mimeType = 'image/jpeg';
+    else if (ext === '.png') mimeType = 'image/png';
+    else if (ext === '.gif') mimeType = 'image/gif';
 
-      res.setHeader('Content-Type', mimeType);
+    // Set the Content-Type header based on the file extension
+    res.setHeader('Content-Type', mimeType);
+
+    // Allow cross-origin requests for images
+    res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins (use specific origin in production)
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   }
 }));
 
@@ -92,6 +100,7 @@ app.use(
 app.use("/api/products", productRoute);
 app.use("/api/lands", landRoute);
 app.use("/api/residentialproperties", residentialRoute);
+app.use("/api/residentiallettings", residentialLettingRoute);
 app.use("/api/commercialproperties", commercialRoute);
 app.use("/api/retailproperties", retailRoute);
 app.use("/api/insights", insightsRoute);
@@ -120,6 +129,11 @@ app.get("/create_land.html", isAuthenticated, (req, res) => {
 app.get("/create_residential.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "create_residential.html"));
 });
+app.get("/residential-letting.html", isAuthenticated, (req, res) => {
+  console.log("Request for residential-letting.html received");
+  res.sendFile(path.join(__dirname, "views", "residential-letting.html"));
+});
+
 
 app.get("/insights.html", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "insights.html"));
@@ -138,7 +152,7 @@ app.get("/login.html", (req, res) => {
 });
 
 // Set template engine
-app.set("view engine", "ejs");
+app.set("view engine", "html");
 
 // Test route
 app.get("/", (req, res) => {
@@ -502,6 +516,101 @@ app.delete("/api/residentialproperties/:id", async (req, res) => {
 });
 
 // -------------------------------------------------------Residential Properties  CRUD end -------------------------------------------------
+// -------------------------------------------------------Residential Letting Properties CRUD beginning -------------------------------------------------
+// POST
+// Residential Properties POST (with image upload)
+app.post("/api/residentiallettings", upload.array("images", 10), async (req, res) => {
+  try {
+    const { location, propertyname, size, price, category, description, status, agent, amenities } = req.body;
+    const images = req.files.map((file) => `/uploads/${file.filename}`);
+
+    if (images.length < 1 || images.length > 10) {
+      return res.status(400).json({ message: "You must upload between 1 and 10 images." });
+    }
+
+    const residentialletting= await ResidentialLetting.create({
+      images,
+      location,
+      propertyname,
+      size,
+      price,
+      category,
+      description,
+      status,
+      agent,
+      amenities,
+    });
+
+    res.status(201).json(residentialletting);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Residential Properties GET (all)
+app.get("/api/residentiallettings", async (req, res) => {
+  try {
+    const residentialLettingProperties = await ResidentialLetting.find({});
+    res.status(200).json(residentialLettingProperties);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Residential Properties GET by ID
+app.get("/api/residentialproperties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const residentialLettingProperty = await ResidentialLetting.findById(id);
+    res.status(200).json(residentialLettingProperty);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Residential Properties PUT (update)
+app.put("/api/residentiallettings/:id", upload.array("images", 10), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { location,propertyname, size, price, category, description, status, agent, amenities } = req.body;
+    const images = req.files.map((file) => `/uploads/${file.filename}`);
+
+    const updateData = { location, propertyname, size, price, category, description, status, agent, amenities };
+    if (images.length > 0) {
+      if (images.length > 10) {
+        return res.status(400).json({ message: "You can upload a maximum of 10 images." });
+      }
+      updateData.images = images;
+    }
+
+    const residentialletting = await ResidentialLetting.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!residentialletting) {
+      return res.status(404).json({ message: "Residential property not found" });
+    }
+
+    res.status(200).json(residentialletting);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Residential Properties DELETE
+app.delete("/api/residentiallettings/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const residentialletting = await ResidentialLetting.findByIdAndDelete(id);
+
+    if (!residentialletting) {
+      return res.status(404).json({ message: "Residential property not found" });
+    }
+    res.status(200).json({ message: "Residential property deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// -------------------------------------------------------Residential Lettings Properties  CRUD end -------------------------------------------------
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
