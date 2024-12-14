@@ -4,7 +4,7 @@ const path = require("path");
 const {
   getLettings,
   getLetting,
-  createLetting,
+  createLetting, 
   updateLetting,
   deleteLetting,
 } = require("../controllers/lettings.controller.js");  

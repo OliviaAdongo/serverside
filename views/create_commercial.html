@@ -77,6 +77,15 @@
   #scrollToTopBtn:hover {
     background-color: #0f3b1f;
   }
+  .thumbnail {
+  width: 100px; /* Set desired thumbnail width */
+  height: 100px; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure proper fit */
+  margin: 5px; /* Add spacing between thumbnails */
+  border-radius: 5px; /* Optional: rounded corners */
+  border: 1px solid #ccc; /* Optional: border around the images */
+}
+
 </style>
 </head>
 <body>
@@ -114,9 +123,7 @@
           <li class="nav-item">
             <a class="nav-link" href="create_retail.html"><i class="fas fa-door-open"></i> Retail Properties</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="insights.html"> <i class="fas fa-bed"></i> Residential Lettings </a>
-          </li>
+          
           <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle active"
@@ -277,7 +284,7 @@
           <td>${land.amenities}</td>
           <td>${land.agent}</td>
           <td>${land.description}</td>
-          <td>${land.images.map(img => `<img src="/${img}" alt="Property Image" width="50">`).join(' ')}</td>
+          <td>${land.images.map(img => `<img src="/${img}" alt="Property Image" class="thumbnail" width="50">`).join(' ')}</td>
           <td>
             <button onclick="editLand('${land._id}')" class="btn btn-warning btn-sm">Edit</button>
             <button onclick="deleteLand('${land._id}')" class="btn btn-danger btn-sm">Delete</button>

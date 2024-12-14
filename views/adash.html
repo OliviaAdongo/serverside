@@ -211,7 +211,7 @@
             <i class="fas fa-bed"></i>
             <h5>Residential Lettings</h5>
             <p>Properties available for rent.</p>
-            <p class="count" id="residential-lettings-count">Loading...</p>
+            <p class="count" id="residential-lettings-count">Coming soon ...</p>
 
           </div>
         </div>
@@ -240,9 +240,9 @@
                 fetch("https://srpropertiesbackend.vercel.app/api/retailproperties").then(
                   (res) => res.json()
                 ),
-                fetch("http://localhost:3000/api/lettings").then(
-                  (res) => res.json()
-                ),
+                // fetch("http://localhost:3000/api/lettings").then(
+                //   (res) => res.json()
+                // ),
               ]);
       
             // Update the respective widgets with the fetched counts

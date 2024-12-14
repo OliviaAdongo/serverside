@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const lettingSchema = new mongoose.Schema(
   {
-    images: {
+    images: { 
       type: [String],
       validate: {
         validator: (arr) => arr.length >= 1 && arr.length <= 10,
